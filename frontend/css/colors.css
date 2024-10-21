@@ -1,0 +1,25 @@
+:root {
+    --text-color: #FFF;
+    --white-color: #e1e1e1;
+    --bg-color: #1b2838;
+    --bg-snd-color: #c7d5e0;
+    --header-bg-color: #171a21;
+    --header-logo-color: #59BAF3;
+    --search-ph-color: #c7d5e0;
+
+    --secondary-color: #316282;
+    --third-color: #427aa1;
+
+    --comp-color: #0D7EBF;
+    --comp-snd-color: #084F77;
+
+    --price-color: #dcb556;
+    
+    --gradient1-color: #8b5819;
+    --gradient2-color: #985F1B;
+
+    --gradient1-dark-color: #985F1B;
+    --gradient2-dark-color: #AD6D1F;
+
+    --shadow-color: #222;
+}
