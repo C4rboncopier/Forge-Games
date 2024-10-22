@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forge Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/colors.css">
 
@@ -12,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
       rel="stylesheet">
+
 </head>
 <body>
     <header>
@@ -23,8 +25,8 @@
             </div>
             <button class="menu-toggle">☰</button>
             <div class="nav-links">
-                <a href="#">Store</a>
-                <a href="#">Library</a>
+                <a href="/pages/main.html">Store</a>
+                <a href="/pages/browse.html">Library</a>
                 <a href="#">Support</a>
                 <div class="auth-buttons">
                     <button class="auth-button login-btn">Login</button>
@@ -52,98 +54,151 @@
         </div>
     </div>
 
-    <section class="featured-games">
-        <h2>Featured & Recommended</h2>
-        <div class="games-grid">
-            <div class="game-card">
-                <img src="/assets/main/NBA 2K24.jpg" alt="NBA 2K24">
-                <div class="game-info">
-                    <h3>NBA 2K24</h3>
-                    <p class="game-price">₱2,199.00</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/Lethal Company.jpg" alt="Lethal Company">
-                <div class="game-info">
-                    <h3>Lethal Company</h3>
-                    <p class="game-price">₱335.00</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/Black Myth Wukong.jpg" alt="Black Myth Wukong">
-                <div class="game-info">
-                    <h3>Black Myth: Wukong</h3>
-                    <p class="game-price">₱2,599.00</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/TCG Card Shop Simulator.jpg" alt="TCG Card Shop Simulator">
-                <div class="game-info">
-                    <h3>TCG Card Shop Simulator</h3>
-                    <p class="game-price">₱424.00</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/Baldur's Gate 3.jpg" alt="Baldur's Gate 3">
-                <div class="game-info">
-                    <h3>Baldur's Gate 3</h3>
-                    <p class="game-price">₱2,599.00</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/Rust.jpg" alt="Rust">
-                <div class="game-info">
-                    <h3>Rust</h3>
-                    <p class="game-price">₱1,049.95</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/Monster Hunter Wilds.jpg" alt="Monster Hunter Wilds">
-                <div class="game-info">
-                    <h3>Monster Hunter Wilds</h3>
-                    <p class="game-price">₱3,490.00</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/Grand Theft Auto V.jpg" alt="Grand Theft Auto V">
-                <div class="game-info">
-                    <h3>Grand Theft Auto V</h3>
-                    <p class="game-price">₱996.00</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/Tom Clancy's Rainbow Six Siege.jpg" alt="Tom Clancy's Rainbow Six Siege">
-                <div class="game-info">
-                    <h3>Tom Clancy's Rainbow Six Siege</h3>
-                    <p class="game-price">₱799.00</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/A Quiet Place The Road Ahead.jpg" alt="A Quiet Place The Road Ahead">
-                <div class="game-info">
-                    <h3>A Quiet Place: The Road Ahead</h3>
-                    <p class="game-price">₱895.95</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/Cyberpunk 2077.jpg" alt="Cyberpunk 2077">
-                <div class="game-info">
-                    <h3>Cyberpunk 2077</h3>
-                    <p class="game-price">₱2,599.00</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <img src="/assets/main/Stardew Valley.jpg" alt="Stardew Valley">
-                <div class="game-info">
-                    <h3>Stardew Valley</h3>
-                    <p class="game-price">₱419.95</p>
-                </div>
+    <div class="section featured-games">
+        <div class="browse-section">
+            <div class="genre-sidebar">
+                <h2>Browse by Genre</h2>
+                <ul>
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Adventure</a></li>
+                    <li><a href="#">RPG</a></li>
+                    <li><a href="#">Strategy</a></li>
+                    <li><a href="#">Simulation</a></li>
+                    <li><a href="#">Sports</a></li>
+                    <li><a href="#">Racing</a></li>
+                    <li><a href="#">Indie</a></li>
+                    <li><a href="#">Casual</a></li>
+                    <li><a href="#">Horror</a></li>
+                </ul>
             </div>
 
-            
+            <div class="main-content">
+                <h2>Featured Games</h2>
+                
+                <div class="games-grid">
+                    <div class="game-card">
+                        <img src="/assets/main/NBA 2K24.jpg" alt="NBA 2K24">
+                        <div class="game-info">
+                            <h3>NBA 2K24</h3>
+                            <div class="game-price">₱2,199.00</div>
+                        </div>
+                    </div>
 
+                    <div class="game-card">
+                        <img src="/assets/main/Lethal Company.jpg" alt="Lethal Company">
+                        <div class="game-info">
+                            <h3>Lethal Company</h3>
+                            <div class="game-price">₱335.00</div>
+                        </div>
+                    </div>
+
+                    <div class="game-card">
+                        <img src="/assets/main/Black Myth Wukong.jpg" alt="Black Myth Wukong">
+                        <div class="game-info">
+                            <h3>Black Myth: Wukong</h3>
+                            <div class="game-price">₱2,599.00</div>
+                        </div>
+                    </div>
+
+                    <div class="game-card">
+                        <img src="/assets/main/TCG Card Shop Simulator.jpg" alt="TCG Card Shop Simulator">
+                        <div class="game-info">
+                            <h3>TCG Card Shop Simulator</h3>
+                            <div class="game-price">₱424.00</div>
+                        </div>
+                    </div>
+
+                    <div class="game-card">
+                        <img src="/assets/main/Baldur's Gate 3.jpg" alt="Baldur's Gate 3">
+                        <div class="game-info">
+                            <h3>Baldur's Gate 3</h3>
+                            <div class="game-price">₱2,599.00</div>
+                        </div>
+                    </div>
+
+                    <div class="game-card">
+                        <img src="/assets/main/Rust.jpg" alt="Rust">
+                        <div class="game-info">
+                            <h3>Rust</h3>
+                            <div class="game-price">₱1,049.95</div>
+                        </div>
+                    </div>
+
+                    <div class="game-card">
+                        <img src="/assets/main/Monster Hunter Wilds.jpg" alt="Monster Hunter Wilds">
+                        <div class="game-info">
+                            <h3>Monster Hunter Wilds</h3>
+                            <div class="game-price">₱3,490.00</div>
+                        </div>
+                    </div>
+
+                    <div class="game-card">
+                        <img src="/assets/main/Grand Theft Auto V.jpg" alt="Grand Theft Auto V">
+                        <div class="game-info">
+                            <h3>Grand Theft Auto V</h3>
+                            <div class="game-price">₱996.00</div>
+                        </div>
+                    </div>
+
+                    <div class="game-card">
+                        <img src="/assets/main/Tom Clancy's Rainbow Six Siege.jpg" alt="Tom Clancy's Rainbow Six Siege">
+                        <div class="game-info">
+                            <h3>Tom Clancy's Rainbow Six Siege</h3>
+                            <div class="game-price">₱799.00</div>
+                        </div>
+                    </div>
+
+                    <div class="game-card">
+                        <img src="/assets/main/A Quiet Place The Road Ahead.jpg" alt="A Quiet Place: The Road Ahead">
+                        <div class="game-info">
+                            <h3>A Quiet Place: The Road Ahead</h3>
+                            <div class="game-price">₱895.95</div>
+                        </div>
+                    </div>
+
+                    <div class="game-card">
+                        <img src="/assets/main/Cyberpunk 2077.jpg" alt="Cyberpunk 2077">
+                        <div class="game-info">
+                            <h3>Cyberpunk 2077</h3>
+                            <div class="game-price">₱2,599.00</div>
+                        </div>
+                    </div>
+
+                    <div class="game-card">
+                        <img src="/assets/main/Stardew Valley.jpg" alt="Stardew Valley">
+                        <div class="game-info">
+                            <h3>Stardew Valley</h3>
+                            <div class="game-price">₱419.95</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="view-more-container">
+                    <a href="/pages/browse.html" class="view-more-btn">View More</a>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">About Us</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-socials">
+                <a href="#"><i class="fa-brands fa-square-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-square-x-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
+            </div>
+            <p>© 2024 Forge Games. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script src="/scripts/main.js"></script>
 </body>
 </html>
