@@ -349,8 +349,10 @@ header .register-btn:hover {
 .pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 0.5rem;
     margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .page-button {
@@ -361,14 +363,29 @@ header .register-btn:hover {
     color: var(--white-color);
     cursor: pointer;
     transition: background-color 0.3s;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.page-button:hover {
+.page-button:hover:not(:disabled) {
     background: var(--third-color);
 }
 
 .page-button.active {
     background: var(--comp-color);
+    cursor: default;
+}
+
+.page-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ellipsis {
+    color: var(--white-color);
+    padding: 0 0.5rem;
 }
 
 @media (max-width: 768px) {
@@ -421,5 +438,14 @@ header .register-btn:hover {
 
     .genre-cards {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+    }
+    
+    .page-button {
+        padding: 0.4rem 0.8rem;
+        min-width: 35px;
     }
 }
