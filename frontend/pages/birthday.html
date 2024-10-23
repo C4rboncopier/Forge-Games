@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Forge Games</title>
+    <link rel="stylesheet" href="/css/colors.css">
+    <link rel="stylesheet" href="/css/birthday.css">
+</head>
+<body>
+    <div class="auth-box">
+        <img src="/assets/main/placeholder.jpg" alt="logo">
+        <h1>Create Account</h1>
+        <p>Please enter your date of birth. This is to help you have a safe and fun experience whatever your age.</p>
+        
+        <form id="birthdayForm" class="auth-form">
+            <div class="birthday-inputs">
+                <div class="form-group">
+                    <label for="month">Month</label>
+                    <select id="month" name="month" required>
+                        <option value="" disabled selected>Month</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="day">Day</label>
+                    <select id="day" name="day" required>
+                        <option value="" disabled selected>Day</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <select id="year" name="year" required>
+                        <option value="" disabled selected>Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="auth-button">Continue</button>
+        </form>
+
+        <div class="auth-links">
+            <a href="/frontend/pages/login.html" class="back-link"> Already have an account? Sign in</a>
+        </div>
+    </div>
+    <script src="/backend/auth-api.js"></script>
+    <script src="/scripts/auth-ui.js"></script>
+</body>
+</html>
