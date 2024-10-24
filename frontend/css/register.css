@@ -1,8 +1,7 @@
+/* auth.css */
 * {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -15,24 +14,16 @@ body {
 
 .auth-box {
     background-color: var(--header-bg-color);
-    padding: 3.4rem;
-    border-radius: 4px;
+    padding: 2rem;
+    border-radius: 8px;
     width: 100%;
-    max-width: 465px;
-    height: 95%;
-}
-
-.auth-box img {
-    display: block;
-    margin: 0 auto;
-    width: 125px;
+    max-width: 480px;
 }
 
 .auth-box h1 {
     color: var(--header-logo-color);
     font-size: 1.5rem;
     font-weight: bold;
-    margin-top: 1rem;
     margin-bottom: 1.5rem;
     text-align: center;
 }
@@ -54,7 +45,8 @@ body {
     font-size: 0.9rem;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     padding: 0.75rem;
     border-radius: 4px;
     border: none;
@@ -63,8 +55,40 @@ body {
     font-size: 1rem;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
     outline: 2px solid var(--header-logo-color);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.birthday-inputs {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.checkbox input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.checkbox label {
+    color: var(--bg-snd-color);
+    font-size: 0.9rem;
+    cursor: pointer;
 }
 
 .auth-button {
@@ -101,36 +125,36 @@ body {
     text-decoration: underline;
 }
 
-.input-container {
-    position: relative;
-    width: 100%;
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.input-container input {
-    width: 100%;
-    padding-right: 2.5rem;
-}
-
-.toggle-password {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
+.arrow-left {
     font-size: 1.2rem;
-    color: var(--text-color);
-    padding: 0;
+}
+
+.age-restriction {
+    text-align: center;
+}
+
+.age-restriction p {
+    color: var(--bg-snd-color);
+    margin: 1rem 0 2rem;
 }
 
 @media (max-width: 480px) {
-    body {
-        background-color: var(--header-bg-color);
+    .auth-box {
+        padding: 1.5rem;
     }
 
-    .auth-box {
-        padding: 1.6rem;
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .birthday-inputs {
+        grid-template-columns: 1fr;
     }
 
     .auth-links {
