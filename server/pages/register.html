@@ -11,7 +11,6 @@
     <main class="auth-container">
         <div class="auth-box">
             <img src="/assets/main/logo.png" alt="logo">
-
             <h1>Create Your Account</h1>
             
             <form id="registerForm" class="auth-form">
@@ -63,11 +62,16 @@
             </form>
 
             <div class="auth-links">
-                <a href="/pages/login.html" class="back-link">Back to Login</a>
+                <a href="/login" class="back-link">Back to Login</a>
             </div>
         </div>
     </main>
-    <script src="/backend/data handling/auth-api.js"></script>
+
+    <!-- Load Supabase from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Your custom script -->
+    <script src="/backend/server/auth-api.js"></script>
     <script src="/scripts/pagination.js"></script>
 </body>
 </html>

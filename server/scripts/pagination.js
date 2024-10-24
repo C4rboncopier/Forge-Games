@@ -1,25 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const mainLink = document.getElementById('main-link');
-    const libraryLink = document.getElementById('library-link');
-    const birthdayForm = document.getElementById('birthdayForm');
-    const ageRestrictionForm = document.getElementById('ageRestriction');
     const registerForm = document.getElementById('registerForm');
     const loginForm = document.getElementById('loginForm');
-
-    if (mainLink) {
-        mainLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'main.html';
-        });
-    }
-
-    if (libraryLink) {
-        libraryLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'browse.html';
-        });
-    }
     
+    
+    const birthdayForm = document.getElementById('birthdayForm');
     if (birthdayForm) {
         initializeBirthdaySelectors();
         
@@ -30,25 +14,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const month = document.getElementById('month').value;
             const day = parseInt(document.getElementById('day').value);
             
-            const birthDate = new Date(year, new Date().getMonth(), day);
+            const birthDate = new Date(year, month - 1, day);  // Adjust month to 0-based index
             const today = new Date();
             const age = today.getFullYear() - birthDate.getFullYear();
-            
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            const dayDiff = today.getDate() - birthDate.getDate();
+    
+            // Adjust age if birth month/day hasn't occurred yet this year
+            if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+                age--;
+            }
+    
             if (age < 12) {
-                window.location.href = 'age-restriction.html';
+                window.location.href = '/validate-age';
             } else {
                 // Store birthday in session storage for registration
                 sessionStorage.setItem('userBirthday', `${year}-${month}-${day}`);
-                window.location.href = 'register.html';
+                window.location.href = '/register';
             }
-        });
-    }
-
-    if (ageRestrictionForm) {
-        ageRestrictionForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            window.location.href = 'login.html';
         });
     }
 

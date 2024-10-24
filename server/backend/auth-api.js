@@ -1,14 +1,12 @@
-require('dotenv').config();
-const { createClient } = require('@supabase/supabase-js');
+const { createClient } = supabase; // Use the supabase object from the CDN
 
-const SUPABASE_URL = 'SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // register account
 document.getElementById('registerForm').addEventListener('submit', async (event) => {
-    console.log("hehe");
     event.preventDefault();
 
     const formData = {
@@ -42,19 +40,16 @@ async function handleRegistration(formData) {
 
         const { error: userInsertError } = await supabase
             .from('Users')
-            .insert([
-                {
-                    id: authData.user.id, // ID from Supabase Auth
-                    username: formData.username,
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    email: formData.email,
-                    password: formData.password, // It's better to store hashed passwords!
-                    country: formData.country,
-                    createdAt: new Date().toISOString(), // Current timestamp
-                    modifiedAt: new Date().toISOString() // Set initially to createdAt
-                }
-            ]);
+            .insert([{
+                id: authData.user.id,  // ID from Supabase Auth
+                username: formData.username,
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                country: formData.country,
+                createdAt: new Date().toISOString(),
+                modifiedAt: new Date().toISOString()
+            }]);
 
         if (userInsertError) throw userInsertError;
 
