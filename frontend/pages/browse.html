@@ -8,23 +8,25 @@
 </head>
 <body>
     <header>
-        <div class="nav-content">
-            <div class="logo">Forge Games</div>
-            <div class="search-container">
-                <input type="text" class="search-bar" placeholder="Search games...">
-                <span class="search-icon">🔍</span>
-            </div>
-            <button class="menu-toggle">☰</button>
-            <div class="nav-links">
-                <a href="/pages/main.html">Store</a>
-                <a href="/pages/browse.html">Library</a>
-                <a href="#">Support</a>
-                <div class="auth-buttons">
-                    <button class="auth-button login-btn">Login</button>
-                    <button class="auth-button register-btn">Register</button>
+        <form id="headerForm">
+            <div class="nav-content">
+                <div class="logo">Forge Games</div>
+                <div class="search-container">
+                    <input type="text" class="search-bar" placeholder="Search games...">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <button class="menu-toggle">☰</button>
+                <div class="nav-links">
+                    <a href="#" id="main-link">Store</a>
+                    <a href="#" id="library-link">Library</a>
+                    <a href="#">Support</a>
+                    <div class="auth-buttons">
+                        <a href="/pages/login.html" class="auth-button login-btn">Login</a>
+                        <button class="auth-button register-btn">Register</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </header>
 
     <main>
@@ -83,5 +85,6 @@
     </main>
 
     <script src="/scripts/browse.js"></script>
+    <script src="/scripts/pagination.js"></script>
 </body>
 </html>

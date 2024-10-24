@@ -1,5 +1,3 @@
-// auth-api.js
-// Initialize Supabase client
 require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 
@@ -8,9 +6,33 @@ const SUPABASE_ANON_KEY = 'SUPABASE_ANON_KEY';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// register account
+document.getElementById('registerForm').addEventListener('submit', async (event) => {
+    console.log("hehe");
+    event.preventDefault();
+
+    const formData = {
+        country: document.getElementById('country').value,
+        email: document.getElementById('email').value,
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
+    };
+
+    try {
+        const result = await handleRegistration(formData);
+        if (result.success) {
+            alert('Registration successful!');
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Registration failed.');
+    }
+});
+
 async function handleRegistration(formData) {
     try {
-        // First, sign up the user with Supabase Auth
         const { data: authData, error: authError } = await supabase.auth.signUp({
             email: formData.email,
             password: formData.password
@@ -18,22 +40,23 @@ async function handleRegistration(formData) {
 
         if (authError) throw authError;
 
-        // Then, insert additional user data into your profiles table
-        const { error: profileError } = await supabase
-            .from('profiles')
+        const { error: userInsertError } = await supabase
+            .from('Users')
             .insert([
                 {
-                    id: authData.user.id,
-                    first_name: formData.firstName,
-                    last_name: formData.lastName,
+                    id: authData.user.id, // ID from Supabase Auth
                     username: formData.username,
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    email: formData.email,
+                    password: formData.password, // It's better to store hashed passwords!
                     country: formData.country,
-                    birthday: formData.birthday,
-                    created_at: new Date().toISOString()
+                    createdAt: new Date().toISOString(), // Current timestamp
+                    modifiedAt: new Date().toISOString() // Set initially to createdAt
                 }
             ]);
 
-        if (profileError) throw profileError;
+        if (userInsertError) throw userInsertError;
 
         return { success: true };
     } catch (error) {

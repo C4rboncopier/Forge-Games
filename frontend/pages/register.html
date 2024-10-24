@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account - Forge Games</title>
     <link rel="stylesheet" href="/css/colors.css">
-    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/register.css">
 </head>
 <body>
     <main class="auth-container">
         <div class="auth-box">
+            <img src="/assets/main/logo.png" alt="logo">
+
             <h1>Create Your Account</h1>
             
             <form id="registerForm" class="auth-form">
@@ -61,13 +63,11 @@
             </form>
 
             <div class="auth-links">
-                <a href="/pages/login.html" class="back-link">
-                    <span class="arrow-left">←</span> Back to Login
-                </a>
+                <a href="/pages/login.html" class="back-link">Back to Login</a>
             </div>
         </div>
     </main>
-    <script src="/backend/auth-api.js"></script>
-    <script src="/scripts/auth-ui.js"></script>
+    <script src="/backend/data handling/auth-api.js"></script>
+    <script src="/scripts/pagination.js"></script>
 </body>
 </html>
