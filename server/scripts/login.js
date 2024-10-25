@@ -37,7 +37,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
         const result = await response.json();
 
         if (result.success) {
-            // If login is successful, redirect to the homepage or dashboard
+            localStorage.setItem('username', result.user.username);
             window.location.href = '/';
         } else {
             // Show an alert if the login fails

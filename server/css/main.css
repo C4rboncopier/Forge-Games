@@ -81,13 +81,22 @@ header .nav-links a:hover {
     color: var(--header-logo-color);
 }
 
+/* IF NO USER HAS LOGGED IN */
 header .auth-buttons {
     display: flex;
     gap: 1rem;
     margin-left: 1rem;
 }
 
-header .auth-button {
+/* IF A USER HAS LOGGED IN */
+header .auth-account {
+    display: none;
+    gap: 1rem;
+    margin-left: 1rem;
+}
+
+header .auth-button,
+header .account {
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 3px;
@@ -96,21 +105,25 @@ header .auth-button {
     transition: background-color 0.3s;
 }
 
-header .login-btn {
+header .login-btn,
+header .username-btn {
     background-color: var(--secondary-color);
     color: var(--text-color);
 }
 
-header .login-btn:hover {
+header .login-btn:hover,
+header .username-btn:hover {
     background-color: var(--third-color);
 }
 
-header .register-btn {
+header .register-btn,
+header .logout-btn {
     background-color: var(--comp-color);
     color: #fff;
 }
 
-header .register-btn:hover {
+header .register-btn:hover,
+header .logout-btn:hover {
     background-color: var(--comp-snd-color);
 }
 
@@ -122,17 +135,14 @@ header .register-btn:hover {
 }
 
 .cart-button {
+    display: flex;
     background: none;
     border: none;
     color: #c7d5e0;
     cursor: pointer;
     font-size: 1.2rem;
-    padding: 0.5rem;
     transition: color 0.3s;
-}
-
-.cart-button:hover {
-    color: #ffffff;
+    margin-right: -2.2rem;
 }
 
 .username-container {
@@ -152,37 +162,6 @@ header .register-btn:hover {
 }
 
 .username-button:hover {
-    color: #ffffff;
-}
-
-/* DROP DOWN */
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: #1b2838;
-    border-radius: 4px;
-    padding: 0.5rem 0;
-    min-width: 180px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    display: none;
-    z-index: 1000;
-}
-
-.dropdown-menu.active {
-    display: block;
-}
-
-.dropdown-menu a {
-    display: block;
-    padding: 0.75rem 1rem;
-    color: #c7d5e0;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-.dropdown-menu a:hover {
-    background-color: #316282;
     color: #ffffff;
 }
 
@@ -468,7 +447,7 @@ footer p {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
     /* HEADER */
 
@@ -503,32 +482,13 @@ footer p {
         display: flex;
     }
 
-    header .auth-buttons {
+    header .auth-buttons,
+    header .auth-account {
         margin-left: 0;
     }
 
-    /* DROP DOWN */
-
-    .user-section {
-        margin-left: 0;
-        gap: 1rem;
-    }
-
-    .dropdown-menu {
-        position: fixed;
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        border-radius: 12px 12px 0 0;
-        padding: 1rem 0;
-    }
-
-    .dropdown-menu a {
-        padding: 1rem;
-        text-align: center;
-        font-size: 1.1rem;
+    .cart-button {
+        margin: 0;
     }
 
     /* FEATURED GAME */
@@ -563,26 +523,6 @@ footer p {
     .browse-section {
         flex-direction: column;
     }
-
-    /* .genre-sidebar {
-        position: static;
-        width: 100%;
-        padding: 0 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .genre-sidebar ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-
-    .genre-sidebar a {
-        padding: 0.5rem 1rem;
-        background: var(--secondary-color);
-        border-radius: 4px;
-        font-size: 0.8rem;
-    } */
 
     .featured-games {
         margin-top: 1rem;

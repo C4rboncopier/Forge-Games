@@ -32,6 +32,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+const logoToggle = document.getElementById('logo');
+
+logoToggle.addEventListener('click', () => {
+    event.preventDefault();
+    window.location.href='/';
+})
+
 function initializeBirthdaySelectors() {
     const monthSelect = document.getElementById('month');
     const daySelect = document.getElementById('day');

@@ -29,6 +29,7 @@ body {
     display: block;
     margin: 0 auto;
     width: 125px;
+    cursor: pointer;
 }
 
 .auth-box h1 {

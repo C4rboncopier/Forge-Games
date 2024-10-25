@@ -10,7 +10,7 @@
     <header>
         <form id="headerForm">
             <div class="nav-content">
-                <div class="logo">Forge Games</div>
+                <div class="logo" id="logo">Forge Games</div>
                 <div class="search-container">
                     <input type="text" class="search-bar" placeholder="Search games...">
                     <span class="search-icon">🔍</span>
@@ -20,10 +20,20 @@
                     <a href="/" id="main-link">Store</a>
                     <a href="/browse" id="library-link">Library</a>
                     <a href="#">Support</a>
+                    <button class="cart-button">🛒</button>
+
+                    <!-- IF NO USER HAS LOGGED IN -->
                     <div class="auth-buttons">
                         <a href="/login" class="auth-button login-btn">Login</a>
                         <a href="/birthday" class="auth-button register-btn">Register</a>
                     </div>
+
+                    <!-- IF A USER HAS LOGGED IN -->
+                     <div class="auth-account">
+                        <a class="account username-btn" id="username">username</a>
+                        <a href="javascript:void(0)" onclick="logout()" class="account logout-btn">Logout</a>
+                    </div>
+
                 </div>
             </div>
         </form>
@@ -84,7 +94,7 @@
         </div>
     </main>
 
+    <script src="/scripts/auth.js"></script>
     <script src="/scripts/browse.js"></script>
-    <script src="/scripts/pagination.js"></script>
 </body>
 </html>

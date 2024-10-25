@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const {Client} = pkg;
 
-dotenv.config();
+dotenv.config({ path: './server/backend/.env' });
 const dbURL = process.env.DB_PROJECT;
 const dbPass = process.env.DB_PASSWORD;
 
