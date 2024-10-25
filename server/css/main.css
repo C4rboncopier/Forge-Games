@@ -114,6 +114,78 @@ header .register-btn:hover {
     background-color: var(--comp-snd-color);
 }
 
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-left: 1rem;
+}
+
+.cart-button {
+    background: none;
+    border: none;
+    color: #c7d5e0;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    transition: color 0.3s;
+}
+
+.cart-button:hover {
+    color: #ffffff;
+}
+
+.username-container {
+    position: relative;
+}
+
+.username-button {
+    background: none;
+    border: none;
+    color: #c7d5e0;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.username-button:hover {
+    color: #ffffff;
+}
+
+/* DROP DOWN */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #1b2838;
+    border-radius: 4px;
+    padding: 0.5rem 0;
+    min-width: 180px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 1000;
+}
+
+.dropdown-menu.active {
+    display: block;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #c7d5e0;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #316282;
+    color: #ffffff;
+}
+
 /* FEATURED GAME */
 
 .hero {
@@ -433,6 +505,30 @@ footer p {
 
     header .auth-buttons {
         margin-left: 0;
+    }
+
+    /* DROP DOWN */
+
+    .user-section {
+        margin-left: 0;
+        gap: 1rem;
+    }
+
+    .dropdown-menu {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        border-radius: 12px 12px 0 0;
+        padding: 1rem 0;
+    }
+
+    .dropdown-menu a {
+        padding: 1rem;
+        text-align: center;
+        font-size: 1.1rem;
     }
 
     /* FEATURED GAME */

@@ -1,8 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const registerForm = document.getElementById('registerForm');
-    const loginForm = document.getElementById('loginForm');
-    
-    
     const birthdayForm = document.getElementById('birthdayForm');
     if (birthdayForm) {
         initializeBirthdaySelectors();
@@ -34,58 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    if (registerForm) {
-        initializeCountrySelector();
-        
-        registerForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            if (validateRegistrationForm()) {
-                const formData = {
-                    email: document.getElementById('email').value,
-                    password: document.getElementById('password').value,
-                    firstName: document.getElementById('firstName').value,
-                    lastName: document.getElementById('lastName').value,
-                    username: document.getElementById('username').value,
-                    country: document.getElementById('country').value,
-                    birthday: sessionStorage.getItem('userBirthday')
-                };
-
-                try {
-                    showLoadingState();
-                    await handleRegistration(formData);
-                    window.location.href = 'login.html';
-                } catch (error) {
-                    showError(error.message);
-                } finally {
-                    hideLoadingState();
-                }
-            }
-        });
-    }
-
-    if (loginForm) {
-        loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                showLoadingState();
-                await handleLogin(email, password);
-                window.location.href = 'index.html';
-            } catch (error) {
-                showError(error.message);
-            } finally {
-                hideLoadingState();
-            }
-        });
-    }
 });
-
-
 
 function initializeBirthdaySelectors() {
     const monthSelect = document.getElementById('month');
@@ -121,41 +66,6 @@ function initializeBirthdaySelectors() {
         option.textContent = i;
         yearSelect.appendChild(option);
     }
-}
-
-function initializeCountrySelector() {
-    const countrySelect = document.getElementById('country');
-    
-    // Sample list of countries - expand as needed
-    const countries = [
-        'United States', 'Canada', 'United Kingdom', 'Australia',
-        'Germany', 'France', 'Japan', 'Brazil', 'Philippines'
-    ].sort();
-    
-    countries.forEach(country => {
-        const option = document.createElement('option');
-        option.value = country;
-        option.textContent = country;
-        countrySelect.appendChild(option);
-    });
-}
-
-function validateRegistrationForm() {
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const terms = document.getElementById('terms').checked;
-    
-    if (password !== confirmPassword) {
-        showError('Passwords do not match!');
-        return false;
-    }
-    
-    if (!terms) {
-        showError('Please agree to the Terms of Service');
-        return false;
-    }
-    
-    return true;
 }
 
 function showLoadingState() {

@@ -1,152 +1,82 @@
-const { createClient } = supabase; // Use the supabase object from the CDN
+import connectToDatabase from './dbConnection.js';
+import { supabase } from './dbConnection.js';
+import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
 
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+dotenv.config();
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const { client } = connectToDatabase;
 
-// register account
-document.getElementById('registerForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const formData = {
-        country: document.getElementById('country').value,
-        email: document.getElementById('email').value,
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value,
-    };
+export const checkLogIn = async (req, res) => {
+    const { username, password } = req.body;
 
     try {
-        const result = await handleRegistration(formData);
-        if (result.success) {
-            alert('Registration successful!');
+        // Query to find the user by username, regardless of role
+        const users = await client.query(`SELECT * FROM users WHERE username = $1`, [username]);
+
+        // Check if any user was found
+        if (users.rows.length === 0) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+
+        const user = users.rows[0];
+
+        // Check if the provided password matches the stored password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.json({ success: false, message: 'Invalid password' });
+        } else {
+            return res.json({ success: true, user: { username: user.username, role: user.role } }); // Return user details if needed
         }
     } catch (error) {
-        console.error(error);
-        alert('Registration failed.');
+        console.error('Error during login:', error);
+        return res.status(500).json({ success: false, message: 'Server error' });
     }
-});
+};
 
-async function handleRegistration(formData) {
+// REGISTER ACCOUNT FUNCTION
+export const addUser = async (req, res) => {
+    const { username, password, firstname, lastname, email, country, role } = req.body;
+    const createdat = new Date();
+    const modifiedat = new Date();
+
     try {
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-            email: formData.email,
-            password: formData.password
+        // Hash the password before saving it to the database
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const toTable = `
+            INSERT INTO users (username, password, firstname, lastname, email, createdat, modifiedat, country, role)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            RETURNING *;
+        `;
+
+        const values = [username, hashedPassword, firstname, lastname, email, createdat, modifiedat, country, role];
+        const submit = await client.query(toTable, values);
+
+        res.json({
+            success: true,
+            message: 'Account created successfully',
+            user: submit.rows[0],
         });
-
-        if (authError) throw authError;
-
-        const { error: userInsertError } = await supabase
-            .from('Users')
-            .insert([{
-                id: authData.user.id,  // ID from Supabase Auth
-                username: formData.username,
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                email: formData.email,
-                country: formData.country,
-                createdAt: new Date().toISOString(),
-                modifiedAt: new Date().toISOString()
-            }]);
-
-        if (userInsertError) throw userInsertError;
-
-        return { success: true };
     } catch (error) {
-        console.error('Registration error:', error);
-        throw new Error(error.message || 'Error during registration');
+        console.error('Error creating account:', error);
+        res.status(500).json({ success: false, message: 'Error creating account' });
     }
-}
+};
 
-async function handleLogin(email, password) {
-    try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password
-        });
+// HASHES THE PASSWORD
+export const hashPassword = async (req, res) => {
+    const name = 'Admin';
+    const users = await client.query(`SELECT password FROM Users WHERE role = 'Admin' AND username = '${name}'`);
 
-        if (error) throw error;
+    if (users.rows.length > 0) {
+        console.log(users.rows[0].password);
+        const hashedPassword = await bcrypt.hash(users.rows[0].password, 10);
 
-        // Store the session token
-        localStorage.setItem('session', JSON.stringify(data.session));
-
-        return data;
-    } catch (error) {
-        console.error('Login error:', error);
-        throw new Error(error.message || 'Error during login');
+        await client.query(`UPDATE Users SET password = '${hashedPassword}' WHERE username = '${name}'`);
+        res.status(200).json({ message: 'Password hashed successfully' });
+    } else {
+        res.status(404).json({ message: 'Admin not found' });
     }
-}
+};
 
-async function handleLogout() {
-    try {
-        const { error } = await supabase.auth.signOut();
-        if (error) throw error;
-        
-        // Clear local storage
-        localStorage.removeItem('session');
-        
-        return { success: true };
-    } catch (error) {
-        console.error('Logout error:', error);
-        throw new Error(error.message || 'Error during logout');
-    }
-}
-
-async function handlePasswordReset(email) {
-    try {
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${window.location.origin}/reset-password.html`,
-        });
-
-        if (error) throw error;
-
-        return { success: true };
-    } catch (error) {
-        console.error('Password reset error:', error);
-        throw new Error(error.message || 'Error requesting password reset');
-    }
-}
-
-// Function to check if user is authenticated
-async function checkAuth() {
-    try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (error) throw error;
-        
-        return { 
-            isAuthenticated: !!session,
-            session 
-        };
-    } catch (error) {
-        console.error('Auth check error:', error);
-        return { 
-            isAuthenticated: false,
-            error: error.message 
-        };
-    }
-}
-
-// Function to get user profile data
-async function getUserProfile() {
-    try {
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        
-        if (authError) throw authError;
-
-        const { data: profile, error: profileError } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', user.id)
-            .single();
-
-        if (profileError) throw profileError;
-
-        return profile;
-    } catch (error) {
-        console.error('Get profile error:', error);
-        throw new Error(error.message || 'Error fetching user profile');
-    }
-}
