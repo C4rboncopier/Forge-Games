@@ -1,81 +1,19 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
-const gamesList = document.getElementById('games-grid');
-
-async function redirectToFeaturedGame(gameTitle) {
-    try {
-        const response = await fetch('/api/home');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const games = await response.json();
-        const game = games.find(g => g.title.toLowerCase() === gameTitle.toLowerCase());
-        
-        if (game) {
-            redirectToGamePage(game);
-        } else {
-            console.error('Featured game not found:', gameTitle);
-        }
-    } catch (error) {
-        console.error('Error fetching featured game:', error);
-    }
+const isAdmin = localStorage.getItem('username');
+console.log(localStorage.getItem('username'));
+if (isAdmin === 'Admin') {
+    document.querySelector('.game-actions').style.display = 'none';
+} else {
+    document.querySelector('.game-actions').style.display = 'flex';
 }
 
-function filterByGenre(genre) {
-    window.location.href = `/genre/${genre}`;
-}
 
 menuToggle.addEventListener('click', (event) => {
     event.preventDefault();
     navLinks.classList.toggle('active');
 });
 
-async function displayGames() {
-    if (!gamesList) {
-        console.error('games-grid element not found in HTML.');
-        return;
-    }
-
-    try {
-        const response = await fetch('/api/home');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const gamesData = await response.json();
-        displayGamesForMain(gamesData);
-
-    } catch (error) {
-        console.error('Error fetching games:', error);
-        gamesList.innerHTML = '<p class="error-message">Failed to load games</p>';
-    }
-}
-
-function displayGamesForMain(gamesData) {
-    gamesList.innerHTML = '';
-
-    gamesData.slice(0, 12).forEach(game => {
-        const gameCard = document.createElement('div');
-        gameCard.className = 'game-card';
-
-        const imageUrl = game.gameUrl || '/assets/main/default_image.jpg';
-
-        gameCard.innerHTML = `
-            <img src="${imageUrl}" alt="${game.title}">
-            <div class="game-info">
-                <h3>${game.title}</h3>
-                <div class="game-price">₱${parseFloat(game.price).toFixed(2)}</div>
-            </div>
-        `;
-
-        gameCard.addEventListener('click', () => {
-            redirectToGamePage(game);
-        });
-
-        gamesList.appendChild(gameCard);
-    });
-}
-
-// Function to handle redirection with selected game details
 function redirectToGamePage(game) {
     sessionStorage.setItem('selectedGame', JSON.stringify({
         title: game.title,
@@ -93,18 +31,47 @@ function redirectToGamePage(game) {
     window.location.href = `/games/${urlSafeTitle}`;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
+    const gameDetails = JSON.parse(sessionStorage.getItem('selectedGame'));
+    console.log(sessionStorage.getItem('selectedGame'));
+    if (gameDetails) {
+        // Update the URL if it doesn't match the current game
+        const currentPath = window.location.pathname;
+        const expectedPath = `/games/${gameDetails.title.toLowerCase().replace(/\s+/g, '-')}`;
+        
+        if (currentPath !== expectedPath) {
+            history.replaceState(null, '', expectedPath);
+        }
+
+        document.querySelector('.game-banner').src = gameDetails.banner;
+        document.querySelector('.game-title').textContent = gameDetails.title;
+        document.querySelector('.game-developer').textContent = gameDetails.developer;
+        document.querySelector('.game-genre').textContent = gameDetails.genre;
+        document.querySelector('.game-logo').src = gameDetails.gameUrl;
+        document.querySelector('.game-description').textContent = gameDetails.description;
+        document.querySelector('.game-price').textContent = `₱${parseFloat(gameDetails.price).toFixed(2)}`;
+        document.querySelector('.screenshot1-img').src = gameDetails.screenshot2;
+        document.querySelector('.screenshot2-img').src = gameDetails.screenshot2;
+        document.querySelector('.screenshot3-img').src = gameDetails.screenshot3;
+
+        document.querySelector('.desktopScreenshot1-img').src = gameDetails.screenshot1;
+        document.querySelector('.desktopScreenshot2-img').src = gameDetails.screenshot2;
+        document.querySelector('.desktopScreenshot3-img').src = gameDetails.screenshot3;
+
+    } else {
+        document.querySelector('.game-details').innerHTML = '<p class="error-message">Game details not available.</p>';
+    }
+
     const searchContainer = document.querySelector('.search-container');
     const searchBar = document.querySelector('.search-bar');
     let searchResults = document.createElement('div');
     searchResults.className = 'search-results';
     searchContainer.appendChild(searchResults);
     
-    let games = []; // Will store all games data
+    let games = [];
     let searchTimeout;
 
-    // Fetch games data when page loads
-    fetch('/api/home')
+    fetch('/api/browse/games')
         .then(response => response.json())
         .then(data => {
             games = data;
@@ -206,5 +173,4 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
         }
     });
-    displayGames();
 });

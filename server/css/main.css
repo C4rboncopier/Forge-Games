@@ -10,6 +10,10 @@ body {
     color: var(--bg-snd-color);
 }
 
+::-webkit-scrollbar {
+    width: 0;
+}
+
 /* HEADER */
 
 header {
@@ -36,13 +40,15 @@ header .logo {
     white-space: nowrap;
 }
 
-header .search-container {
+/* SEARCH RESULTS */
+
+.search-container {
     flex-grow: 1;
     max-width: 600px;
     position: relative;
 }
 
-header .search-bar {
+.search-bar {
     width: 100%;
     padding: 0.5rem 2.5rem 0.5rem 1rem;
     background: var(--secondary-color);
@@ -51,6 +57,80 @@ header .search-bar {
     color: var(--text-color);
     font-size: 1rem;
 }
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--secondary-color);
+    border-radius: 0 0 3px 3px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+}
+
+.search-results.active {
+    display: block;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-result-item:hover {
+    background-color: var(--third-color);
+}
+
+.search-result-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 3px;
+    margin-right: 1rem;
+}
+
+.result-info {
+    flex-grow: 1;
+}
+
+.result-title {
+    color: var(--text-color);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.result-price {
+    color: var(--header-logo-color);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.no-results {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.search-results::-webkit-scrollbar {
+    width: 8px;
+}
+
+.search-results::-webkit-scrollbar-track {
+    background: var(--secondary-color);
+}
+
+.search-results::-webkit-scrollbar-thumb {
+    background: var(--third-color);
+    border-radius: 4px;
+}
+
+/* SEARCH BAR */
 
 header .search-bar::placeholder {
     color: var(--search-ph-color);
@@ -77,9 +157,16 @@ header .nav-links a {
     transition: color 0.3s;
 }
 
+header .auth-buttons a,
+header .auth-account a {
+    color: var(--text-color);
+}
+
 header .nav-links a:hover {
     color: var(--header-logo-color);
 }
+
+
 
 /* IF NO USER HAS LOGGED IN */
 header .auth-buttons {
@@ -104,6 +191,7 @@ header .account {
     font-weight: bold;
     transition: background-color 0.3s;
 }
+
 
 header .login-btn,
 header .username-btn {
@@ -145,24 +233,13 @@ header .logout-btn:hover {
     margin-right: -2.2rem;
 }
 
-.username-container {
-    position: relative;
-}
-
-.username-button {
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
     background: none;
     border: none;
     color: #c7d5e0;
     cursor: pointer;
-    padding: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1rem;
-}
-
-.username-button:hover {
-    color: #ffffff;
 }
 
 /* FEATURED GAME */
@@ -205,7 +282,7 @@ header .logout-btn:hover {
     left: 2rem;
     bottom: 2rem;
     max-width: 475px;
-    padding: 1.5rem 1.5rem 1.5rem 0;
+    padding: 0 1.5rem 6rem 0;
 
     border-radius: 8px;
 }
@@ -227,16 +304,10 @@ header .logout-btn:hover {
     line-height: 1.4;
     font-size: 0.95rem;
     color: var(--white-color);
+    filter: drop-shadow(5px 5px 5px var(--shadow-color));
 }
 
-.hero-info .price {
-    font-size: 1.25rem;
-    color: var(--price-color);
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-.buy-button {
+.view-button {
     display: inline-block;
     padding: 0.75rem 2rem;
     background: linear-gradient(to right, var(--gradient1-color), var(--gradient2-color));
@@ -250,7 +321,7 @@ header .logout-btn:hover {
     cursor: pointer;
 }
 
-.buy-button:hover {
+.view-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(217, 136, 38, 0.3);
     background: linear-gradient(to right, var(--gradient1-dark-color), var(--gradient2-dark-color));
@@ -359,14 +430,6 @@ header .logout-btn:hover {
     margin-top: 0.5rem;
 }
 
-.menu-toggle {
-    display: none;
-    font-size: 1.5rem;
-    background: none;
-    border: none;
-    color: #c7d5e0;
-    cursor: pointer;
-}
 
 /* VIEW MORE BUTTON */
 
@@ -544,11 +607,7 @@ footer p {
         /* display: none; */
     }
 
-    .price {
-        margin-bottom: 0.5rem;
-    }
-
-    .buy-action {
+    .view-action {
         margin-bottom: 2rem;
         display: flex;
         flex-direction: column;
@@ -556,7 +615,7 @@ footer p {
         gap: 0.5rem;
     }
 
-    .buy-button {
+    .view-button {
         min-height: auto;
         min-width: 120px;
         text-align: center;

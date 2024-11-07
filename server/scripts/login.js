@@ -38,7 +38,12 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
 
         if (result.success) {
             localStorage.setItem('username', result.user.username);
-            window.location.href = '/';
+            // Redirect based on the username
+            if (result.user.username === 'Admin') {
+                window.location.href = '/admin';
+            } else {
+                window.location.href = '/';
+            }
         } else {
             // Show an alert if the login fails
             alert(result.message);
@@ -48,4 +53,5 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
         alert('An error occurred while logging in. Please try again.');
     }
 });
+
 

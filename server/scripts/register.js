@@ -11,6 +11,12 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
 
+    // Check if username is 'Admin'
+    if (username.toLowerCase() === 'admin') {
+        alert("Username 'Admin' is not allowed.");
+        return;
+    }
+
     // Check if passwords match
     if (password !== confirmPassword) {
         alert("Passwords do not match.");

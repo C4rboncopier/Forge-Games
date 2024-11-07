@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games by Genre - Forge Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/colors.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/genre.css">
+</head>
+<body>
+    <header id="header">
+        <div class="nav-content">
+            <div class="logo" id="logo">Forge Games</div>
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search games...">
+                <span class="search-icon">🔍</span>
+                <div class="search-results"></div>
+            </div>
+
+            <button class="menu-toggle">☰</button>
+
+            <div class="nav-links">
+                <a href="/">Store</a>
+                <a href="/browse">Library</a>
+                <a href="#">Support</a>
+                <button class="cart-button">🛒</button>
+
+                <div class="auth-buttons">
+                    <a href="/login" class="auth-button login-btn">Login</a>
+                    <a href="/register" class="auth-button register-btn">Register</a>
+                </div>
+
+                <div class="auth-account">
+                    <a href="#" id="username" class="account username-btn">username</a>
+                    <a href="#" class="account logout-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- MAIN  -->
+    <div class="background">
+        <div class="genre-background">
+            <img src="" alt="background-banner" class="genre-img">
+        </div>
+    </div>
+    
+    <main class="genre-page">
+        <div class="genre-header">
+            <h1 id="genre-title">Loading...</h1>
+        </div>
+
+        <div class="genre-description">
+            <p id="genre-description">Loading...</p>
+        </div>
+
+        <div class="genre-content">
+            <h1 id="genre-featured">Featured Games</h1>
+            <div class="games-grid" id="games-grid">
+                <!-- Games will be loaded here dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">About Us</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-socials">
+                <a href="#"><i class="fa-brands fa-square-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-square-x-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
+            </div>
+            <p>© 2024 Forge Games. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/scripts/auth.js"></script>
+    <script src="/scripts/genre.js"></script>
+</body>
+</html>

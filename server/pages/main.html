@@ -12,11 +12,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet">
+        rel="stylesheet">
 
 </head>
 <body>
-    <header>
+    <header id="header">
         <form id="headerForm">
             <div class="nav-content">
                 <div class="logo" id="logo">Forge Games</div>
@@ -26,23 +26,22 @@
                 </div>
                 <button class="menu-toggle">☰</button>
                 <div class="nav-links">
-                    <a href="/" id="main-link">Store</a>
-                    <a href="/browse" id="library-link">Library</a>
+                    <a href="javascript:void(0)" onclick="main()" id="main-link">Store</a>
+                    <a href="javascript:void(0)" onclick="browse()" id="library-link">Library</a>
                     <a href="#">Support</a>
-                    <button class="cart-button">🛒</button>
+                    <a href="javascript:void(0)" onclick="cart()" class="cart-button">🛒</a>
                     
                     <!-- IF NO USER HAS LOGGED IN -->
                     <div class="auth-buttons">
-                        <a href="/login" class="auth-button login-btn">Login</a>
-                        <a href="/birthday" class="auth-button register-btn">Register</a>
+                        <a href="javascript:void(0)" onclick="login()" class="auth-button login-btn">Login</a>
+                        <a href="javascript:void(0)" onclick="register()" class="auth-button register-btn">Register</a>
                     </div>
                     
                     <!-- IF A USER HAS LOGGED IN -->
                     <div class="auth-account">
-                        <a class="account username-btn" id="username">username</a>
+                        <a href="javascript:void(0)" onclick="account()" class="account username-btn" id="username">username</a>
                         <a href="javascript:void(0)" onclick="logout()" class="account logout-btn">Logout</a>
                     </div>
-
                 </div>
             </div>
         </form>
@@ -58,9 +57,8 @@
                     <img src="/assets/main/featured_game_logo.png" alt="Cyber Adventure 2077 Logo">
                 </div>
                 <p>THE CRITICALLY ACCLAIMED FANTASY ACTION RPG. Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring and become an Elden Lord in the Lands Between.</p>
-                <div class="buy-action">
-                    <p class="price">₱2,399.00</p>
-                    <button class="buy-button">Buy Now</button>
+                <div class="view-action">
+                    <button onclick="redirectToFeaturedGame('Elden Ring')" class="view-button">View Game</button>
                 </div>
             </div>
         </div>
@@ -71,118 +69,24 @@
             <div class="genre-sidebar">
                 <h2>Browse by Genre</h2>
                 <ul>
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Adventure</a></li>
-                    <li><a href="#">RPG</a></li>
-                    <li><a href="#">Strategy</a></li>
-                    <li><a href="#">Simulation</a></li>
-                    <li><a href="#">Sports</a></li>
-                    <li><a href="#">Racing</a></li>
-                    <li><a href="#">Indie</a></li>
-                    <li><a href="#">Casual</a></li>
-                    <li><a href="#">Horror</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterByGenre('Action')">Action</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterByGenre('Adventure')">Adventure</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterByGenre('RPG')">RPG</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterByGenre('Strategy')">Strategy</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterByGenre('Simulation')">Simulation</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterByGenre('Sports')">Sports</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterByGenre('Racing')">Racing</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterByGenre('Indie')">Indie</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterByGenre('Casual')">Casual</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterByGenre('Horror')">Horror</a></li>
                 </ul>
             </div>
 
             <div class="main-content">
                 <h2>Featured Games</h2>
                 
-                <div class="games-grid">
-                    <div class="game-card">
-                        <img src="/assets/main/NBA 2K24.jpg" alt="NBA 2K24">
-                        <div class="game-info">
-                            <h3>NBA 2K24</h3>
-                            <div class="game-price">₱2,199.00</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/Lethal Company.jpg" alt="Lethal Company">
-                        <div class="game-info">
-                            <h3>Lethal Company</h3>
-                            <div class="game-price">₱335.00</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/Black Myth Wukong.jpg" alt="Black Myth Wukong">
-                        <div class="game-info">
-                            <h3>Black Myth: Wukong</h3>
-                            <div class="game-price">₱2,599.00</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/TCG Card Shop Simulator.jpg" alt="TCG Card Shop Simulator">
-                        <div class="game-info">
-                            <h3>TCG Card Shop Simulator</h3>
-                            <div class="game-price">₱424.00</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/Baldur's Gate 3.jpg" alt="Baldur's Gate 3">
-                        <div class="game-info">
-                            <h3>Baldur's Gate 3</h3>
-                            <div class="game-price">₱2,599.00</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/Rust.jpg" alt="Rust">
-                        <div class="game-info">
-                            <h3>Rust</h3>
-                            <div class="game-price">₱1,049.95</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/Monster Hunter Wilds.jpg" alt="Monster Hunter Wilds">
-                        <div class="game-info">
-                            <h3>Monster Hunter Wilds</h3>
-                            <div class="game-price">₱3,490.00</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/Grand Theft Auto V.jpg" alt="Grand Theft Auto V">
-                        <div class="game-info">
-                            <h3>Grand Theft Auto V</h3>
-                            <div class="game-price">₱996.00</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/Tom Clancy's Rainbow Six Siege.jpg" alt="Tom Clancy's Rainbow Six Siege">
-                        <div class="game-info">
-                            <h3>Tom Clancy's Rainbow Six Siege</h3>
-                            <div class="game-price">₱799.00</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/A Quiet Place The Road Ahead.jpg" alt="A Quiet Place: The Road Ahead">
-                        <div class="game-info">
-                            <h3>A Quiet Place: The Road Ahead</h3>
-                            <div class="game-price">₱895.95</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/Cyberpunk 2077.jpg" alt="Cyberpunk 2077">
-                        <div class="game-info">
-                            <h3>Cyberpunk 2077</h3>
-                            <div class="game-price">₱2,599.00</div>
-                        </div>
-                    </div>
-
-                    <div class="game-card">
-                        <img src="/assets/main/Stardew Valley.jpg" alt="Stardew Valley">
-                        <div class="game-info">
-                            <h3>Stardew Valley</h3>
-                            <div class="game-price">₱419.95</div>
-                        </div>
-                    </div>
+                <div class="games-grid" id="games-grid">
+                    <!-- Games will be added dynamically here -->
                 </div>
 
                 <div class="view-more-container">

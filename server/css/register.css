@@ -13,6 +13,10 @@ body {
     height: auto;
 }
 
+::-webkit-scrollbar {
+    width: 0;
+}
+
 .auth-container {
     margin: 2rem 0;
 }

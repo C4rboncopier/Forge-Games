@@ -41,39 +41,76 @@ export const addUser = async (req, res) => {
     const modifiedat = new Date();
 
     try {
+        // Start transaction
+        await client.query('BEGIN');
+
         // Hash the password before saving it to the database
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const toTable = `
+        const toUsersTable = `
             INSERT INTO users (username, password, firstname, lastname, email, createdat, modifiedat, country, role)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *;
         `;
 
-        const values = [username, hashedPassword, firstname, lastname, email, createdat, modifiedat, country, role];
-        const submit = await client.query(toTable, values);
+        const toCartTable = `
+            INSERT INTO carts (username, createdat, modifiedat)
+            VALUES ($1, $2, $3)
+            RETURNING *;
+        `;
+
+        const userValues = [username, hashedPassword, firstname, lastname, email, createdat, modifiedat, country, role];
+        const cartValues = [username, createdat, modifiedat];
+
+        // Execute both queries within the transaction
+        const submitUser = await client.query(toUsersTable, userValues);
+        const submitCart = await client.query(toCartTable, cartValues);
+
+        // If we get here, commit the transaction
+        await client.query('COMMIT');
 
         res.json({
             success: true,
             message: 'Account created successfully',
-            user: submit.rows[0],
+            user: submitUser.rows[0],
+            cart: submitCart.rows[0],
         });
     } catch (error) {
+        // If we get here, rollback the transaction
+        await client.query('ROLLBACK');
+        
         console.error('Error creating account:', error);
-        res.status(500).json({ success: false, message: 'Error creating account' });
+        
+        // Send more specific error messages
+        if (error.constraint === 'users_username_key') {
+            res.status(400).json({ 
+                success: false, 
+                message: 'Username already exists' 
+            });
+        } else if (error.constraint === 'users_email_key') {
+            res.status(400).json({ 
+                success: false, 
+                message: 'Email already exists' 
+            });
+        } else {
+            res.status(500).json({ 
+                success: false, 
+                message: 'Error creating account' 
+            });
+        }
     }
 };
 
 // HASHES THE PASSWORD
 export const hashPassword = async (req, res) => {
     const name = 'Admin';
-    const users = await client.query(`SELECT password FROM Users WHERE role = 'Admin' AND username = '${name}'`);
+    const users = await client.query(`SELECT password FROM users WHERE role = 'Admin' AND username = '${name}'`);
 
     if (users.rows.length > 0) {
         console.log(users.rows[0].password);
         const hashedPassword = await bcrypt.hash(users.rows[0].password, 10);
 
-        await client.query(`UPDATE Users SET password = '${hashedPassword}' WHERE username = '${name}'`);
+        await client.query(`UPDATE users SET password = '${hashedPassword}' WHERE username = '${name}'`);
         res.status(200).json({ message: 'Password hashed successfully' });
     } else {
         res.status(404).json({ message: 'Admin not found' });

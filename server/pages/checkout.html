@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Forge Games</title>
+    <link rel="stylesheet" href="/css/cart.css">
+    <link rel="stylesheet" href="/css/checkout.css">
+</head>
+<body>
+    <header id="header">
+        <div class="nav-content">
+            <div id="logo" class="logo">
+                Forge Games
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search games...">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <button class="menu-toggle">☰</button>
+
+            <div class="nav-links">
+                <a href="javascript:void(0)" id="main-link" onclick="main()">Store</a>
+                <a href="javascript:void(0)" id="library-link" onclick="browse()">Library</a>
+                <a href="#">Support</a>
+                <span class="cart-button">🛒</span>
+                
+                <div class="auth-buttons">
+                    <a href="javascript:void(0)" class="auth-button login-btn" onclick="login()">Login</a>
+                    <a href="javascript:void(0)" class="auth-button register-btn" onclick="register()">Register</a>
+                </div>
+
+                <div class="auth-account">
+                    <a href="javascript:void(0)" id="username" class="account username-btn" onclick="account()">username</a>
+                    <a href="javascript:void(0)" class="account logout-btn" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="checkoutContent" class="checkout-container">
+        <div class="checkout-header">
+            <h1 class="checkout-title">Checkout</h1>
+        </div>
+
+        <div class="checkout-grid">
+            <div class="billing-section">
+                <h2>Billing Information</h2>
+                <form id="billingForm" class="billing-form">
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method</label>
+                        <select id="paymentMethod" required>
+                            <option value="credit">Credit Card</option>
+                            <option value="debit">Debit Card</option>
+                            <option value="gcash">GCash</option>
+                            <option value="maya">Maya</option>
+                        </select>
+                    </div>
+
+                    <div id="cardDetails">
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" maxlength="19" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" maxlength="3" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a href="javascript:void(0)" onclick="backToCart()" class="back-to-cart" onclick="backToCart()">← Back to Cart</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                <div id="orderItems" class="order-items">
+                    <!-- Items will be populated by JavaScript -->
+                </div>
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₱0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <span id="tax">₱0.00</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total</span>
+                        <span id="total">₱0.00</span>
+                    </div>
+                </div>
+                <button id="placeOrderBtn" class="place-order-button">Place Order</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">About Us</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-socials">
+                <a href="#"></a>
+                <a href="#"></a>
+                <a href="#"></a>
+            </div>
+            <p>© 2024 Forge Games. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/scripts/auth.js"></script>
+    <script src="/scripts/checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,561 @@
+:root {
+    --bg-color: #1b2838;
+    --header-bg-color: #171a21;
+    --secondary-color: #2a475e;
+    --third-color: #366487;
+    --comp-color: #c7d5e0;
+    --comp-snd-color: #a3b6c7;
+    --white-color: #ffffff;
+    --header-logo-color: #66c0f4;
+    --bg-snd-color: #c7d5e0;
+    --search-ph-color: #c7d5e0;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --gradient1-color: #e6a447;
+    --gradient2-color: #d98826;
+    --gradient1-dark-color: #c78f3c;
+    --gradient2-dark-color: #b87321;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--bg-snd-color);
+}
+
+/* Header Styles */
+header {
+    background-color: var(--header-bg-color);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header .nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--header-logo-color);
+    white-space: nowrap;
+}
+
+header .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+header .nav-links a {
+    color: var(--search-ph-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+header .nav-links a:hover {
+    color: var(--header-logo-color);
+}
+
+/* Admin Container Styles */
+.admin-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.admin-content {
+    background-color: var(--header-bg-color);
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.admin-content h1 {
+    color: var(--white-color);
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+
+/* Form Section Styles */
+.add-game-section {
+    background-color: var(--secondary-color);
+    padding: 1.5rem;
+    border-radius: 6px;
+}
+
+.game-list-section {
+    background-color: var(--secondary-color);
+    padding: 1.5rem;
+    border-radius: 6px;
+}
+
+.add-game-section h2,
+.game-list-section h2 {
+    color: var(--white-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.game-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group-image {
+    padding-top: 1.5rem;
+}
+
+.form-group label {
+    color: var(--white-color);
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--third-color);
+    border-radius: 4px;
+    background-color: var(--header-bg-color);
+    color: var(--white-color);
+    font-size: 0.9rem;
+}
+
+.file-input-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.file-input-container input[type="file"] {
+    display: none;
+}
+
+.file-input-trigger {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    background: var(--header-logo-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.file-input-trigger:hover {
+    background: var(--third-color);
+}
+
+.file-name-display {
+    color: var(--comp-color);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-group small {
+    color: var(--comp-color);
+    font-size: 0.8rem;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.submit-btn {
+    padding: 0.75rem;
+    background: var(--header-logo-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+}
+
+.submit-btn:hover {
+    background: var(--third-color);
+}
+
+/* search */
+.search-container {
+    margin-bottom: 1.5rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--third-color);
+    border-radius: 4px;
+    background-color: var(--header-bg-color);
+    color: var(--white-color);
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--header-logo-color);
+    box-shadow: 0 0 0 2px rgba(102, 192, 244, 0.2);
+}
+
+.search-input::placeholder {
+    color: var(--comp-snd-color);
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--header-bg-color);
+    border-radius: 4px;
+    color: var(--comp-color);
+}
+
+/* Games Grid Styles */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.game-card {
+    background: var(--header-bg-color);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+}
+
+.game-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.game-image-container {
+    cursor: pointer;
+}
+
+.game-info {
+    height: 150px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.game-info h3 {
+    color: var(--white-color);
+    font-size: 1rem;
+    margin: 0;
+    text-align: left;
+}
+
+.game-info .game-developer {
+    font-weight: bold;
+}
+
+.game-info .game-genre {
+    font-size: 0.9rem;
+}
+
+
+.game-price {
+    color: var(--header-logo-color);
+    font-weight: bold;
+    text-align: left;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.pagination-btn {
+    padding: 0.5rem 1rem;
+    background: var(--secondary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.pagination-btn:hover:not(.disabled) {
+    background: var(--third-color);
+}
+
+.pagination-btn.active {
+    background: var(--header-logo-color);
+}
+
+.pagination-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-btn.prev,
+.pagination-btn.next {
+    font-weight: bold;
+}
+
+.pagination-btn.page-number {
+    min-width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Admin Actions */
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--secondary-color);
+}
+
+.admin-actions button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.edit-btn {
+    background: var(--header-logo-color);
+    color: var(--white-color);
+}
+
+.edit-btn:hover {
+    background: var(--third-color);
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: var(--white-color);
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}
+
+
+.cancel-btn {
+    padding: 0.75rem;
+    background: var(--secondary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+    margin-right: 0.5rem;
+}
+
+.cancel-btn:hover {
+    background: var(--third-color);
+}
+
+/* Add these styles to admin.css */
+.image-preview-container {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: var(--header-bg-color);
+    border: 1px solid var(--third-color);
+}
+
+.image-preview {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.file-input-container {
+    position: relative;
+}
+
+.file-input-container input[type="file"] {
+    display: none;
+}
+
+.file-input-trigger {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    background: var(--header-logo-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.file-input-trigger:hover {
+    background: var(--third-color);
+}
+
+
+/* Footer Styles */
+footer {
+    background-color: var(--header-bg-color);
+    padding: 20px;
+    text-align: center;
+    color: var(--white-color);
+    margin-top: 2rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-links {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: var(--white-color);
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 14px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 800px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-content {
+        padding: 1rem;
+    }
+
+    header .nav-content {
+        flex-wrap: wrap;
+    }
+
+    .footer-links a {
+        margin: 0 10px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pagination {
+        flex-wrap: wrap;
+    }
+    
+    .pagination-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .pagination-btn.page-number {
+        min-width: 2rem;
+        height: 2rem;
+    }
+
+    .search-container {
+        margin-bottom: 1rem;
+    }
+    
+    .search-input {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+    }
+    
+    .cancel-btn {
+        margin-right: 0;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .footer-links a {
+        margin: 5px 0;
+    }
+
+    .admin-content {
+        padding: 0.5rem;
+    }
+
+    .add-game-section,
+    .game-list-section {
+        padding: 1rem;
+    }
+
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+}

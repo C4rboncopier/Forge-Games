@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', 'Poppins', 'Play', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--bg-snd-color);
+}
+
+.genre-page {
+    max-width: 1200px;
+    margin: 6rem auto 0 auto;
+    padding: 2rem 1rem;
+}
+
+.genre-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.genre-header h1 {
+    color: var(--white-color);
+    font-size: 2.5rem;
+    padding-bottom: 3rem;
+}
+
+.genre-header p {
+    color: var(--bg-snd-color);
+    font-size: 1.1rem;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 565px;
+    overflow: hidden;
+}
+
+.genre-background {
+position: relative;
+}
+
+.genre-background::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(
+    180deg,
+    rgba(27, 40, 56, 0.4) 40%,
+    rgba(27, 40, 56, 0.5) 50%,
+    rgba(27, 40, 56, 0.7) 70%,
+    rgba(27, 40, 56, 0.9) 90%,
+    rgba(27, 40, 56, 0.92) 92%,
+    rgba(27, 40, 56, 0.95) 95%,
+    rgba(27, 40, 56, 0.97) 97%,
+    rgba(27, 40, 56, 0.99) 99%,
+    rgba(27, 40, 56, 1) 100%
+
+);
+z-index: -1; /* Sits above the image but below any other content */
+}
+
+.genre-background img {
+width: 100%;
+height: 565px;
+object-fit: cover;
+position: relative;
+z-index: -2; /* Keeps the image below the gradient overlay */
+}
+
+#genre-title {
+    color: var(--white-color);
+    font-family: 'Play';
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Added drop shadow */
+}
+
+#genre-description {
+    color: var(--white-color);
+    font-family: 'Montserrat';
+    font-size: 1.3rem;
+    font-weight: 450;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Added drop shadow */
+}
+
+#genre-featured {
+    color: var(--white-color);
+    font-family: 'Play';
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Added drop shadow */
+}
+
+
+.genre-content {
+    margin-top: 4rem;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.no-games {
+    text-align: center;
+    padding: 3rem;
+    color: var(--bg-snd-color);
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+    .genre-header h1 {
+        font-size: 2rem;
+    }
+
+    .genre-header p {
+        font-size: 1rem;
+    }
+
+    .games-grid {
+        gap: 1rem;
+    }
+}

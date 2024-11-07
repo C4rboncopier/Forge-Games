@@ -14,7 +14,7 @@ const supabaseKey = process.env.SUPABASE_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
 const client = new Client({
-    connectionString: `postgresql://postgres.eddjxkpubastumksrzkl:${dbPass}@${dbURL}.supabase.com:6543/postgres`, // Replace with actual Supabase credentials
+    connectionString: `postgresql://postgres.opralkrabelemyuylwou:${dbPass}@${dbURL}.supabase.com:6543/postgres`, // Replace with actual Supabase credentials
     ssl: { rejectUnauthorized: false }, // Ensures a secure SSL connection
 });
 
