@@ -50,20 +50,22 @@ export const addUser = async (req, res) => {
         const toUsersTable = `
             INSERT INTO users (username, password, firstname, lastname, email, createdat, modifiedat, country, role)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-            RETURNING *;
+            RETURNING id;
         `;
 
         const toCartTable = `
-            INSERT INTO carts (username, createdat, modifiedat)
+            INSERT INTO carts (user_id, createdat, modifiedat)
             VALUES ($1, $2, $3)
             RETURNING *;
         `;
-
         const userValues = [username, hashedPassword, firstname, lastname, email, createdat, modifiedat, country, role];
-        const cartValues = [username, createdat, modifiedat];
-
+        
         // Execute both queries within the transaction
         const submitUser = await client.query(toUsersTable, userValues);
+        
+        const user_id = submitUser.rows[0].id;
+        const cartValues = [user_id, createdat, modifiedat];
+
         const submitCart = await client.query(toCartTable, cartValues);
 
         // If we get here, commit the transaction

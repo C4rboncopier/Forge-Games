@@ -19,16 +19,17 @@
     <header id="header">
         <form id="headerForm">
             <div class="nav-content">
-                <div class="logo" id="logo">Forge Games</div>
+                <div class="logo" id="logo"><a href="javascript:void(0)" onclick="main()">Forge Games</a></div>
                 <div class="search-container">
                     <input type="text" class="search-bar" placeholder="Search games...">
                     <span class="search-icon">🔍</span>
                 </div>
                 <button class="menu-toggle">☰</button>
                 <div class="nav-links">
-                    <a href="javascript:void(0)" onclick="main()" id="main-link">Store</a>
-                    <a href="javascript:void(0)" onclick="browse()" id="library-link">Library</a>
+                    <a href="javascript:void(0)" onclick="browse()" id="main-link">Store</a>
+                    <a href="javascript:void(0)" onclick="main()" id="library-link">Library</a>
                     <a href="#">Support</a>
+                    <a href="javascript:void(0)" onclick="favorite()" class="favorite-button">❤️</a>
                     <a href="javascript:void(0)" onclick="cart()" class="cart-button">🛒</a>
                     
                     <!-- IF NO USER HAS LOGGED IN -->

@@ -7,7 +7,7 @@ import { checkLogIn, addUser } from "./backend/auth-api.js";
 import { addGame, getGames, deleteGame, updateGame, getGameById } from "./backend/adminPage.js";
 import { displayGames } from "./backend/mainPage.js";
 import { getGamesByGenre } from "./backend/genre-api.js";
-import { addToCart, getCart, removeFromCart } from "./backend/cart-api.js";
+import { addToCart, getCart, removeFromCart, processCheckout } from "./backend/cart-api.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,6 +40,7 @@ app.get('/api/browse/games', getGames);
 app.get("/api/genre/:genre", getGamesByGenre);
 app.get('/api/cart/:username', getCart);
 app.delete('/api/cart/remove', removeFromCart);
+app.post('/api/checkout', processCheckout);
 
 app.get("/games/:title", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'game.html'));
@@ -81,6 +82,10 @@ app.get("/browse", (req, res) => {
 app.get("/game", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'game.html'));
 })
+
+app.get("/favorite", (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'favorite.html'));
+});
 
 app.get("/genre/:genre", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'genre.html'));

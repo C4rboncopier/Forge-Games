@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - Forge Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/cart.css">
     <link rel="stylesheet" href="/css/checkout.css">
 </head>
@@ -58,7 +59,7 @@
                             <option value="maya">Maya</option>
                         </select>
                     </div>
-
+                    
                     <div id="cardDetails">
                         <div class="form-group">
                             <label for="cardNumber">Card Number</label>
@@ -115,13 +116,21 @@
                 <a href="#">Contact Us</a>
             </div>
             <div class="footer-socials">
-                <a href="#"></a>
-                <a href="#"></a>
-                <a href="#"></a>
+                <a href="#"><i class="fa-brands fa-square-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-square-x-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
             </div>
             <p>© 2024 Forge Games. All rights reserved.</p>
         </div>
     </footer>
+
+    <div id="orderPopup" class="order-popup hidden">
+        <div class="popup-content">
+            <h2>Transaction Completed</h2>
+            <p>Your order has been placed successfully!</p>
+            <button id="closePopupBtn">Close</button>
+        </div>
+    </div>
 
     <script src="/scripts/auth.js"></script>
     <script src="/scripts/checkout.js"></script>

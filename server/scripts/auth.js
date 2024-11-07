@@ -49,3 +49,7 @@ function logout() {
     localStorage.removeItem('username');
     window.location.href = '/';
 }
+
+function favorite() {
+    window.location.href = '/favorite';
+}

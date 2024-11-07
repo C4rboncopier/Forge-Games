@@ -36,8 +36,18 @@ header .nav-content {
 header .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--header-logo-color);
   white-space: nowrap;
+}
+
+header .logo a {
+  text-decoration: none;
+  color: var(--header-logo-color);
+  transition: color 0.3s;
+}
+
+header .logo a:hover {
+  color: var(--third-color);
+  transition: color 0.3s;
 }
 
 header .search-container {
@@ -702,4 +712,202 @@ footer p {
   .footer-socials a img {
     width: 20px;
   }
+}
+
+/* Add this at the end of the file */
+
+.custom-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--header-bg-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.custom-popup h2 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.custom-popup p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.custom-popup .popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.custom-popup button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.custom-popup .view-library-btn {
+    background: var(--comp-color);
+    color: #fff;
+}
+
+.custom-popup .close-btn {
+    background: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}
+
+/* Add these styles at the end of the file */
+#loginPopup.custom-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--header-bg-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+#loginPopup.custom-popup h2 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+#loginPopup.custom-popup p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+#loginPopupOverlay.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}
+
+/* Add these styles at the end of the file */
+#successPopup.custom-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--header-bg-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+#successPopup.custom-popup h2 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+#successPopup.custom-popup p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+#successPopupOverlay.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}
+
+/* Add a green accent color for the success popup */
+#successPopup .view-library-btn {
+    background: #28a745;
+    color: #fff;
+}
+
+#successPopup .view-library-btn:hover {
+    background: #218838;
+}
+
+/* Add these styles at the end of the file */
+#cartPopup.custom-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--header-bg-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+#cartPopup.custom-popup h2 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+#cartPopup.custom-popup p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+#cartPopupOverlay.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}
+
+/* Add an orange accent color for the cart popup */
+#cartPopup .view-library-btn {
+    background: var(--comp-color);
+    color: #fff;
+}
+
+#cartPopup .view-library-btn:hover {
+    background: var(--comp-snd-color);
 }

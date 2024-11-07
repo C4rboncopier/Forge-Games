@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forge Games</title>
+    <title>Favorites - Forge Games</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/css/game.css">
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/colors.css">
 
     <!-- Google Font Link -->
@@ -13,10 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-
 </head>
 <body>
-    <header>
+    <header id="header">
         <form id="headerForm">
             <div class="nav-content">
                 <div class="logo" id="logo"><a href="javascript:void(0)" onclick="main()">Forge Games</a></div>
@@ -29,6 +28,7 @@
                     <a href="javascript:void(0)" onclick="browse()" id="main-link">Store</a>
                     <a href="javascript:void(0)" onclick="main()" id="library-link">Library</a>
                     <a href="#">Support</a>
+                    <a href="javascript:void(0)" onclick="favorite()" class="favorite-button">❤️</a>
                     <a href="javascript:void(0)" onclick="cart()" class="cart-button">🛒</a>
                     
                     <!-- IF NO USER HAS LOGGED IN -->
@@ -42,69 +42,14 @@
                         <a href="javascript:void(0)" onclick="account()" class="account username-btn" id="username">username</a>
                         <a href="javascript:void(0)" onclick="logout()" class="account logout-btn">Logout</a>
                     </div>
-
                 </div>
             </div>
         </form>
     </header>
 
-    <!-- MAIN  -->
-    <div class="hero">
-        <div class="hero-background">
-            <img src="" alt="background-banner" class="game-banner">
-        </div>
-    </div>
-
-    <main role="main">
-        <section class="game-details">
-            <div class="game-header">
-                <img src="" alt="Game Logo" class="game-logo">
-            </div>
-
-            <div class="game-info">
-                <h1 class="game-title">Game Title</h1>
-                <h2 class="game-developer">Game Developer</h2>
-                <h2 class="game-genre">Game Genre</h2>
-                <div class="game-price">$59.99</div>
-                
-                <div class="game-actions">
-                    <button class="buy-button" id="buy-button">Add to Cart</button>
-                    <button class="wishlist-button" id="wishlist-button">Add to Favorites</button>
-                </div>
-
-                <div class="game-description">
-                </div>
-            </div>
-            <!-- Game screenshots for mobile view -->
-            <div class="mobile-screenshots">
-            <h2>Screenshots</h2>
-            <div class="screenshots-slider">
-                <img src="" alt="Screenshot 1" class="screenshot1-img">
-                <img src="" alt="Screenshot 2" class="screenshot2-img">
-                <img src="" alt="Screenshot 3" class="screenshot3-img">
-            </div>
-        </div>
-        </section>
-
-
- 
-        <section class="game-screenshots desktop-screenshots">
-            <h2>Screenshots</h2>
-            <div class="screenshots-container">
-                <div class="screenshot">
-                    <img src="" alt="Screenshot 1" class="desktopScreenshot1-img">
-                </div>
-                <div class="screenshot">
-                    <img src="" alt="Screenshot 2" class="desktopScreenshot2-img">
-                </div>
-                <div class="screenshot">
-                    <img src="" alt="Screenshot 3" class="desktopScreenshot3-img">
-                </div>
-            </div>
-        </section>
+    <main>
+        <!-- Content will be added later -->
     </main>
-
-    <!-- FOOTER -->
 
     <footer>
         <div class="footer-content">
@@ -123,19 +68,6 @@
         </div>
     </footer>
 
-    <script src="/scripts/addToCart.js"></script>
     <script src="/scripts/auth.js"></script>
-    <script src="/scripts/game.js"></script>
-
-    <!-- Add this right before the closing body tag, after the scripts -->
-    <div class="popup-overlay" id="loginPopupOverlay"></div>
-    <div class="custom-popup" id="loginPopup">
-        <h2>Login Required</h2>
-        <p>Please log in to add items to your cart</p>
-        <div class="popup-buttons">
-            <button class="view-library-btn" onclick="goToLogin()">Login</button>
-            <button class="close-btn" onclick="closeLoginPopup()">Close</button>
-        </div>
-    </div>
 </body>
-</html>
+</html> 

@@ -6,6 +6,8 @@ const totalEl = document.getElementById('total');
 const placeOrderBtn = document.getElementById('placeOrderBtn');
 const menuToggle = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
+const orderPopup = document.getElementById('orderPopup');
+const closePopupBtn = document.getElementById('closePopupBtn');
 
 const isCheckout = localStorage.getItem('checkout');
 
@@ -114,30 +116,133 @@ const cardDetailsRow = document.querySelector('.form-row');
 
 paymentMethod.addEventListener('change', (e) => {
     const selectedMethod = e.target.value;
+    const cardDetailsSection = document.getElementById('cardDetails');
+    const cardInputs = cardDetailsSection.querySelectorAll('input');
+    const cardNumberGroup = document.querySelector('.form-group:has(#cardNumber)');
+    
     if (selectedMethod === 'gcash' || selectedMethod === 'maya') {
         cardDetailsRow.style.display = 'none';
+        cardNumberGroup.style.display = 'none';
+        cardInputs.forEach(input => {
+            input.removeAttribute('required');
+        });
+        
+        if (!document.getElementById('phoneNumber')) {
+            const phoneGroup = document.createElement('div');
+            phoneGroup.className = 'form-group';
+            phoneGroup.innerHTML = `
+                <label for="phoneNumber">Phone Number</label>
+                <input type="tel" id="phoneNumber" placeholder="09XX XXX XXXX" required>
+                <span class="error-message">Phone number must start with 09</span>
+            `;
+            cardDetailsSection.insertBefore(phoneGroup, cardDetailsRow);
+            
+            // Updated phone number validation
+            const phoneInput = document.getElementById('phoneNumber');
+            const errorMessage = phoneInput.nextElementSibling;
+            
+            phoneInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, '');
+                
+                // Limit to 11 digits
+                if (value.length > 11) {
+                    value = value.slice(0, 11);
+                }
+                
+                // Format with spaces
+                if (value.length > 4) {
+                    value = value.slice(0, 4) + ' ' + value.slice(4);
+                }
+                if (value.length > 8) {
+                    value = value.slice(0, 8) + ' ' + value.slice(8);
+                }
+                
+                e.target.value = value;
+                
+                // Show error if number doesn't start with 09
+                if (value.length >= 2) {
+                    if (!value.startsWith('09')) {
+                        errorMessage.style.display = 'block';
+                        phoneInput.style.borderColor = 'rgb(255, 67, 67)';
+                        phoneInput.setCustomValidity('Phone number must start with 09');
+                    } else {
+                        errorMessage.style.display = 'none';
+                        phoneInput.style.borderColor = '';  // Remove inline style to allow CSS hover
+                        phoneInput.setCustomValidity('');
+                    }
+                } else {
+                    errorMessage.style.display = 'none';
+                    phoneInput.style.borderColor = '';  // Remove inline style to allow CSS hover
+                    phoneInput.setCustomValidity('');
+                }
+            });
+        }
     } else {
-        cardDetailsRow.style.display = 'flex';  // or 'block' depending on your CSS
+        cardDetailsRow.style.display = 'grid';
+        cardNumberGroup.style.display = 'block';
+        cardInputs.forEach(input => {
+            input.setAttribute('required', '');
+        });
+        
+        const phoneGroup = document.getElementById('phoneNumber')?.parentElement;
+        if (phoneGroup) {
+            phoneGroup.remove();
+        }
     }
 });
 
 // Place order handler
 placeOrderBtn.addEventListener('click', async () => {
     const form = document.getElementById('billingForm');
+    const paymentMethod = document.getElementById('paymentMethod').value;
     
+    if (paymentMethod === 'gcash' || paymentMethod === 'maya') {
+        const phoneInput = document.getElementById('phoneNumber');
+        const phoneNumber = phoneInput.value.replace(/\s/g, '');
+        
+        // Validate Philippine phone number format (09XX XXX XXXX)
+        const phoneRegex = /^09\d{9}$/;
+        if (!phoneRegex.test(phoneNumber)) {
+            alert('Please enter a valid Philippine phone number (09XX XXX XXXX)');
+            return;
+        }
+    }
+
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
     }
 
     try {
-        // Here you would typically make an API call to process the order
-        alert('Order placed successfully!');
-        // Clear checkout flag and redirect
-        localStorage.removeItem('checkout');
-        window.location.href = '/';
+        const paymentMethod = document.getElementById('paymentMethod').value;
+        
+        const response = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: user,
+                paymentMethod: paymentMethod
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            orderPopup.classList.remove('hidden');
+        } else {
+            throw new Error(data.error);
+        }
     } catch (error) {
         console.error('Error placing order:', error);
         alert('Error placing order. Please try again.');
     }
+});
+
+closePopupBtn.addEventListener('click', () => {
+    orderPopup.classList.add('hidden');
+    // Clear checkout flag and redirect
+    localStorage.removeItem('checkout');
+    window.location.href = '/';
 });

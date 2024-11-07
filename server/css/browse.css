@@ -52,8 +52,18 @@ header .nav-content {
 header .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--header-logo-color);
     white-space: nowrap;
+}
+
+header .logo a {
+    text-decoration: none;
+    color: var(--header-logo-color);
+    transition: color 0.3s;
+}
+
+header .logo a:hover {
+    color: var(--third-color);
+    transition: color 0.3s;
 }
 
 header .search-container {
@@ -540,6 +550,53 @@ header .logout-btn:hover {
 .ellipsis {
     color: var(--white-color);
     padding: 0 0.5rem;
+}
+
+/* FOOTER */
+
+footer {
+    background-color: var(--header-bg-color);
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-links {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 14px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-socials {
+    margin-bottom: 10px;
+}
+
+.footer-socials a {
+    font-size: 1.5rem;
+    margin: 0 20px;
+    color: white;
+}
+
+footer p {
+    font-size: 14px;
+    margin-top: 10px;
 }
 
 @media (min-width: 801px) {
