@@ -1,26 +1,107 @@
-const user = localStorage.getItem('username');
-console.log(localStorage.getItem('username'));
 
-if (user) {
-    document.querySelector('.auth-buttons').style.display = 'none';
-    document.getElementById('username').textContent = user;
-    document.querySelector('.auth-account').style.display = 'flex';
-    if (user === 'Admin'){
-        document.querySelector('.cart-button').style.display = 'none';
-        document.querySelector('.favorite-button').style.display = 'none';
-    } else {
-        document.querySelector('.cart-button').style.display = 'flex';
-        document.querySelector('.favorite-button').style.display = 'flex';
+document.addEventListener('componentsLoaded', initializeAuth);
+document.addEventListener('DOMContentLoaded', function() {
+    // If components are already loaded, initialize
+    if (document.querySelector('header')) {
+        initializeAuth();
     }
-} else {
-    document.querySelector('.auth-buttons').style.display = 'flex';
-    document.querySelector('.cart-button').style.display = 'none';
-    document.querySelector('.favorite-button').style.display = 'none';
-    document.querySelector('.auth-account').style.display = 'none';
+});
+
+function initializeAuth() {
+    // Menu toggle functionality
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            navLinks.classList.toggle('active');
+        });
+    }
+    
+    // Check authentication status
+    checkAuth();
 }
 
+function checkAuth() {
+    const user = localStorage.getItem('username');
+    const authButtons = document.querySelector('.auth-buttons');
+    const authAccount = document.querySelector('.auth-account');
+    const usernameElement = document.getElementById('username');
+    const cartButton = document.querySelector('.cart-button');
+    const favoriteButton = document.querySelector('.favorite-button');
+    const libraryButton = document.getElementById('library-link');
+    const supportButton = document.getElementById('support-link');
+    
+    if (!authButtons || !authAccount || !usernameElement) {
+        return; // Exit if elements don't exist
+    }
+
+    // Get authentication status from localStorage
+    console.log(user);
+
+    if (user) {
+        authButtons.style.display = 'none';
+        authAccount.style.display = 'flex';
+        usernameElement.textContent = user;
+        if (user === 'Admin'){
+            cartButton.style.display = 'none';
+            favoriteButton.style.display = 'none';
+            libraryButton.style.display = 'none';
+            supportButton.style.display = 'none';
+        } else {
+            cartButton.style.display = 'flex';
+            favoriteButton.style.display = 'flex';
+            libraryButton.style.display = 'flex';
+            supportButton.style.display = 'flex';
+        }
+    } else {
+        authButtons.style.display = 'flex';
+        authAccount.style.display = 'none';
+        cartButton.style.display = 'none';
+        favoriteButton.style.display = 'none';
+    }
+}
+
+// Navigation functions
 function main() {
     window.location.href = '/';
+}
+
+function browse() {
+    window.location.href = '/browse';
+}
+
+function library() {
+    window.location.href = '/library';
+}
+
+function support() {
+    window.location.href = '/support';
+}
+
+function about() {
+    window.location.href = '/about';
+}
+
+function terms() {
+    window.location.href = '/terms';
+}
+
+function privacy() {
+    window.location.href = '/privacy';
+}
+
+function contact() {
+    window.location.href = '/contact';
+}
+
+function cart() {
+    window.location.href = '/cart';
+}
+
+function favorite() {
+    window.location.href = '/favorite';
 }
 
 function login() {
@@ -32,6 +113,7 @@ function register() {
 }
 
 function account() {
+    const user = localStorage.getItem('username');
     if (user === 'Admin') {
         window.location.href = '/admin';
     } else {
@@ -39,24 +121,7 @@ function account() {
     }
 }
 
-function browse() {
-    window.location.href = '/browse';
-}
-
-function cart() {
-    window.location.href = '/cart';
-}
-
-function library() {
-    window.location.href = '/library';
-}
-
 function logout() {
-    console.log('Logout function called');
     localStorage.removeItem('username');
     window.location.href = '/';
-}
-
-function favorite() {
-    window.location.href = '/favorite';
 }

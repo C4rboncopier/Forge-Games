@@ -1,8 +1,26 @@
+// Wait for components to load before initializing the page
+document.addEventListener('componentsLoaded', initializePage);
 document.addEventListener('DOMContentLoaded', function() {
+    // If components are already loaded, initialize the page
+    if (document.querySelector('header')) {
+        initializePage();
+    }
+});
+
+function initializePage() {
     const genreTitle = document.getElementById('genre-title');
     const gamesGrid = document.getElementById('games-grid');
+    
+    // Create search results container if it doesn't exist
+    let searchResults = document.querySelector('.search-results');
+    if (!searchResults) {
+        searchResults = document.createElement('div');
+        searchResults.className = 'search-results';
+        document.querySelector('.search-container').appendChild(searchResults);
+    }
+    
+    // Get search bar after components are loaded
     const searchBar = document.querySelector('.search-bar');
-    const searchResults = document.querySelector('.search-results');
     
     // Get genre from URL
     const currentPath = window.location.pathname;
@@ -21,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (descriptionElement) {
         descriptionElement.textContent = getGenreDescription(genre);
     }
+    
+    // Initialize search variables
+    let searchTimeout;
+    let games = [];
     
     // Fetch games by genre
     async function fetchGames() {
@@ -74,13 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = `/games/${urlSafeTitle}`;
     };
     
-    // Initialize page
-    fetchGames();
-    
     // Search functionality
-    let searchTimeout;
-    let games = [];
-    
     async function fetchAllGames() {
         try {
             const response = await fetch('/api/home');
@@ -90,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching games:', error);
         }
     }
-    
+
     function performSearch(query) {
         if (!query.trim()) {
             searchResults.classList.remove('active');
@@ -103,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         displaySearchResults(filteredGames);
     }
-    
+
     function displaySearchResults(results) {
         if (results.length === 0) {
             searchResults.innerHTML = '<div class="no-results">No games found</div>';
@@ -120,37 +136,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         searchResults.classList.add('active');
     }
-    
-    // Event listeners
-    searchBar.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            performSearch(e.target.value);
-        }, 300);
-    });
-    
-    document.addEventListener('click', (e) => {
-        if (!searchBar.contains(e.target) && !searchResults.contains(e.target)) {
-            searchResults.classList.remove('active');
-        }
-    });
-    
-    searchResults.addEventListener('click', (e) => {
-        const resultItem = e.target.closest('.search-result-item');
-        if (resultItem) {
-            const gameTitle = resultItem.dataset.title;
-            const selectedGame = games.find(game => game.title === gameTitle);
-            if (selectedGame) {
-                searchBar.value = '';
+
+    // Only set up event listeners if searchBar exists
+    if (searchBar) {
+        searchBar.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch(e.target.value);
+            }, 300);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchBar.contains(e.target) && !searchResults.contains(e.target)) {
                 searchResults.classList.remove('active');
-                redirectToGamePage(selectedGame);
             }
-        }
-    });
-    
-    // Initialize search
-    fetchAllGames();
-});
+        });
+
+        searchResults.addEventListener('click', (e) => {
+            const resultItem = e.target.closest('.search-result-item');
+            if (resultItem) {
+                const gameTitle = resultItem.dataset.title;
+                const selectedGame = games.find(game => game.title === gameTitle);
+                if (selectedGame) {
+                    searchBar.value = '';
+                    searchResults.classList.remove('active');
+                    redirectToGamePage(selectedGame);
+                }
+            }
+        });
+
+        // Initialize search
+        fetchAllGames();
+    }
+
+    // Initialize page
+    fetchGames();
+}
 
 function getGenreDescription(genre) {
     switch(genre.toLowerCase()) {

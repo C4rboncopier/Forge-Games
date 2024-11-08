@@ -82,14 +82,8 @@ export const getCart = async (req, res) => {
 };
 
 export const addToCart = async (req, res) => {
-    const { username, title } = req.body;
-
-    if (!username || !title) {
-        return res.status(400).json({
-            success: false,
-            error: 'Username and title are required'
-        });
-    }
+    const { username, gameId, game } = req.body;
+    let finalGameId = gameId;
 
     try {
         // First get the user_id from users table
@@ -107,10 +101,28 @@ export const addToCart = async (req, res) => {
 
         const userId = userQuery.rows[0].id;
 
-        // Get the game_id from the games table
+        // If no gameId is provided but game title is, try to find the game ID
+        if (!finalGameId && game?.title) {
+            const gameQuery = await client.query(
+                'SELECT id FROM games WHERE title = $1',
+                [game.title]
+            );
+            if (gameQuery.rows.length > 0) {
+                finalGameId = gameQuery.rows[0].id;
+            }
+        }
+
+        if (!finalGameId) {
+            return res.status(400).json({
+                success: false,
+                error: 'Game not found'
+            });
+        }
+
+        // Check if game exists
         const gameQuery = await client.query(
-            'SELECT id FROM games WHERE title = $1',
-            [title]
+            'SELECT id FROM games WHERE id = $1',
+            [finalGameId]
         );
 
         if (gameQuery.rows.length === 0) {
@@ -120,10 +132,8 @@ export const addToCart = async (req, res) => {
             });
         }
 
-        const gameId = gameQuery.rows[0].id;
-
         // Check if game is in library
-        const inLibrary = await checkGameInLibrary(userId, gameId);
+        const inLibrary = await checkGameInLibrary(userId, finalGameId);
         if (inLibrary) {
             return res.status(409).json({
                 success: false,
@@ -134,7 +144,7 @@ export const addToCart = async (req, res) => {
         // Check if the game already exists in the cart for this user
         const checkExisting = await client.query(
             'SELECT * FROM cart_item WHERE user_id = $1 AND game_id = $2',
-            [userId, gameId]
+            [userId, finalGameId]
         );
 
         if (checkExisting.rows.length > 0) {
@@ -151,12 +161,12 @@ export const addToCart = async (req, res) => {
             RETURNING *;
         `;
 
-        const cartItem = await client.query(insertQuery, [userId, gameId]);
+        const cartItem = await client.query(insertQuery, [userId, finalGameId]);
 
         // Get the complete game details for the response
         const gameDetails = await client.query(
             'SELECT * FROM games WHERE id = $1',
-            [gameId]
+            [finalGameId]
         );
 
         const game = gameDetails.rows[0];

@@ -1,0 +1,173 @@
+.support-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.support-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.support-hero h1 {
+    color: var(--white-color);
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.support-search {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.support-search input {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 4px;
+    background: var(--secondary-color);
+    color: var(--white-color);
+    font-size: 1rem;
+}
+
+.support-search input::placeholder {
+    color: var(--search-ph-color);
+}
+
+.support-search button {
+    padding: 0 1.5rem;
+    background: var(--comp-color);
+    border: none;
+    border-radius: 4px;
+    color: var(--white-color);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.support-search button:hover {
+    background: var(--comp-snd-color);
+}
+
+.support-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.support-card {
+    background: var(--secondary-color);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.support-card i {
+    font-size: 2rem;
+    color: var(--header-logo-color);
+    margin-bottom: 1rem;
+}
+
+.support-card h2 {
+    color: var(--white-color);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.support-card ul {
+    list-style: none;
+    text-align: left;
+}
+
+.support-card ul li {
+    margin-bottom: 0.5rem;
+}
+
+.support-card ul li a {
+    color: var(--bg-snd-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.support-card ul li a:hover {
+    color: var(--header-logo-color);
+}
+
+.contact-section {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.contact-section h2 {
+    color: var(--white-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.contact-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.contact-card {
+    background: var(--secondary-color);
+    padding: 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+}
+
+.contact-card i {
+    font-size: 2rem;
+    color: var(--header-logo-color);
+    margin-bottom: 1rem;
+}
+
+.contact-card h3 {
+    color: var(--white-color);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-card p {
+    color: var(--bg-snd-color);
+}
+
+@media (max-width: 768px) {
+    .support-hero h1 {
+        font-size: 2rem;
+    }
+
+    .support-search {
+        flex-direction: column;
+    }
+
+    .support-search button {
+        padding: 1rem;
+    }
+
+    .contact-section h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .support-container {
+        padding: 1rem;
+    }
+
+    .support-hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .support-card {
+        padding: 1.5rem;
+    }
+} 

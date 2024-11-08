@@ -4,12 +4,10 @@ const subtotalEl = document.getElementById('subtotal');
 const taxEl = document.getElementById('tax');
 const totalEl = document.getElementById('total');
 const placeOrderBtn = document.getElementById('placeOrderBtn');
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
 const orderPopup = document.getElementById('orderPopup');
 const closePopupBtn = document.getElementById('closePopupBtn');
-
 const isCheckout = localStorage.getItem('checkout');
+const user = localStorage.getItem('username');
 
 // Check if user is logged in and came from cart
 if (!user || !isCheckout) {
@@ -21,11 +19,6 @@ if (!user || !isCheckout) {
 if (user === 'Admin') {
     window.location.href = '/';
 }
-
-menuToggle.addEventListener('click', (event) => {
-    event.preventDefault();
-    navLinks.classList.toggle('active');
-});
 
 function backToCart() {
     window.location.href = '/cart';

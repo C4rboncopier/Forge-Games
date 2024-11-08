@@ -1,5 +1,3 @@
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
 const isAdmin = localStorage.getItem('username');
 console.log(localStorage.getItem('username'));
 if (isAdmin === 'Admin') {
@@ -8,25 +6,38 @@ if (isAdmin === 'Admin') {
     document.querySelector('.game-actions').style.display = 'flex';
 }
 
-
-menuToggle.addEventListener('click', (event) => {
-    event.preventDefault();
-    navLinks.classList.toggle('active');
-});
+function logGameDetails(details, source) {
+    console.log(`Game Details from ${source}:`, {
+        id: details.id,
+        title: details.title,
+        price: details.price
+    });
+}
 
 function redirectToGamePage(game) {
+    logGameDetails(game, 'redirectToGamePage input');
+    
+    if (!game.id) {
+        console.error('Game ID is missing:', game);
+    }
+
     sessionStorage.setItem('selectedGame', JSON.stringify({
+        id: game.id,
         title: game.title,
         genre: game.genre,
         developer: game.developer,
         gameUrl: game.gameUrl || '/assets/main/default_image.jpg',
         description: game.description || 'No description available.',
         price: game.price,
-        banner: game.bannerUrl || '/assets/placeholder-game.png',
+        banner: game.bannerUrl,
         screenshot1: game.screenshot1Url,
         screenshot2: game.screenshot2Url,
         screenshot3: game.screenshot3Url
     }));
+    
+    const stored = JSON.parse(sessionStorage.getItem('selectedGame'));
+    logGameDetails(stored, 'stored in sessionStorage');
+    
     const urlSafeTitle = encodeURIComponent(game.title.toLowerCase().replace(/\s+/g, '-'));
     window.location.href = `/games/${urlSafeTitle}`;
 }
@@ -44,17 +55,48 @@ async function checkGameOwnership(username, gameTitle) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function fetchGameDetails(title) {
+    try {
+        const response = await fetch(`/api/games/details/${encodeURIComponent(title)}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch game details');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching game details:', error);
+        return null;
+    }
+}
+
+// Move the DOMContentLoaded event listener code into a function
+async function initializeGame() {
     const gameDetails = JSON.parse(sessionStorage.getItem('selectedGame'));
+    logGameDetails(gameDetails, 'DOMContentLoaded');
+    
     const username = localStorage.getItem('username');
     
-    if (gameDetails && username) {
-        userOwnsGame = await checkGameOwnership(username, gameDetails.title);
-        updateButtons(userOwnsGame);
-    }
-
-    console.log(sessionStorage.getItem('selectedGame'));
     if (gameDetails) {
+        try {
+            // Fetch complete game details from database
+            const dbGameDetails = await fetchGameDetails(gameDetails.title);
+            if (dbGameDetails) {
+                // Update sessionStorage with database ID
+                const updatedGameDetails = {
+                    ...gameDetails,
+                    id: dbGameDetails.id // Add the database ID
+                };
+                sessionStorage.setItem('selectedGame', JSON.stringify(updatedGameDetails));
+                console.log('Updated game details with ID:', updatedGameDetails);
+            }
+        } catch (error) {
+            console.error('Error updating game details:', error);
+        }
+
+        if (username) {
+            userOwnsGame = await checkGameOwnership(username, gameDetails.title);
+            updateButtons(userOwnsGame);
+        }
+
         // Update the URL if it doesn't match the current game
         const currentPath = window.location.pathname;
         const expectedPath = `/games/${gameDetails.title.toLowerCase().replace(/\s+/g, '-')}`;
@@ -69,8 +111,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.querySelector('.game-genre').textContent = gameDetails.genre;
         document.querySelector('.game-logo').src = gameDetails.gameUrl;
         document.querySelector('.game-description').textContent = gameDetails.description;
-        document.querySelector('.game-price').textContent = `₱${parseFloat(gameDetails.price).toFixed(2)}`;
-        document.querySelector('.screenshot1-img').src = gameDetails.screenshot2;
+        
+        // Ensure price is a number and properly formatted
+        const price = typeof gameDetails.price === 'string' 
+            ? parseFloat(gameDetails.price.replace(/[^\d.-]/g, '')) 
+            : gameDetails.price;
+        document.querySelector('.game-price').textContent = `₱${price.toFixed(2)}`;
+
+        // Update screenshots
+        document.querySelector('.screenshot1-img').src = gameDetails.screenshot1;
         document.querySelector('.screenshot2-img').src = gameDetails.screenshot2;
         document.querySelector('.screenshot3-img').src = gameDetails.screenshot3;
 
@@ -193,6 +242,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 break;
         }
     });
+}
+
+// Wait for both DOMContentLoaded and componentsLoaded events
+document.addEventListener('DOMContentLoaded', () => {
+    // Wait for components to load before initializing the game
+    document.addEventListener('componentsLoaded', initializeGame);
 });
 
 function updateButtons(owned) {

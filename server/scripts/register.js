@@ -1,4 +1,39 @@
+if (sessionStorage.getItem('ageRestricted') === null || sessionStorage.getItem('ageRestricted') === 'true') {
+    window.location.href = '/';
+}
+sessionStorage.removeItem('ageRestricted');
+
+function terms() {
+    window.location.href = '/terms';
+}
+
+function setupPasswordToggle(toggleButtonId, passwordFieldId) {
+    const toggleButton = document.querySelector(`#${toggleButtonId}`);
+    const passwordField = document.querySelector(`#${passwordFieldId}`);
+    const icon = toggleButton.querySelector("i");
+
+    toggleButton.addEventListener("click", function () {
+        // Toggle the type attribute
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
+        
+        // Toggle the icon
+        if (type === "password") {
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+            toggleButton.style.right = "15px";
+        } else {
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+            toggleButton.style.right = "14px";
+        }
+    });
+}
+
 initializeCountrySelector()
+setupPasswordToggle('togglePassword', 'password');
+setupPasswordToggle('toggleConfirmPassword', 'confirmPassword');
+
 document.getElementById('registerForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 

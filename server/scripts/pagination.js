@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the birthday selectors
+    initializeBirthdaySelectors();
+
     const birthdayForm = document.getElementById('birthdayForm');
     if (birthdayForm) {
-        initializeBirthdaySelectors();
-        
         birthdayForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -22,9 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
     
             if (age < 12) {
+                sessionStorage.setItem('ageRestricted', 'true');
                 window.location.href = '/validate-age';
             } else {
                 // Store birthday in session storage for registration
+                sessionStorage.setItem('ageRestricted', 'false');
                 sessionStorage.setItem('userBirthday', `${year}-${month}-${day}`);
                 window.location.href = '/register';
             }
@@ -34,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const logoToggle = document.getElementById('logo');
 
-logoToggle.addEventListener('click', () => {
+logoToggle.addEventListener('click', (event) => {
     event.preventDefault();
     window.location.href='/';
 })

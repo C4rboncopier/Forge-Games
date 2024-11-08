@@ -1,71 +1,33 @@
-document.addEventListener('DOMContentLoaded', async function() {
-    const username = localStorage.getItem('username');
-    if (!username) {
-        window.location.href = '/login';
-        return;
+function initializeSupportPage() {
+    const searchInput = document.querySelector('.support-search input');
+    const searchButton = document.querySelector('.support-search button');
+
+    // Add search functionality
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase();
+        // Implement search functionality here
+        console.log('Searching for:', searchTerm);
     }
 
-    const mainContent = document.querySelector('main');
-    await loadLibrary(username);
+    searchButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        performSearch();
+    });
 
-    async function loadLibrary(username) {
-        try {
-            const response = await fetch(`/api/library/${username}`);
-            const games = await response.json();
-
-            if (!Array.isArray(games)) {
-                throw new Error('Invalid response format');
-            }
-
-            if (games.length === 0) {
-                displayEmptyLibrary();
-                return;
-            }
-
-            displayGames(games);
-        } catch (error) {
-            console.error('Error loading library:', error);
-            displayError();
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            performSearch();
         }
-    }
+    });
 
-    function displayGames(games) {
-        const libraryHTML = `
-            <div class="library-container">
-                <h1>My Library</h1>
-                <div class="games-grid">
-                    ${games.map(game => `
-                        <div class="game-card">
-                            <img src="${game.gameUrl || '/assets/placeholder-game.png'}" alt="${game.title}">
-                            <div class="game-info">
-                                <h3>${game.title}</h3>
-                                <p class="game-developer">${game.developer}</p>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-
-        mainContent.innerHTML = libraryHTML;
-
-        // Add click event listeners to game cards
-        const gameCards = document.querySelectorAll('.game-card');
-        gameCards.forEach((card, index) => {
-            card.addEventListener('click', () => {
-                const game = games[index];
-                redirectToGamePage(game);
-            });
-        });
-    }
-
-    // Add this new function to handle game redirection
-    function redirectToGamePage(game) {
+    // Assign the function to the global variable
+    redirectToGamePage = (game) => {
         sessionStorage.setItem('selectedGame', JSON.stringify({
             title: game.title,
             genre: game.genre,
             developer: game.developer,
-            gameUrl: game.gameUrl || '/assets/placeholder-game.png',
+            gameUrl: game.gameUrl || '/assets/main/default_image.jpg',
             description: game.description || 'No description available.',
             price: game.price,
             banner: game.bannerUrl || '/assets/placeholder-game.png',
@@ -75,33 +37,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }));
         const urlSafeTitle = encodeURIComponent(game.title.toLowerCase().replace(/\s+/g, '-'));
         window.location.href = `/games/${urlSafeTitle}`;
-    }
-
-    function displayEmptyLibrary() {
-        const emptyHTML = `
-            <div class="empty-library">
-                <h1>My Library</h1>
-                <div class="empty-message">
-                    <p>Your library is empty</p>
-                    <button onclick="window.location.href='/browse'" class="browse-button">Browse Games</button>
-                </div>
-            </div>
-        `;
-
-        mainContent.innerHTML = emptyHTML;
-    }
-
-    function displayError() {
-        const errorHTML = `
-            <div class="error-message">
-                <h1>Oops!</h1>
-                <p>Something went wrong while loading your library.</p>
-                <button onclick="window.location.reload()" class="retry-button">Try Again</button>
-            </div>
-        `;
-
-        mainContent.innerHTML = errorHTML;
-    }
+    };
 
     const searchContainer = document.querySelector('.search-container');
     const searchBar = document.querySelector('.search-bar');
@@ -215,4 +151,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 break;
         }
     });
-}); 
+}
+
+// Wait for components to be loaded before initializing
+document.addEventListener('componentsLoaded', initializeSupportPage); 

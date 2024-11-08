@@ -1,99 +1,100 @@
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
-const gamesList = document.getElementById('games-grid');
+// Global functions that need to be accessible from HTML
+let redirectToFeaturedGame;
+let filterByGenre;
+let redirectToGamePage;
 
-async function redirectToFeaturedGame(gameTitle) {
-    try {
-        const response = await fetch('/api/home');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+// Move your initialization code into this function
+function initializeMainPage() {
+    const gamesList = document.getElementById('games-grid');
+
+    // Assign the function to the global variable
+    redirectToFeaturedGame = async (gameTitle) => {
+        try {
+            const response = await fetch('/api/home');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const games = await response.json();
+            const game = games.find(g => g.title.toLowerCase() === gameTitle.toLowerCase());
+            
+            if (game) {
+                redirectToGamePage(game);
+            } else {
+                console.error('Featured game not found:', gameTitle);
+            }
+        } catch (error) {
+            console.error('Error fetching featured game:', error);
         }
-        const games = await response.json();
-        const game = games.find(g => g.title.toLowerCase() === gameTitle.toLowerCase());
-        
-        if (game) {
-            redirectToGamePage(game);
-        } else {
-            console.error('Featured game not found:', gameTitle);
+    };
+
+    // Assign the function to the global variable
+    filterByGenre = (genre) => {
+        window.location.href = `/genre/${genre}`;
+    };
+
+    // Assign the function to the global variable
+    redirectToGamePage = (game) => {
+        sessionStorage.setItem('selectedGame', JSON.stringify({
+            title: game.title,
+            genre: game.genre,
+            developer: game.developer,
+            gameUrl: game.gameUrl || '/assets/main/default_image.jpg',
+            description: game.description || 'No description available.',
+            price: game.price,
+            banner: game.bannerUrl || '/assets/placeholder-game.png',
+            screenshot1: game.screenshot1Url,
+            screenshot2: game.screenshot2Url,
+            screenshot3: game.screenshot3Url
+        }));
+        const urlSafeTitle = encodeURIComponent(game.title.toLowerCase().replace(/\s+/g, '-'));
+        window.location.href = `/games/${urlSafeTitle}`;
+    };
+
+    async function displayGames() {
+        if (!gamesList) {
+            console.error('games-grid element not found in HTML.');
+            return;
         }
-    } catch (error) {
-        console.error('Error fetching featured game:', error);
-    }
-}
 
-function filterByGenre(genre) {
-    window.location.href = `/genre/${genre}`;
-}
+        try {
+            const response = await fetch('/api/home');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const gamesData = await response.json();
+            displayGamesForMain(gamesData);
 
-menuToggle.addEventListener('click', (event) => {
-    event.preventDefault();
-    navLinks.classList.toggle('active');
-});
-
-async function displayGames() {
-    if (!gamesList) {
-        console.error('games-grid element not found in HTML.');
-        return;
-    }
-
-    try {
-        const response = await fetch('/api/home');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        } catch (error) {
+            console.error('Error fetching games:', error);
+            gamesList.innerHTML = '<p class="error-message">Failed to load games</p>';
         }
-        const gamesData = await response.json();
-        displayGamesForMain(gamesData);
-
-    } catch (error) {
-        console.error('Error fetching games:', error);
-        gamesList.innerHTML = '<p class="error-message">Failed to load games</p>';
     }
-}
 
-function displayGamesForMain(gamesData) {
-    gamesList.innerHTML = '';
+    function displayGamesForMain(gamesData) {
+        gamesList.innerHTML = '';
 
-    gamesData.slice(0, 12).forEach(game => {
-        const gameCard = document.createElement('div');
-        gameCard.className = 'game-card';
+        gamesData.slice(0, 12).forEach(game => {
+            const gameCard = document.createElement('div');
+            gameCard.className = 'game-card';
 
-        const imageUrl = game.gameUrl || '/assets/main/default_image.jpg';
+            const imageUrl = game.gameUrl || '/assets/main/default_image.jpg';
 
-        gameCard.innerHTML = `
-            <img src="${imageUrl}" alt="${game.title}">
-            <div class="game-info">
-                <h3>${game.title}</h3>
-                <div class="game-price">₱${parseFloat(game.price).toFixed(2)}</div>
-            </div>
-        `;
+            gameCard.innerHTML = `
+                <img src="${imageUrl}" alt="${game.title}">
+                <div class="game-info">
+                    <h3>${game.title}</h3>
+                    <div class="game-price">₱${parseFloat(game.price).toFixed(2)}</div>
+                </div>
+            `;
 
-        gameCard.addEventListener('click', () => {
-            redirectToGamePage(game);
+            gameCard.addEventListener('click', () => {
+                redirectToGamePage(game);
+            });
+
+            gamesList.appendChild(gameCard);
         });
+    }
 
-        gamesList.appendChild(gameCard);
-    });
-}
-
-// Function to handle redirection with selected game details
-function redirectToGamePage(game) {
-    sessionStorage.setItem('selectedGame', JSON.stringify({
-        title: game.title,
-        genre: game.genre,
-        developer: game.developer,
-        gameUrl: game.gameUrl || '/assets/main/default_image.jpg',
-        description: game.description || 'No description available.',
-        price: game.price,
-        banner: game.bannerUrl || '/assets/placeholder-game.png',
-        screenshot1: game.screenshot1Url,
-        screenshot2: game.screenshot2Url,
-        screenshot3: game.screenshot3Url
-    }));
-    const urlSafeTitle = encodeURIComponent(game.title.toLowerCase().replace(/\s+/g, '-'));
-    window.location.href = `/games/${urlSafeTitle}`;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
     const searchContainer = document.querySelector('.search-container');
     const searchBar = document.querySelector('.search-bar');
     let searchResults = document.createElement('div');
@@ -207,4 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     displayGames();
-});
+}
+
+// Wait for components to be loaded before initializing
+document.addEventListener('componentsLoaded', initializeMainPage);

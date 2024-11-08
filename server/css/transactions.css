@@ -1,0 +1,219 @@
+.transactions-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.transactions-content {
+    background-color: var(--header-bg-color);
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.transactions-content h1 {
+    color: var(--white-color);
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.search-container-transactions {
+    margin-bottom: 2rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--third-color);
+    border-radius: 4px;
+    background-color: var(--header-bg-color);
+    color: var(--white-color);
+    font-size: 1rem;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--header-logo-color);
+}
+
+.transactions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.transaction-card {
+    background-color: var(--secondary-color);
+    border-radius: 6px;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 2fr 1fr 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.transaction-id {
+    color: var(--header-logo-color);
+    font-size: 0.9rem;
+}
+
+.transaction-user {
+    color: var(--header-logo-color);
+    font-weight: bold;
+}
+
+.transaction-games {
+    color: var(--white-color);
+    word-break: break-word;
+}
+
+.transaction-method {
+    color: var(--header-logo-color);
+    font-weight: bold;
+}
+
+.transaction-total {
+    color: var(--white-color);
+    font-weight: bold;
+}
+
+.transaction-date {
+    color: var(--header-logo-color);
+    font-size: 0.9rem;
+}
+
+.no-transactions {
+    text-align: center;
+    padding: 2rem;
+    color: var(--comp-color);
+    background-color: var(--secondary-color);
+    border-radius: 6px;
+}
+
+/* Pagination styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    padding: 0.5rem 1rem;
+    background: var(--secondary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-btn:hover:not(.disabled) {
+    background: var(--third-color);
+}
+
+.pagination-btn.active {
+    background: var(--header-logo-color);
+}
+
+.pagination-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Tablet Responsive Design */
+@media (max-width: 1024px) {
+    .transactions-content {
+        padding: 1.5rem;
+    }
+
+    .transaction-card {
+        grid-template-columns: 0.5fr 1fr 1.5fr 1fr 1fr 1fr;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+    .transactions-container {
+        margin: 1rem auto;
+    }
+
+    .transactions-content {
+        padding: 1rem;
+    }
+
+    .transactions-content h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .transaction-card {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+        padding: 1rem;
+    }
+
+    .transaction-card > div {
+        position: relative;
+        padding-left: 100px;
+        min-height: 24px;
+        display: flex;
+        align-items: center;
+    }
+
+    .transaction-card > div::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 90px;
+        font-size: 0.8rem;
+        color: var(--comp-color);
+    }
+
+    .transaction-id::before { content: "ID:"; }
+    .transaction-user::before { content: "User:"; }
+    .transaction-games::before { content: "Games:"; }
+    .transaction-method::before { content: "Method:"; }
+    .transaction-total::before { content: "Total:"; }
+    .transaction-date::before { content: "Date:"; }
+
+    .pagination {
+        gap: 0.3rem;
+    }
+
+    .pagination-btn {
+        padding: 0.4rem 0.8rem;
+        min-width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    .transactions-content {
+        padding: 0.8rem;
+    }
+
+    .search-input {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .transaction-card {
+        font-size: 0.85rem;
+    }
+
+    .pagination-btn {
+        min-width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+}

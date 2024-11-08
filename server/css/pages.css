@@ -18,12 +18,16 @@ body {
 
 /* HEADER */
 
-header {
-    background-color: var(--header-bg-color);
-    padding: 1rem;
+#header-placeholder {
     position: sticky;
     top: 0;
     z-index: 100;
+}
+
+header {
+    background-color: var(--header-bg-color);
+    padding: 1rem;
+    width: 100%;
 }
 
 header .nav-content {

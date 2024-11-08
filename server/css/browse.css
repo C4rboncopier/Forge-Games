@@ -116,7 +116,11 @@
     background: var(--secondary-color);
     border: none;
     border-radius: 4px;
-    color: var(--white-color);
+    color: var(--text-color);
+}
+
+.filter-search input::placeholder {
+    color: var(--search-ph-color);
 }
 
 .filter-dropdown {

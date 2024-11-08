@@ -17,37 +17,7 @@
 
 </head>
 <body>
-    <header id="header">
-        <form id="headerForm">
-            <div class="nav-content">
-                <div class="logo" id="logo"><a href="javascript:void(0)" onclick="main()">Forge Games</a></div>
-                <div class="search-container">
-                    <input type="text" class="search-bar" placeholder="Search games...">
-                    <span class="search-icon">🔍</span>
-                </div>
-                <button class="menu-toggle">☰</button>
-                <div class="nav-links">
-                    <a href="javascript:void(0)" onclick="browse()" id="main-link">Store</a>
-                    <a href="javascript:void(0)" onclick="library()" id="library-link">Library</a>
-                    <a href="#">Support</a>
-                    <a href="javascript:void(0)" onclick="favorite()" class="favorite-button">❤️</a>
-                    <a href="javascript:void(0)" onclick="cart()" class="cart-button">🛒</a>
-                    
-                    <!-- IF NO USER HAS LOGGED IN -->
-                    <div class="auth-buttons">
-                        <a href="javascript:void(0)" onclick="login()" class="auth-button login-btn">Login</a>
-                        <a href="javascript:void(0)" onclick="register()" class="auth-button register-btn">Register</a>
-                    </div>
-                    
-                    <!-- IF A USER HAS LOGGED IN -->
-                    <div class="auth-account">
-                        <a href="javascript:void(0)" onclick="account()" class="account username-btn" id="username">username</a>
-                        <a href="javascript:void(0)" onclick="logout()" class="account logout-btn">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </header>
+    <div id="header-placeholder"></div>
 
     <!-- MAIN  -->
     <div class="hero">
@@ -107,26 +77,16 @@
 
     <!-- FOOTER -->
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#">About Us</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Contact Us</a>
-            </div>
-            <div class="footer-socials">
-                <a href="#"><i class="fa-brands fa-square-facebook"></i></a>
-                <a href="#"><i class="fa-brands fa-square-x-twitter"></i></a>
-                <a href="#"><i class="fa-brands fa-square-instagram"></i></a>
-            </div>
-            <p>© 2024 Forge Games. All rights reserved.</p>
-        </div>
-    </footer>
+    <div id="footer-placeholder"></div>
 
+    <!-- Load components.js first -->
+    <script src="/scripts/components.js"></script>
+
+    <!-- Then load other scripts -->
     <script src="/scripts/addToCart.js"></script>
     <script src="/scripts/auth.js"></script>
     <script src="/scripts/game.js"></script>
+    <script src="/scripts/addToFavorites.js"></script>
 
     <!-- Add this right before the closing body tag, after the scripts -->
     <div class="popup-overlay" id="loginPopupOverlay"></div>
@@ -136,6 +96,17 @@
         <div class="popup-buttons">
             <button class="view-library-btn" onclick="goToLogin()">Login</button>
             <button class="close-btn" onclick="closeLoginPopup()">Close</button>
+        </div>
+    </div>
+
+    <!-- Replace the favorites popup HTML with this -->
+    <div class="popup-overlay" id="favoritesPopupOverlay"></div>
+    <div class="custom-popup" id="favoritesPopup">
+        <h2>Added to Favorites</h2>
+        <p>The game has been added to your favorites list.</p>
+        <div class="popup-buttons">
+            <button class="view-library-btn" onclick="goToFavorites()">View Favorites</button>
+            <button class="close-btn" onclick="closeFavoritesPopup()">Close</button>
         </div>
     </div>
 </body>

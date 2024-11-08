@@ -22,6 +22,10 @@ function main() {
     window.location.href = '/';
 }
 
+function transactions() {
+    window.location.href = '/admin/transactions';
+}
+
 function browse() {
     window.location.href = '/browse';
 }
@@ -532,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(localStorage.getItem('username'));
     sessionStorage.clear();
     const searchInput = document.createElement('div');
-    searchInput.className = 'search-container';
+    searchInput.className = 'search-container-main';
     searchInput.innerHTML = `
         <input type="text" 
                 id="gameSearch" 

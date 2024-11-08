@@ -1,0 +1,238 @@
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    padding: 4rem 0;
+    background: linear-gradient(
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.7)),
+    url('/assets/main/about-hero.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    margin-bottom: 3rem;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-section h1 {
+    color: var(--white-color);
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero-section p {
+    color: var(--bg-snd-color);
+    font-size: 1.2rem;
+}
+
+/* Mission Section */
+.mission-section {
+    background-color: var(--secondary-color);
+    padding: 3rem;
+    border-radius: 8px;
+    margin-bottom: 3rem;
+}
+
+.mission-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mission-content h2 {
+    color: var(--white-color);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.mission-content p {
+    color: var(--bg-snd-color);
+    line-height: 1.6;
+}
+
+/* Features Section */
+.features-section {
+    margin-bottom: 3rem;
+}
+
+.features-section h2 {
+    text-align: center;
+    color: var(--white-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background: var(--secondary-color);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card i {
+    font-size: 2.5rem;
+    color: var(--header-logo-color);
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    color: var(--white-color);
+    margin-bottom: 1rem;
+}
+
+.feature-card p {
+    color: var(--bg-snd-color);
+}
+
+/* Team Section */
+.team-section {
+    margin-bottom: 3rem;
+    padding: 2rem;
+}
+
+.team-section h2 {
+    text-align: center;
+    color: var(--white-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.team-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.team-member {
+    text-align: center;
+    max-width: 600px;
+    background: var(--secondary-color);
+    padding: 2rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+}
+
+.team-member img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    object-fit: cover;
+    border: 4px solid var(--header-logo-color);
+}
+
+.team-member h3 {
+    color: var(--white-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.team-member p {
+    color: var(--bg-snd-color);
+    margin-bottom: 1rem;
+}
+
+.ceo-description {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ceo-description p {
+    color: var(--bg-snd-color);
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.ceo-social {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.ceo-social a {
+    color: var(--header-logo-color);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.ceo-social a:hover {
+    color: var(--white-color);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    text-align: center;
+}
+
+.stat-item h3 {
+    color: var(--header-logo-color);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+    color: var(--bg-snd-color);
+}
+
+/* Update the media queries for the team section */
+@media (max-width: 768px) {
+    .team-section {
+        padding: 0;
+    }
+    
+    .team-member {
+        padding: 1.5rem;
+    }
+
+    .team-member img {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-member {
+        padding: 1rem;
+    }
+
+    .team-member img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .team-member h3 {
+        font-size: 1.25rem;
+    }
+
+    .ceo-description p {
+        font-size: 0.9rem;
+    }
+} 

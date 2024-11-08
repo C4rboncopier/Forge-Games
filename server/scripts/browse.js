@@ -1,237 +1,78 @@
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
+// Global functions that need to be accessible from HTML
+let filterByGenre;
 
-menuToggle.addEventListener('click', (event) => {
-    event.preventDefault();
-    navLinks.classList.toggle('active');
-});
+function initializeBrowsePage() {
+    const genreSlider = document.querySelector('.genre-slider');
+    const genreCards = document.querySelector('.genre-cards');
+    const prevButton = document.querySelector('.genre-navigation').children[0];
+    const nextButton = document.querySelector('.genre-navigation').children[1];
 
-const genreSlider = document.querySelector('.genre-slider');
-const genreCards = document.querySelector('.genre-cards');
-const prevButton = document.querySelector('.genre-navigation').children[0];
-const nextButton = document.querySelector('.genre-navigation').children[1];
+    let currentPosition = 0;
+    let isMobile = window.innerWidth <= 800;
+    let maxPosition = isMobile ? 3 : 1; // 4 slides for mobile (2 cards each), 2 slides for desktop (4 cards each)
+    let slidePercentage = isMobile ? 25 : 50; // 25% for mobile, 50% for desktop
 
-let currentPosition = 0;
-let isMobile = window.innerWidth <= 800;
-let maxPosition = isMobile ? 3 : 1; // 4 slides for mobile (2 cards each), 2 slides for desktop (4 cards each)
-let slidePercentage = isMobile ? 25 : 50; // 25% for mobile, 50% for desktop
-
-function initializeCarousel() {
     genreCards.style.transform = 'translateX(0)';
     genreCards.style.transition = 'transform 0.3s ease';
     updateButtonStates();
-}
 
-function updateButtonStates() {
-    prevButton.disabled = currentPosition === 0;
-    prevButton.style.opacity = currentPosition === 0 ? "0.5" : "1";
-    prevButton.style.cursor = currentPosition === 0 ? "not-allowed" : "pointer";
+    function updateButtonStates() {
+        prevButton.disabled = currentPosition === 0;
+        prevButton.style.opacity = currentPosition === 0 ? "0.5" : "1";
+        prevButton.style.cursor = currentPosition === 0 ? "not-allowed" : "pointer";
 
-    nextButton.disabled = currentPosition === maxPosition;
-    nextButton.style.opacity = currentPosition === maxPosition ? "0.5" : "1";
-    nextButton.style.cursor = currentPosition === maxPosition ? "not-allowed" : "pointer";
-}
-
-function moveCarousel(direction) {
-    if (direction === 'next' && currentPosition < maxPosition) {
-        currentPosition++;
-    } else if (direction === 'prev' && currentPosition > 0) {
-        currentPosition--;
+        nextButton.disabled = currentPosition === maxPosition;
+        nextButton.style.opacity = currentPosition === maxPosition ? "0.5" : "1";
+        nextButton.style.cursor = currentPosition === maxPosition ? "not-allowed" : "pointer";
     }
 
-    const translateValue = -(currentPosition * slidePercentage);
-    genreCards.style.transform = `translateX(${translateValue}%)`;
-    updateButtonStates();
-}
-
-function handleResize() {
-    const wasDesktop = !isMobile;
-    isMobile = window.innerWidth <= 800;
-    
-    // Only update if the breakpoint was crossed
-    if (wasDesktop !== !isMobile) {
-        maxPosition = isMobile ? 3 : 1;
-        slidePercentage = isMobile ? 25 : 50;
-        
-        // Reset position if current position is beyond new max
-        if (currentPosition > maxPosition) {
-            currentPosition = maxPosition;
+    function moveCarousel(direction) {
+        if (direction === 'next' && currentPosition < maxPosition) {
+            currentPosition++;
+        } else if (direction === 'prev' && currentPosition > 0) {
+            currentPosition--;
         }
-        
+
         const translateValue = -(currentPosition * slidePercentage);
         genreCards.style.transform = `translateX(${translateValue}%)`;
         updateButtonStates();
     }
-}
 
-prevButton.addEventListener('click', () => moveCarousel('prev'));
-nextButton.addEventListener('click', () => moveCarousel('next'));
-window.addEventListener('resize', handleResize);
-
-initializeCarousel();
-handleResize();
-
-const paginationContainer = document.querySelector('.pagination');
-let currentPage = 1;
-const gamesPerPage = 12;
-let totalGames = [];
-let filteredGames = [];
-let searchTerm = '';
-let selectedGenre = '';
-
-function handleSearch(event) {
-    searchTerm = event.target.value.toLowerCase();
-    filterGames();
-}
-
-function handleGenreFilter(event) {
-    selectedGenre = event.target.value.toLowerCase();
-    filterGames();
-}
-
-function filterGames() {
-    filteredGames = totalGames.filter(game => {
-        const matchesSearch = game.title.toLowerCase().includes(searchTerm);
-        const matchesGenre = selectedGenre ? game.genre.toLowerCase() === selectedGenre : true;
-        return matchesSearch && matchesGenre;
-    });
-
-    currentPage = 1;
-    displayGamesForPage(currentPage);
-    updatePagination();
-}
-
-async function displayGames() {
-    try {
-        const response = await fetch('/api/admin/games');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    function handleResize() {
+        const wasDesktop = !isMobile;
+        isMobile = window.innerWidth <= 800;
+        
+        // Only update if the breakpoint was crossed
+        if (wasDesktop !== !isMobile) {
+            maxPosition = isMobile ? 3 : 1;
+            slidePercentage = isMobile ? 25 : 50;
+            
+            // Reset position if current position is beyond new max
+            if (currentPosition > maxPosition) {
+                currentPosition = maxPosition;
+            }
+            
+            const translateValue = -(currentPosition * slidePercentage);
+            genreCards.style.transform = `translateX(${translateValue}%)`;
+            updateButtonStates();
         }
-        totalGames = await response.json();
-        
-        displayGamesForPage(currentPage);
-        updatePagination();
-        
-    } catch (error) {
-        console.error('Error fetching games:', error);
-        gamesList.innerHTML = '<p class="error-message">Failed to load games</p>';
     }
-}
 
-function displayGamesForPage(page) {
-    const gamesToUse = searchTerm || selectedGenre ? filteredGames : totalGames;
-    const startIndex = (page - 1) * gamesPerPage;
-    const endIndex = startIndex + gamesPerPage;
-    const gamesToDisplay = gamesToUse.slice(startIndex, endIndex);
-    
-    gamesList.innerHTML = '';
-    
-    if (gamesToDisplay.length === 0) {
-        gamesList.innerHTML = `
-            <div class="no-results">
-                <p>No games found matching your criteria</p>
-            </div>`;
-        return;
-    }
-    
-    gamesToDisplay.forEach(game => {
-        const gameCard = document.createElement('div');
-        gameCard.className = 'game-card';
-        
-        const imageUrl = game.gameUrl;
-        
-        gameCard.innerHTML = `
-            <div class="game-image-container">
-                <img src="${imageUrl}" 
-                    alt="${game.title}"
-                    onerror="this.src='/assets/placeholder-game.png'">
-            </div>
-            <div class="game-info">
-                <h3>${game.title}</h3>
-                <p class="game-developer">${game.developer}</p>
-                <p class="game-genre">${game.genre}</p>
-                <p class="game-price">₱${parseFloat(game.price).toFixed(2)}</p>
-            </div>
-        `;
-        
-        gameCard.addEventListener('click', () => {
-            redirectToGamePage(game);
-        });
-        
-        gamesList.appendChild(gameCard);
-    });
-}
+    prevButton.addEventListener('click', () => moveCarousel('prev'));
+    nextButton.addEventListener('click', () => moveCarousel('next'));
+    window.addEventListener('resize', handleResize);
 
-function updatePagination() {
-    const gamesToUse = searchTerm || selectedGenre ? filteredGames : totalGames;
-    const totalPages = Math.ceil(gamesToUse.length / gamesPerPage);
-    
-    paginationContainer.innerHTML = '';
-    
-    if (totalPages <= 1) return;
-    
-    // Previous button
-    const prevButton = document.createElement('button');
-    prevButton.className = `pagination-btn prev ${currentPage === 1 ? 'disabled' : ''}`;
-    prevButton.innerHTML = 'Prev';
-    prevButton.disabled = currentPage === 1;
-    prevButton.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            displayGamesForPage(currentPage);
-            updatePagination();
-        }
-    });
-    paginationContainer.appendChild(prevButton);
-    
-    for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.className = `pagination-btn page-number ${currentPage === i ? 'active' : ''}`;
-        pageButton.innerHTML = i;
-        pageButton.addEventListener('click', () => {
-            currentPage = i;
-            displayGamesForPage(currentPage);
-            updatePagination();
-        });
-        paginationContainer.appendChild(pageButton);
-    }
-    
-    const nextButton = document.createElement('button');
-    nextButton.className = `pagination-btn next ${currentPage === totalPages ? 'disabled' : ''}`;
-    nextButton.innerHTML = 'Next';
-    nextButton.disabled = currentPage === totalPages;
-    nextButton.addEventListener('click', () => {
-        if (currentPage < totalPages) {
-            currentPage++;
-            displayGamesForPage(currentPage);
-            updatePagination();
-        }
-    });
-    paginationContainer.appendChild(nextButton);
-}
+    handleResize();
 
-function redirectToGamePage(game) {
-    sessionStorage.setItem('selectedGame', JSON.stringify({
-        title: game.title,
-        genre: game.genre,
-        developer: game.developer,
-        gameUrl: game.gameUrl || '/assets/main/default_image.jpg',
-        description: game.description || 'No description available.',
-        price: game.price,
-        banner: game.bannerUrl || '/assets/placeholder-game.png',
-        screenshot1: game.screenshot1Url,
-        screenshot2: game.screenshot2Url,
-        screenshot3: game.screenshot3Url
-    }));
-    const urlSafeTitle = encodeURIComponent(game.title.toLowerCase().replace(/\s+/g, '-'));
-    window.location.href = `/games/${urlSafeTitle}`;
-}
+    const gamesList = document.getElementById('gamesList');
+    const paginationContainer = document.querySelector('.pagination');
+    let currentPage = 1;
+    const gamesPerPage = 12;
+    let totalGames = [];
+    let filteredGames = [];
+    let searchTerm = '';
+    let selectedGenre = '';
 
-function filterByGenre(genre) {
-    window.location.href = `/genre/${genre}`;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
     const searchContainer = document.querySelector('.search-container');
     const searchBar = document.querySelector('.search-bar');
     let searchResults = document.createElement('div');
@@ -246,6 +87,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             games = data;
+            totalGames = data;
+            displayGamesForPage(currentPage);
+            updatePagination();
         })
         .catch(error => console.error('Error fetching games:', error));
 
@@ -348,5 +192,141 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('gameSearch').addEventListener('input', handleSearch);
     document.getElementById('genreFilter').addEventListener('change', handleGenreFilter);
 
-    displayGames();
-});
+    function handleSearch(event) {
+        searchTerm = event.target.value.toLowerCase();
+        filterGames();
+    }
+
+    function handleGenreFilter(event) {
+        selectedGenre = event.target.value.toLowerCase();
+        filterGames();
+    }
+
+    function filterGames() {
+        filteredGames = totalGames.filter(game => {
+            const matchesSearch = game.title.toLowerCase().includes(searchTerm);
+            const matchesGenre = selectedGenre ? game.genre.toLowerCase() === selectedGenre : true;
+            return matchesSearch && matchesGenre;
+        });
+
+        currentPage = 1;
+        displayGamesForPage(currentPage);
+        updatePagination();
+    }
+
+    function displayGamesForPage(page) {
+        const gamesToUse = searchTerm || selectedGenre ? filteredGames : totalGames;
+        const startIndex = (page - 1) * gamesPerPage;
+        const endIndex = startIndex + gamesPerPage;
+        const gamesToDisplay = gamesToUse.slice(startIndex, endIndex);
+        
+        gamesList.innerHTML = '';
+        
+        if (gamesToDisplay.length === 0) {
+            gamesList.innerHTML = `
+                <div class="no-results">
+                    <p>No games found matching your criteria</p>
+                </div>`;
+            return;
+        }
+        
+        gamesToDisplay.forEach(game => {
+            const gameCard = document.createElement('div');
+            gameCard.className = 'game-card';
+            
+            const imageUrl = game.gameUrl;
+            
+            gameCard.innerHTML = `
+                <div class="game-image-container">
+                    <img src="${imageUrl}" 
+                        alt="${game.title}"
+                        onerror="this.src='/assets/placeholder-game.png'">
+                </div>
+                <div class="game-info">
+                    <h3>${game.title}</h3>
+                    <p class="game-developer">${game.developer}</p>
+                    <p class="game-genre">${game.genre}</p>
+                    <p class="game-price">₱${parseFloat(game.price).toFixed(2)}</p>
+                </div>
+            `;
+            
+            gameCard.addEventListener('click', () => {
+                redirectToGamePage(game);
+            });
+            
+            gamesList.appendChild(gameCard);
+        });
+    }
+
+    function updatePagination() {
+        const gamesToUse = searchTerm || selectedGenre ? filteredGames : totalGames;
+        const totalPages = Math.ceil(gamesToUse.length / gamesPerPage);
+        
+        paginationContainer.innerHTML = '';
+        
+        if (totalPages <= 1) return;
+        
+        const prevButton = document.createElement('button');
+        prevButton.className = `pagination-btn prev ${currentPage === 1 ? 'disabled' : ''}`;
+        prevButton.innerHTML = 'Prev';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayGamesForPage(currentPage);
+                updatePagination();
+            }
+        });
+        paginationContainer.appendChild(prevButton);
+        
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `pagination-btn page-number ${currentPage === i ? 'active' : ''}`;
+            pageButton.innerHTML = i;
+            pageButton.addEventListener('click', () => {
+                currentPage = i;
+                displayGamesForPage(currentPage);
+                updatePagination();
+            });
+            paginationContainer.appendChild(pageButton);
+        }
+        
+        const nextButton = document.createElement('button');
+        nextButton.className = `pagination-btn next ${currentPage === totalPages ? 'disabled' : ''}`;
+        nextButton.innerHTML = 'Next';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayGamesForPage(currentPage);
+                updatePagination();
+            }
+        });
+        paginationContainer.appendChild(nextButton);
+    }
+
+    function redirectToGamePage(game) {
+        sessionStorage.setItem('selectedGame', JSON.stringify({
+            title: game.title,
+            genre: game.genre,
+            developer: game.developer,
+            gameUrl: game.gameUrl || '/assets/main/default_image.jpg',
+            description: game.description || 'No description available.',
+            price: game.price,
+            banner: game.bannerUrl || '/assets/placeholder-game.png',
+            screenshot1: game.screenshot1Url,
+            screenshot2: game.screenshot2Url,
+            screenshot3: game.screenshot3Url
+        }));
+        const urlSafeTitle = encodeURIComponent(game.title.toLowerCase().replace(/\s+/g, '-'));
+        window.location.href = `/games/${urlSafeTitle}`;
+    }
+
+    // Assign the function to the global variable
+    filterByGenre = (genre) => {
+        window.location.href = `/genre/${genre}`;
+    };
+}
+
+// Wait for components to be loaded before initializing
+document.addEventListener('componentsLoaded', initializeBrowsePage);

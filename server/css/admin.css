@@ -1,74 +1,3 @@
-:root {
-    --bg-color: #1b2838;
-    --header-bg-color: #171a21;
-    --secondary-color: #2a475e;
-    --third-color: #366487;
-    --comp-color: #c7d5e0;
-    --comp-snd-color: #a3b6c7;
-    --white-color: #ffffff;
-    --header-logo-color: #66c0f4;
-    --bg-snd-color: #c7d5e0;
-    --search-ph-color: #c7d5e0;
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --gradient1-color: #e6a447;
-    --gradient2-color: #d98826;
-    --gradient1-dark-color: #c78f3c;
-    --gradient2-dark-color: #b87321;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--bg-snd-color);
-}
-
-/* Header Styles */
-header {
-    background-color: var(--header-bg-color);
-    padding: 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-header .nav-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-}
-
-header .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--header-logo-color);
-    white-space: nowrap;
-}
-
-header .nav-links {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-}
-
-header .nav-links a {
-    color: var(--search-ph-color);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-header .nav-links a:hover {
-    color: var(--header-logo-color);
-}
-
 /* Admin Container Styles */
 .admin-container {
     max-width: 1200px;
@@ -214,7 +143,7 @@ header .nav-links a:hover {
 }
 
 /* search */
-.search-container {
+.search-container-main {
     margin-bottom: 1.5rem;
 }
 
@@ -236,7 +165,7 @@ header .nav-links a:hover {
 }
 
 .search-input::placeholder {
-    color: var(--comp-snd-color);
+    color: var(--third-color);
 }
 
 .no-results {
@@ -451,39 +380,6 @@ header .nav-links a:hover {
     background: var(--third-color);
 }
 
-
-/* Footer Styles */
-footer {
-    background-color: var(--header-bg-color);
-    padding: 20px;
-    text-align: center;
-    color: var(--white-color);
-    margin-top: 2rem;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.footer-links {
-    margin-bottom: 10px;
-}
-
-.footer-links a {
-    color: var(--white-color);
-    text-decoration: none;
-    margin: 0 15px;
-    font-size: 14px;
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-}
-
 /* Responsive Design */
 @media (max-width: 800px) {
     .admin-grid {
@@ -492,15 +388,6 @@ footer {
 
     .admin-content {
         padding: 1rem;
-    }
-
-    header .nav-content {
-        flex-wrap: wrap;
-    }
-
-    .footer-links a {
-        margin: 0 10px;
-        font-size: 12px;
     }
 }
 
@@ -519,7 +406,7 @@ footer {
         height: 2rem;
     }
 
-    .search-container {
+    .search-container-main {
         margin-bottom: 1rem;
     }
     
@@ -536,16 +423,6 @@ footer {
         margin-right: 0;
     }
 
-    .footer-links {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .footer-links a {
-        margin: 5px 0;
-    }
-
     .admin-content {
         padding: 0.5rem;
     }
@@ -557,5 +434,55 @@ footer {
 
     .games-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Add these styles to your existing admin.css */
+
+.admin-nav {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.admin-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--header-logo-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.admin-nav-btn:hover {
+    background-color: var(--third-color);
+}
+
+.admin-nav-btn i {
+    font-size: 1.1rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .admin-nav-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-nav {
+        flex-direction: column;
+    }
+    
+    .admin-nav-btn {
+        width: 100%;
+        justify-content: center;
     }
 }

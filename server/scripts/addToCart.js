@@ -1,4 +1,3 @@
-// Add these functions at the top of the file
 function showLoginPopup() {
     document.getElementById('loginPopupOverlay').style.display = 'block';
     document.getElementById('loginPopup').style.display = 'block';
@@ -13,7 +12,6 @@ function goToLogin() {
     window.location.href = '/login';
 }
 
-// Add this HTML to the game.html file right before the closing body tag
 const popupHTML = `
     <div class="popup-overlay" id="popupOverlay"></div>
     <div class="custom-popup" id="customPopup">
@@ -28,7 +26,6 @@ const popupHTML = `
 
 document.body.insertAdjacentHTML('beforeend', popupHTML);
 
-// Add this HTML template with the other popups at the top
 const successPopupHTML = `
     <div class="popup-overlay" id="successPopupOverlay"></div>
     <div class="custom-popup" id="successPopup">
@@ -43,7 +40,6 @@ const successPopupHTML = `
 
 document.body.insertAdjacentHTML('beforeend', successPopupHTML);
 
-// Add this HTML template with the other popups at the top
 const alreadyInCartPopupHTML = `
     <div class="popup-overlay" id="cartPopupOverlay"></div>
     <div class="custom-popup" id="cartPopup">
@@ -58,7 +54,6 @@ const alreadyInCartPopupHTML = `
 
 document.body.insertAdjacentHTML('beforeend', alreadyInCartPopupHTML);
 
-// Add these functions with the other popup functions
 function showPopup() {
     document.getElementById('popupOverlay').style.display = 'block';
     document.getElementById('customPopup').style.display = 'block';
@@ -97,7 +92,6 @@ function closeCartPopup() {
     document.getElementById('cartPopup').style.display = 'none';
 }
 
-// Update the existing click event listener
 document.getElementById('buy-button').addEventListener('click', async (event) => {
     event.preventDefault();
     const user = localStorage.getItem('username');
@@ -113,6 +107,12 @@ document.getElementById('buy-button').addEventListener('click', async (event) =>
         return;
     }
 
+    console.log('Adding to cart:', {
+        username: user,
+        gameId: gameDetails.id,
+        gameTitle: gameDetails.title
+    });
+
     try {
         const response = await fetch('/api/cart/add', {
             method: 'POST',
@@ -121,21 +121,27 @@ document.getElementById('buy-button').addEventListener('click', async (event) =>
             },
             body: JSON.stringify({
                 username: user,
-                title: gameDetails.title
+                gameId: gameDetails.id,
+                game: {
+                    title: gameDetails.title
+                }
             })
         });
 
-        const result = await response.json();
-
-        if (response.status === 409) {
-            if (result.error === 'GAME_IN_LIBRARY') {
-                showPopup();
-            } else {
-                showCartPopup();
+        if (!response.ok) {
+            const result = await response.json();
+            if (response.status === 409) {
+                if (result.error === 'GAME_IN_LIBRARY') {
+                    showPopup();
+                } else if (result.error === 'Game already exists in cart') {
+                    showCartPopup();
+                }
+                return;
             }
-            return;
+            throw new Error(result.error || 'Failed to add game to cart');
         }
 
+        const result = await response.json();
         if (result.success) {
             showSuccessPopup();
         } else {
@@ -143,18 +149,14 @@ document.getElementById('buy-button').addEventListener('click', async (event) =>
         }
     } catch (error) {
         console.error('Error adding to cart:', error);
-        alert('Failed to add game to cart');
+        alert('Failed to add game to cart: ' + error.message);
     }
 });
 
-// Close popup when clicking outside
 document.getElementById('popupOverlay').addEventListener('click', closePopup);
 
-// Add click event for closing popup when clicking overlay
 document.getElementById('loginPopupOverlay').addEventListener('click', closeLoginPopup);
 
-// Add click event for closing popup when clicking overlay
 document.getElementById('successPopupOverlay').addEventListener('click', closeSuccessPopup);
 
-// Add click event for closing popup when clicking overlay
 document.getElementById('cartPopupOverlay').addEventListener('click', closeCartPopup);

@@ -5,10 +5,12 @@ import multer from 'multer';
 
 import { checkLogIn, addUser } from "./backend/auth-api.js";
 import { addGame, getGames, deleteGame, updateGame, getGameById } from "./backend/adminPage.js";
-import { displayGames } from "./backend/mainPage.js";
 import { getGamesByGenre } from "./backend/genre-api.js";
 import { addToCart, getCart, removeFromCart, processCheckout } from "./backend/cart-api.js";
 import { getUserLibrary } from "./backend/library-api.js";
+import { getFavorites, addToFavorites, removeFromFavorites } from './backend/favorites-api.js';
+import { getGameDetails } from './backend/games-api.js';
+import { getTransactions, getAllTransactions } from './backend/transactions-api.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -65,7 +67,7 @@ app.post('/admin/upload', upload, (req, res) => {
     console.log('Upload endpoint hit');
     return addGame(req, res);
 });
-app.post('/api/cart/add', upload, addToCart);
+app.post('/api/cart/add', addToCart);
 
 app.use('/css', express.static(path.join(__dirname, '/css')));
 app.use('/scripts', express.static(path.join(__dirname, '/scripts')));
@@ -123,6 +125,61 @@ app.get("/cart", (req, res) => {
 app.get("/checkout", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'checkout.html'));
 });
+
+app.get('/api/favorites/:username', getFavorites);
+app.post('/api/favorites/add', addToFavorites);
+app.post('/api/favorites/remove', removeFromFavorites);
+
+// Add this route with your other HTML routes (around line 89)
+app.get("/support", (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'support.html'));
+});
+
+// Add this with your other HTML routes
+app.get("/about", (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'about.html'));
+});
+
+// Add this with your other HTML routes
+app.get("/terms", (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'terms.html'));
+});
+
+// Add this with your other HTML routes
+app.get("/privacy", (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'privacy.html'));
+});
+
+// Add this with your other HTML routes
+app.get("/contact", (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'contact.html'));
+});
+
+// Add these routes with your other routes
+app.get('/components/header', (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'header.html'));
+});
+
+app.get('/components/footer', (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'footer.html'));
+});
+
+// Add this new route
+app.get('/api/games/details/:title', getGameDetails);
+
+// Add these routes with your other routes
+app.get("/transactions", (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'transactions.html'));
+});
+
+app.get('/api/transactions/:username', getTransactions);
+
+// Update the transactions route to be admin-specific
+app.get("/admin/transactions", (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'transactions.html'));
+});
+
+app.get('/api/admin/transactions', getAllTransactions);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

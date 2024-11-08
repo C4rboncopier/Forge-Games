@@ -1,0 +1,31 @@
+<header id="header">
+    <form id="headerForm">
+        <div class="nav-content">
+            <div class="logo" id="logo"><a href="javascript:void(0)" onclick="main()">Forge Games</a></div>
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search games...">
+                <span class="search-icon">🔍</span>
+            </div>
+            <button class="menu-toggle">☰</button>
+            <div class="nav-links">
+                <a href="javascript:void(0)" onclick="browse()" id="main-link">Store</a>
+                <a href="javascript:void(0)" onclick="library()" id="library-link">Library</a>
+                <a href="javascript:void(0)" onclick="support()" id="support-link">Support</a>
+                <a href="javascript:void(0)" onclick="favorite()" class="favorite-button"><i class="fa-solid fa-bookmark"></i></a>
+                <a href="javascript:void(0)" onclick="cart()" class="cart-button"><i class="fa-solid fa-cart-shopping"></i></a>
+                
+                <!-- IF NO USER HAS LOGGED IN -->
+                <div class="auth-buttons">
+                    <a href="javascript:void(0)" onclick="login()" class="auth-button login-btn">Login</a>
+                    <a href="javascript:void(0)" onclick="register()" class="auth-button register-btn">Register</a>
+                </div>
+                
+                <!-- IF A USER HAS LOGGED IN -->
+                <div class="auth-account">
+                    <a href="javascript:void(0)" onclick="account()" class="account username-btn" id="username">username</a>
+                    <a href="javascript:void(0)" onclick="logout()" class="account logout-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</header> 

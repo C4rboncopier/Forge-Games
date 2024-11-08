@@ -105,7 +105,6 @@ body {
 .checkbox label {
     color: var(--bg-snd-color);
     font-size: 0.9rem;
-    cursor: pointer;
 }
 
 .auth-button {
@@ -178,4 +177,37 @@ body {
         align-items: center;
         text-align: center;
     }
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input-container input {
+    width: 100%;
+    padding-right: 2.5rem;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    padding: 0;
+}
+
+.terms-link {
+    color: var(--header-logo-color);
+    text-decoration: none;
+    transition: text-decoration 0.3s;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
 }
