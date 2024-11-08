@@ -1,4 +1,3 @@
-// Global variables
 let redirectToGamePage;
 
 function initializeFavoritePage() {
@@ -8,7 +7,6 @@ function initializeFavoritePage() {
         return;
     }
 
-    // Assign the function to the global variable
     redirectToGamePage = (game) => {
         sessionStorage.setItem('selectedGame', JSON.stringify({
             title: game.title,
@@ -32,10 +30,9 @@ function initializeFavoritePage() {
     searchResults.className = 'search-results';
     searchContainer.appendChild(searchResults);
     
-    let games = []; // Will store all games data
+    let games = [];
     let searchTimeout;
 
-    // Fetch games data when page loads
     fetch('/api/home')
         .then(response => response.json())
         .then(data => {
@@ -43,7 +40,6 @@ function initializeFavoritePage() {
         })
         .catch(error => console.error('Error fetching games:', error));
 
-    // Search function
     function performSearch(query) {
         if (!query.trim()) {
             searchResults.classList.remove('active');
@@ -57,7 +53,6 @@ function initializeFavoritePage() {
         displaySearchResults(filteredGames);
     }
 
-    // Display search results
     function displaySearchResults(results) {
         if (results.length === 0) {
             searchResults.innerHTML = '<div class="no-results">No games found</div>';
@@ -75,36 +70,32 @@ function initializeFavoritePage() {
         searchResults.classList.add('active');
     }
 
-    // Event listener for search input
     searchBar.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             performSearch(e.target.value);
-        }, 300); // Debounce search for better performance
+        }, 300);
     });
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
         if (!searchContainer.contains(e.target)) {
             searchResults.classList.remove('active');
         }
     });
 
-    // Handle click on search result
     searchResults.addEventListener('click', (e) => {
         const resultItem = e.target.closest('.search-result-item');
         if (resultItem) {
             const gameTitle = resultItem.dataset.title;
             const selectedGame = games.find(game => game.title === gameTitle);
             if (selectedGame) {
-                searchBar.value = ''; // Clear the search input
-                searchResults.classList.remove('active'); // Hide the search results
+                searchBar.value = '';
+                searchResults.classList.remove('active');
                 redirectToGamePage(selectedGame);
             }
         }
     });
 
-    // Handle keyboard navigation
     searchBar.addEventListener('keydown', (e) => {
         const items = searchResults.querySelectorAll('.search-result-item');
         const activeItem = searchResults.querySelector('.search-result-item:hover');
@@ -130,8 +121,8 @@ function initializeFavoritePage() {
                     const gameTitle = activeItem.dataset.title;
                     const selectedGame = games.find(game => game.title === gameTitle);
                     if (selectedGame) {
-                        searchBar.value = ''; // Clear the search input
-                        searchResults.classList.remove('active'); // Hide the search results
+                        searchBar.value = '';
+                        searchResults.classList.remove('active');
                         redirectToGamePage(selectedGame);
                     }
                 }
@@ -173,7 +164,6 @@ function displayFavorites(favorites) {
         const gameCard = document.createElement('div');
         gameCard.className = 'game-card';
         
-        // Store the game ID safely by escaping special characters
         const safeGameId = game.id.replace(/'/g, "\\'");
         
         gameCard.innerHTML = `
@@ -195,7 +185,6 @@ function displayFavorites(favorites) {
             </div>
         `;
 
-        // Add event listeners using delegation
         const addToCartBtn = gameCard.querySelector('.add-to-cart-btn');
         const removeBtn = gameCard.querySelector('.remove-button');
 
@@ -221,7 +210,6 @@ async function addToCart(gameId) {
     }
 
     try {
-        // Add to cart
         const response = await fetch('/api/cart/add', {
             method: 'POST',
             headers: {
@@ -236,7 +224,6 @@ async function addToCart(gameId) {
         const data = await response.json();
 
         if (response.ok && data.success) {
-            // If successfully added to cart, remove from favorites
             const removeResponse = await fetch('/api/favorites/remove', {
                 method: 'POST',
                 headers: {
@@ -250,7 +237,7 @@ async function addToCart(gameId) {
 
             if (removeResponse.ok) {
                 showCartPopup();
-                loadFavorites(); // Reload the favorites list
+                loadFavorites();
             } else {
                 throw new Error('Failed to remove from favorites after adding to cart');
             }
@@ -266,7 +253,6 @@ async function addToCart(gameId) {
     } catch (error) {
         console.error('Detailed error:', error);
         
-        // Show error message to user
         const errorMessage = document.createElement('div');
         errorMessage.className = 'error-message';
         errorMessage.textContent = error.message || 'Unable to add game to cart. Please try again later.';
@@ -306,7 +292,7 @@ async function removeFromFavorites(gameId) {
 
         if (response.ok) {
             showRemovePopup();
-            loadFavorites(); // Reload the favorites list
+            loadFavorites();
         } else {
             alert('Failed to remove game from favorites');
         }
@@ -324,7 +310,6 @@ function showCartPopup() {
         overlay.style.display = 'block';
         popup.style.display = 'block';
         
-        // Add fade-in class for animation
         overlay.classList.add('fade-in');
         popup.classList.add('fade-in');
     }
@@ -338,7 +323,6 @@ function closeCartPopup() {
         overlay.classList.add('fade-out');
         popup.classList.add('fade-out');
         
-        // Wait for animation to complete before hiding
         setTimeout(() => {
             overlay.style.display = 'none';
             popup.style.display = 'none';
@@ -366,5 +350,4 @@ function browse() {
     window.location.href = '/browse';
 }
 
-// Wait for components to be loaded before initializing
 document.addEventListener('componentsLoaded', initializeFavoritePage);

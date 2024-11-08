@@ -1,14 +1,12 @@
 
 document.addEventListener('componentsLoaded', initializeAuth);
 document.addEventListener('DOMContentLoaded', function() {
-    // If components are already loaded, initialize
     if (document.querySelector('header')) {
         initializeAuth();
     }
 });
 
 function initializeAuth() {
-    // Menu toggle functionality
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     
@@ -19,7 +17,6 @@ function initializeAuth() {
         });
     }
     
-    // Check authentication status
     checkAuth();
 }
 
@@ -34,10 +31,9 @@ function checkAuth() {
     const supportButton = document.getElementById('support-link');
     
     if (!authButtons || !authAccount || !usernameElement) {
-        return; // Exit if elements don't exist
+        return;
     }
 
-    // Get authentication status from localStorage
     console.log(user);
 
     if (user) {
@@ -63,7 +59,6 @@ function checkAuth() {
     }
 }
 
-// Navigation functions
 function main() {
     window.location.href = '/';
 }

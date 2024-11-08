@@ -40,7 +40,6 @@ if (user !== 'Admin') {
     window.location.href = '/';
 }
 
-// Function to reset form to add mode
 function resetFormToAddMode() {
     const submitButton = addGameForm.querySelector('button[type="submit"]');
     const cancelButton = addGameForm.querySelector('.cancel-btn');
@@ -61,21 +60,18 @@ function resetFormToAddMode() {
         cancelButton.remove();
     }
 
-    // Reset current image names
     currentImageName = '';
     currentBannerName = '';
     currentScreenshot1Name = '';
     currentScreenshot2Name = '';
     currentScreenshot3Name = '';
 
-    // Clear any input fields that might not have been reset
     const inputs = addGameForm.querySelectorAll('input[type="text"], input[type="number"], textarea, select');
     inputs.forEach(input => {
         input.value = '';
     });
 }
 
-// Function to set form to edit mode
 function setFormToEditMode(submitButton) {
     submitButton.textContent = 'Update Game';
     
@@ -94,7 +90,6 @@ function setFormToEditMode(submitButton) {
     }
 }
 
-// Add this function to handle search
 function handleSearch(event) {
     searchTerm = event.target.value.toLowerCase();
     filteredGames = totalGames.filter(game => 
@@ -165,12 +160,10 @@ function displayGamesForPage(page) {
             </div>
         `;
         
-        // Click event for game-image-container
         gameCard.querySelector('.game-image-container').addEventListener('click', () => {
             redirectToGamePage(game);
         });
         
-        // Click event for game-info
         gameCard.querySelector('.game-info').addEventListener('click', () => {
             redirectToGamePage(game);
         });
@@ -178,7 +171,6 @@ function displayGamesForPage(page) {
         gamesList.appendChild(gameCard);
     });
     
-    // Add event listeners for edit and delete buttons
     document.querySelectorAll('.edit-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
@@ -195,7 +187,6 @@ function displayGamesForPage(page) {
     });
 }
 
-// Function to handle redirection with selected game details
 function redirectToGamePage(game) {
     sessionStorage.setItem('selectedGame', JSON.stringify({
         title: game.title,
@@ -212,7 +203,6 @@ function redirectToGamePage(game) {
     window.location.href = '/game';
 }
 
-// Modify the updatePagination function to use filtered results
 function updatePagination() {
     const gamestoUse = searchTerm ? filteredGames : totalGames;
     const totalPages = Math.ceil(gamestoUse.length / gamesPerPage);
@@ -221,7 +211,6 @@ function updatePagination() {
     
     if (totalPages <= 1) return;
     
-    // Previous button
     const prevButton = document.createElement('button');
     prevButton.className = `pagination-btn prev ${currentPage === 1 ? 'disabled' : ''}`;
     prevButton.innerHTML = 'Prev';
@@ -261,7 +250,6 @@ function updatePagination() {
     paginationContainer.appendChild(nextButton);
 }
 
-// Update filename display
 function updateImagePreview(input, previewId) {
     const preview = document.getElementById(previewId);
     
@@ -278,7 +266,6 @@ function updateImagePreview(input, previewId) {
     }
 }
 
-// Update the event listeners for file inputs
 document.getElementById('add-image').addEventListener('change', function() {
     updateImagePreview(this, 'main-image-preview');
 });
@@ -300,7 +287,6 @@ document.getElementById('screenshot3').addEventListener('change', function() {
 });
 
 
-// Form submission
 addGameForm.addEventListener('submit', async function(e) {
     e.preventDefault();
 
@@ -314,7 +300,6 @@ addGameForm.addEventListener('submit', async function(e) {
     const submitButton = this.querySelector('button[type="submit"]');
     const isEditMode = this.dataset.editMode === 'true';
 
-    // Only check for required images in add mode
     if (!isEditMode && (!fileInput.files.length ||
         !bannerInput.files.length ||
         !screenshot1Input.files.length ||
@@ -327,14 +312,12 @@ addGameForm.addEventListener('submit', async function(e) {
     submitButton.disabled = true;
 
     try {
-        // Check if the title already exists
         const response2 = await fetch('/api/admin/games');
         if (!response2.ok) {
             throw new Error(`HTTP error! status: ${response2.status}`);
         }
         const games = await response2.json();
         
-        // Check if a game with the same title already exists
         const existingGame = games.find(game => game.title.toLowerCase() === title.toLowerCase());
         if (existingGame && !isEditMode) {
             alert('A game with this title already exists. Please use a different title.');
@@ -349,7 +332,6 @@ addGameForm.addEventListener('submit', async function(e) {
         formData.append('genre', document.getElementById('genre').value);
         formData.append('price', document.getElementById('price').value);
 
-        // Handle main image
         if (fileInput.files.length > 0) {
             const mainFile = fileInput.files[0];
             formData.append('image', mainFile);
@@ -358,7 +340,6 @@ addGameForm.addEventListener('submit', async function(e) {
             formData.append('image_name', currentImageName);
         }
 
-        // Handle banner
         if (bannerInput.files.length > 0) {
             const bannerFile = bannerInput.files[0];
             formData.append('banner', bannerFile);
@@ -367,7 +348,6 @@ addGameForm.addEventListener('submit', async function(e) {
             formData.append('banner_name', currentBannerName);
         }
 
-        // Handle screenshot1
         if (screenshot1Input.files.length > 0) {
             const screenshot1File = screenshot1Input.files[0];
             formData.append('screenshot1', screenshot1File);
@@ -376,7 +356,6 @@ addGameForm.addEventListener('submit', async function(e) {
             formData.append('screenshot1_name', currentScreenshot1Name);
         }
 
-        // Handle screenshot2
         if (screenshot2Input.files.length > 0) {
             const screenshot2File = screenshot2Input.files[0];
             formData.append('screenshot2', screenshot2File);
@@ -385,7 +364,6 @@ addGameForm.addEventListener('submit', async function(e) {
             formData.append('screenshot2_name', currentScreenshot2Name);
         }
 
-        // Handle screenshot3
         if (screenshot3Input.files.length > 0) {
             const screenshot3File = screenshot3Input.files[0];
             formData.append('screenshot3', screenshot3File);
@@ -451,7 +429,6 @@ async function deleteGame(gameId) {
                 alert(result.error || 'Failed to delete game');
             }
         } else {
-            // If no JSON, assume success if no error was thrown
             alert('Game deleted successfully!');
             await displayGames();
         }
@@ -531,7 +508,6 @@ async function editGame(gameId) {
     }
 }
 
-// Initialize search when DOM loads
 document.addEventListener('DOMContentLoaded', function() {
     console.log(localStorage.getItem('username'));
     sessionStorage.clear();

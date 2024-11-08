@@ -1,4 +1,3 @@
-// Global variables and functions
 let redirectToGamePage;
 let removeFromCart;
 let redirectToCheckout;
@@ -25,7 +24,6 @@ function initializeCartPage() {
         return;
     }
 
-    // Initialize global functions
     redirectToGamePage = (game) => {
         sessionStorage.setItem('selectedGame', JSON.stringify({
             title: game.title,
@@ -62,7 +60,7 @@ function initializeCartPage() {
             });
 
             if (response.ok) {
-                loadCart(); // Reload cart after removal
+                loadCart();
             } else {
                 alert('Failed to remove item from cart');
             }
@@ -72,7 +70,7 @@ function initializeCartPage() {
         }
     };
 
-    let games = []; // Will store all games data
+    let games = [];
     let searchTimeout;
 
     async function loadCart() {
@@ -142,7 +140,6 @@ function initializeCartPage() {
         `;
     }
 
-    // Initialize search functionality
     if (searchBar && searchContainer) {
         fetch('/api/browse/games')
             .then(response => response.json())
@@ -151,7 +148,6 @@ function initializeCartPage() {
             })
             .catch(error => console.error('Error fetching games:', error));
 
-        // Search function
         function performSearch(query) {
             if (!query.trim()) {
                 searchResults.classList.remove('active');
@@ -165,7 +161,6 @@ function initializeCartPage() {
             displaySearchResults(filteredGames);
         }
 
-        // Display search results
         function displaySearchResults(results) {
             if (results.length === 0) {
                 searchResults.innerHTML = '<div class="no-results">No games found</div>';
@@ -183,7 +178,6 @@ function initializeCartPage() {
             searchResults.classList.add('active');
         }
 
-        // Event listeners for search
         searchBar.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
@@ -210,7 +204,6 @@ function initializeCartPage() {
             }
         });
 
-        // Keyboard navigation
         searchBar.addEventListener('keydown', (e) => {
             const items = searchResults.querySelectorAll('.search-result-item');
             const activeItem = searchResults.querySelector('.search-result-item:hover');
@@ -246,13 +239,10 @@ function initializeCartPage() {
         });
     }
 
-    // Load cart contents
     loadCart();
 }
 
-// Make functions globally available
 window.removeFromCart = removeFromCart;
 window.redirectToCheckout = redirectToCheckout;
 
-// Wait for components to be loaded before initializing
 document.addEventListener('componentsLoaded', initializeCartPage);

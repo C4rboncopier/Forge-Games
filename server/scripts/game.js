@@ -68,7 +68,6 @@ async function fetchGameDetails(title) {
     }
 }
 
-// Move the DOMContentLoaded event listener code into a function
 async function initializeGame() {
     const gameDetails = JSON.parse(sessionStorage.getItem('selectedGame'));
     logGameDetails(gameDetails, 'DOMContentLoaded');
@@ -77,13 +76,11 @@ async function initializeGame() {
     
     if (gameDetails) {
         try {
-            // Fetch complete game details from database
             const dbGameDetails = await fetchGameDetails(gameDetails.title);
             if (dbGameDetails) {
-                // Update sessionStorage with database ID
                 const updatedGameDetails = {
                     ...gameDetails,
-                    id: dbGameDetails.id // Add the database ID
+                    id: dbGameDetails.id 
                 };
                 sessionStorage.setItem('selectedGame', JSON.stringify(updatedGameDetails));
                 console.log('Updated game details with ID:', updatedGameDetails);
@@ -97,7 +94,6 @@ async function initializeGame() {
             updateButtons(userOwnsGame);
         }
 
-        // Update the URL if it doesn't match the current game
         const currentPath = window.location.pathname;
         const expectedPath = `/games/${gameDetails.title.toLowerCase().replace(/\s+/g, '-')}`;
         
@@ -112,13 +108,11 @@ async function initializeGame() {
         document.querySelector('.game-logo').src = gameDetails.gameUrl;
         document.querySelector('.game-description').textContent = gameDetails.description;
         
-        // Ensure price is a number and properly formatted
         const price = typeof gameDetails.price === 'string' 
             ? parseFloat(gameDetails.price.replace(/[^\d.-]/g, '')) 
             : gameDetails.price;
         document.querySelector('.game-price').textContent = `₱${price.toFixed(2)}`;
 
-        // Update screenshots
         document.querySelector('.screenshot1-img').src = gameDetails.screenshot1;
         document.querySelector('.screenshot2-img').src = gameDetails.screenshot2;
         document.querySelector('.screenshot3-img').src = gameDetails.screenshot3;
@@ -147,7 +141,6 @@ async function initializeGame() {
         })
         .catch(error => console.error('Error fetching games:', error));
 
-    // Search function
     function performSearch(query) {
         if (!query.trim()) {
             searchResults.classList.remove('active');
@@ -161,7 +154,6 @@ async function initializeGame() {
         displaySearchResults(filteredGames);
     }
 
-    // Display search results
     function displaySearchResults(results) {
         if (results.length === 0) {
             searchResults.innerHTML = '<div class="no-results">No games found</div>';
@@ -179,36 +171,32 @@ async function initializeGame() {
         searchResults.classList.add('active');
     }
 
-    // Event listener for search input
     searchBar.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             performSearch(e.target.value);
-        }, 300); // Debounce search for better performance
+        }, 300);
     });
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
         if (!searchContainer.contains(e.target)) {
             searchResults.classList.remove('active');
         }
     });
 
-    // Handle click on search result
     searchResults.addEventListener('click', (e) => {
         const resultItem = e.target.closest('.search-result-item');
         if (resultItem) {
             const gameTitle = resultItem.dataset.title;
             const selectedGame = games.find(game => game.title === gameTitle);
             if (selectedGame) {
-                searchBar.value = ''; // Clear the search input
-                searchResults.classList.remove('active'); // Hide the search results
+                searchBar.value = ''; 
+                searchResults.classList.remove('active');
                 redirectToGamePage(selectedGame);
             }
         }
     });
 
-    // Handle keyboard navigation
     searchBar.addEventListener('keydown', (e) => {
         const items = searchResults.querySelectorAll('.search-result-item');
         const activeItem = searchResults.querySelector('.search-result-item:hover');
@@ -234,8 +222,8 @@ async function initializeGame() {
                     const gameTitle = activeItem.dataset.title;
                     const selectedGame = games.find(game => game.title === gameTitle);
                     if (selectedGame) {
-                        searchBar.value = ''; // Clear the search input
-                        searchResults.classList.remove('active'); // Hide the search results
+                        searchBar.value = '';
+                        searchResults.classList.remove('active');
                         redirectToGamePage(selectedGame);
                     }
                 }
@@ -244,9 +232,7 @@ async function initializeGame() {
     });
 }
 
-// Wait for both DOMContentLoaded and componentsLoaded events
 document.addEventListener('DOMContentLoaded', () => {
-    // Wait for components to load before initializing the game
     document.addEventListener('componentsLoaded', initializeGame);
 });
 
@@ -256,10 +242,8 @@ function updateButtons(owned) {
     const gameActions = document.querySelector('.game-actions');
     
     if (owned) {
-        // Hide the entire game-actions div if user owns the game
         gameActions.style.display = 'none';
     } else {
-        // Show buttons if user doesn't own the game
         gameActions.style.display = 'flex';
         buyButton.textContent = 'Add to Cart';
         buyButton.classList.remove('uninstall-button');

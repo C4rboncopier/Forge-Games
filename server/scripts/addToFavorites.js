@@ -2,7 +2,6 @@ function showFavoritesPopup(message) {
     const overlay = document.getElementById('favoritesPopupOverlay');
     const popup = document.getElementById('favoritesPopup');
     
-    // Update popup message
     popup.querySelector('h2').textContent = message;
     
     overlay.style.display = 'block';
@@ -104,7 +103,6 @@ async function addToFavorites(title) {
     }
 }
 
-// Close popup when clicking outside
 document.addEventListener('click', (e) => {
     const overlay = document.getElementById('favoritesPopupOverlay');
     if (e.target === overlay) {
@@ -112,7 +110,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Add event listener to the wishlist button
 document.addEventListener('DOMContentLoaded', async () => {
     const wishlistButton = document.getElementById('wishlist-button');
     if (wishlistButton) {

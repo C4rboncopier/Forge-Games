@@ -1,4 +1,3 @@
-// Global functions that need to be accessible from HTML
 let filterByGenre;
 
 function initializeBrowsePage() {
@@ -9,8 +8,8 @@ function initializeBrowsePage() {
 
     let currentPosition = 0;
     let isMobile = window.innerWidth <= 800;
-    let maxPosition = isMobile ? 3 : 1; // 4 slides for mobile (2 cards each), 2 slides for desktop (4 cards each)
-    let slidePercentage = isMobile ? 25 : 50; // 25% for mobile, 50% for desktop
+    let maxPosition = isMobile ? 3 : 1;
+    let slidePercentage = isMobile ? 25 : 50;
 
     genreCards.style.transform = 'translateX(0)';
     genreCards.style.transition = 'transform 0.3s ease';
@@ -42,12 +41,10 @@ function initializeBrowsePage() {
         const wasDesktop = !isMobile;
         isMobile = window.innerWidth <= 800;
         
-        // Only update if the breakpoint was crossed
         if (wasDesktop !== !isMobile) {
             maxPosition = isMobile ? 3 : 1;
             slidePercentage = isMobile ? 25 : 50;
             
-            // Reset position if current position is beyond new max
             if (currentPosition > maxPosition) {
                 currentPosition = maxPosition;
             }
@@ -79,10 +76,9 @@ function initializeBrowsePage() {
     searchResults.className = 'search-results';
     searchContainer.appendChild(searchResults);
     
-    let games = []; // Will store all games data
+    let games = [];
     let searchTimeout;
 
-    // Fetch games data when page loads
     fetch('/api/browse/games')
         .then(response => response.json())
         .then(data => {
@@ -93,7 +89,6 @@ function initializeBrowsePage() {
         })
         .catch(error => console.error('Error fetching games:', error));
 
-    // Search function
     function performSearch(query) {
         if (!query.trim()) {
             searchResults.classList.remove('active');
@@ -107,7 +102,6 @@ function initializeBrowsePage() {
         displaySearchResults(filteredGames);
     }
 
-    // Display search results
     function displaySearchResults(results) {
         if (results.length === 0) {
             searchResults.innerHTML = '<div class="no-results">No games found</div>';
@@ -125,36 +119,32 @@ function initializeBrowsePage() {
         searchResults.classList.add('active');
     }
 
-    // Event listener for search input
     searchBar.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             performSearch(e.target.value);
-        }, 300); // Debounce search for better performance
+        }, 300);
     });
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
         if (!searchContainer.contains(e.target)) {
             searchResults.classList.remove('active');
         }
     });
 
-    // Handle click on search result
     searchResults.addEventListener('click', (e) => {
         const resultItem = e.target.closest('.search-result-item');
         if (resultItem) {
             const gameTitle = resultItem.dataset.title;
             const selectedGame = games.find(game => game.title === gameTitle);
             if (selectedGame) {
-                searchBar.value = ''; // Clear the search input
-                searchResults.classList.remove('active'); // Hide the search results
+                searchBar.value = '';
+                searchResults.classList.remove('active');
                 redirectToGamePage(selectedGame);
             }
         }
     });
 
-    // Handle keyboard navigation
     searchBar.addEventListener('keydown', (e) => {
         const items = searchResults.querySelectorAll('.search-result-item');
         const activeItem = searchResults.querySelector('.search-result-item:hover');
@@ -180,8 +170,8 @@ function initializeBrowsePage() {
                     const gameTitle = activeItem.dataset.title;
                     const selectedGame = games.find(game => game.title === gameTitle);
                     if (selectedGame) {
-                        searchBar.value = ''; // Clear the search input
-                        searchResults.classList.remove('active'); // Hide the search results
+                        searchBar.value = '';
+                        searchResults.classList.remove('active');
                         redirectToGamePage(selectedGame);
                     }
                 }
@@ -322,11 +312,9 @@ function initializeBrowsePage() {
         window.location.href = `/games/${urlSafeTitle}`;
     }
 
-    // Assign the function to the global variable
     filterByGenre = (genre) => {
         window.location.href = `/genre/${genre}`;
     };
 }
 
-// Wait for components to be loaded before initializing
 document.addEventListener('componentsLoaded', initializeBrowsePage);

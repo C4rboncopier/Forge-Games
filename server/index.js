@@ -130,32 +130,26 @@ app.get('/api/favorites/:username', getFavorites);
 app.post('/api/favorites/add', addToFavorites);
 app.post('/api/favorites/remove', removeFromFavorites);
 
-// Add this route with your other HTML routes (around line 89)
 app.get("/support", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'support.html'));
 });
 
-// Add this with your other HTML routes
 app.get("/about", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'about.html'));
 });
 
-// Add this with your other HTML routes
 app.get("/terms", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'terms.html'));
 });
 
-// Add this with your other HTML routes
 app.get("/privacy", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'privacy.html'));
 });
 
-// Add this with your other HTML routes
 app.get("/contact", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'contact.html'));
 });
 
-// Add these routes with your other routes
 app.get('/components/header', (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'header.html'));
 });
@@ -164,24 +158,20 @@ app.get('/components/footer', (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'footer.html'));
 });
 
-// Add this new route
 app.get('/api/games/details/:title', getGameDetails);
 
-// Add these routes with your other routes
 app.get("/transactions", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'transactions.html'));
 });
 
 app.get('/api/transactions/:username', getTransactions);
 
-// Update the transactions route to be admin-specific
 app.get("/admin/transactions", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'transactions.html'));
 });
 
 app.get('/api/admin/transactions', getAllTransactions);
 
-// Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ 
