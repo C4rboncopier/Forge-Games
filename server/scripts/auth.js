@@ -44,6 +44,10 @@ function cart() {
     window.location.href = '/cart';
 }
 
+function library() {
+    window.location.href = '/library';
+}
+
 function logout() {
     console.log('Logout function called');
     localStorage.removeItem('username');

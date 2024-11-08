@@ -8,6 +8,7 @@ import { addGame, getGames, deleteGame, updateGame, getGameById } from "./backen
 import { displayGames } from "./backend/mainPage.js";
 import { getGamesByGenre } from "./backend/genre-api.js";
 import { addToCart, getCart, removeFromCart, processCheckout } from "./backend/cart-api.js";
+import { getUserLibrary } from "./backend/library-api.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,7 +42,7 @@ app.get("/api/genre/:genre", getGamesByGenre);
 app.get('/api/cart/:username', getCart);
 app.delete('/api/cart/remove', removeFromCart);
 app.post('/api/checkout', processCheckout);
-
+app.get('/api/library/:username', getUserLibrary);
 app.get("/games/:title", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'game.html'));
 });
@@ -85,6 +86,10 @@ app.get("/game", (req, res) => {
 
 app.get("/favorite", (req, res) => {
     res.sendFile(path.join(__dirname, '/pages', 'favorite.html'));
+});
+
+app.get("/library", (req, res) => {
+    res.sendFile(path.join(__dirname, '/pages', 'library.html'));
 });
 
 app.get("/genre/:genre", (req, res) => {

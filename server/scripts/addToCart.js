@@ -100,6 +100,7 @@ function closeCartPopup() {
 // Update the existing click event listener
 document.getElementById('buy-button').addEventListener('click', async (event) => {
     event.preventDefault();
+    const user = localStorage.getItem('username');
 
     if (!user) {
         showLoginPopup();

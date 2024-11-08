@@ -31,8 +31,28 @@ function redirectToGamePage(game) {
     window.location.href = `/games/${urlSafeTitle}`;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+let userOwnsGame = false;
+
+async function checkGameOwnership(username, gameTitle) {
+    try {
+        const response = await fetch(`/api/library/${username}`);
+        const libraryGames = await response.json();
+        return libraryGames.some(game => game.title === gameTitle);
+    } catch (error) {
+        console.error('Error checking game ownership:', error);
+        return false;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
     const gameDetails = JSON.parse(sessionStorage.getItem('selectedGame'));
+    const username = localStorage.getItem('username');
+    
+    if (gameDetails && username) {
+        userOwnsGame = await checkGameOwnership(username, gameDetails.title);
+        updateButtons(userOwnsGame);
+    }
+
     console.log(sessionStorage.getItem('selectedGame'));
     if (gameDetails) {
         // Update the URL if it doesn't match the current game
@@ -174,3 +194,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+function updateButtons(owned) {
+    const buyButton = document.getElementById('buy-button');
+    const wishlistButton = document.getElementById('wishlist-button');
+    const gameActions = document.querySelector('.game-actions');
+    
+    if (owned) {
+        // Hide the entire game-actions div if user owns the game
+        gameActions.style.display = 'none';
+    } else {
+        // Show buttons if user doesn't own the game
+        gameActions.style.display = 'flex';
+        buyButton.textContent = 'Add to Cart';
+        buyButton.classList.remove('uninstall-button');
+        buyButton.classList.add('buy-button');
+        wishlistButton.style.display = 'block';
+    }
+}
