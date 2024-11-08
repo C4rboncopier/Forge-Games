@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forge Games</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/css/game.css">
     <link rel="stylesheet" href="/css/colors.css">
+    <link rel="stylesheet" href="/css/pages.css">
+    <link rel="stylesheet" href="/css/game.css">
 
     <!-- Google Font Link -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +17,7 @@
 
 </head>
 <body>
-    <header>
+    <header id="header">
         <form id="headerForm">
             <div class="nav-content">
                 <div class="logo" id="logo"><a href="javascript:void(0)" onclick="main()">Forge Games</a></div>
@@ -27,8 +28,9 @@
                 <button class="menu-toggle">☰</button>
                 <div class="nav-links">
                     <a href="javascript:void(0)" onclick="browse()" id="main-link">Store</a>
-                    <a href="javascript:void(0)" onclick="main()" id="library-link">Library</a>
+                    <a href="javascript:void(0)" onclick="library()" id="library-link">Library</a>
                     <a href="#">Support</a>
+                    <a href="javascript:void(0)" onclick="favorite()" class="favorite-button">❤️</a>
                     <a href="javascript:void(0)" onclick="cart()" class="cart-button">🛒</a>
                     
                     <!-- IF NO USER HAS LOGGED IN -->
@@ -42,7 +44,6 @@
                         <a href="javascript:void(0)" onclick="account()" class="account username-btn" id="username">username</a>
                         <a href="javascript:void(0)" onclick="logout()" class="account logout-btn">Logout</a>
                     </div>
-
                 </div>
             </div>
         </form>

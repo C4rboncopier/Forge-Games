@@ -6,38 +6,40 @@
     <title>Games by Genre - Forge Games</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/colors.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/pages.css">
     <link rel="stylesheet" href="/css/genre.css">
 </head>
 <body>
     <header id="header">
-        <div class="nav-content">
-            <div class="logo" id="logo">Forge Games</div>
-            <div class="search-container">
-                <input type="text" class="search-bar" placeholder="Search games...">
-                <span class="search-icon">🔍</span>
-                <div class="search-results"></div>
-            </div>
-
-            <button class="menu-toggle">☰</button>
-
-            <div class="nav-links">
-                <a href="/">Store</a>
-                <a href="/browse">Library</a>
-                <a href="#">Support</a>
-                <button class="cart-button">🛒</button>
-
-                <div class="auth-buttons">
-                    <a href="/login" class="auth-button login-btn">Login</a>
-                    <a href="/register" class="auth-button register-btn">Register</a>
+        <form id="headerForm">
+            <div class="nav-content">
+                <div class="logo" id="logo"><a href="javascript:void(0)" onclick="main()">Forge Games</a></div>
+                <div class="search-container">
+                    <input type="text" class="search-bar" placeholder="Search games...">
+                    <span class="search-icon">🔍</span>
                 </div>
-
-                <div class="auth-account">
-                    <a href="#" id="username" class="account username-btn">username</a>
-                    <a href="#" class="account logout-btn">Logout</a>
+                <button class="menu-toggle">☰</button>
+                <div class="nav-links">
+                    <a href="javascript:void(0)" onclick="browse()" id="main-link">Store</a>
+                    <a href="javascript:void(0)" onclick="library()" id="library-link">Library</a>
+                    <a href="#">Support</a>
+                    <a href="javascript:void(0)" onclick="favorite()" class="favorite-button">❤️</a>
+                    <a href="javascript:void(0)" onclick="cart()" class="cart-button">🛒</a>
+                    
+                    <!-- IF NO USER HAS LOGGED IN -->
+                    <div class="auth-buttons">
+                        <a href="javascript:void(0)" onclick="login()" class="auth-button login-btn">Login</a>
+                        <a href="javascript:void(0)" onclick="register()" class="auth-button register-btn">Register</a>
+                    </div>
+                    
+                    <!-- IF A USER HAS LOGGED IN -->
+                    <div class="auth-account">
+                        <a href="javascript:void(0)" onclick="account()" class="account username-btn" id="username">username</a>
+                        <a href="javascript:void(0)" onclick="logout()" class="account logout-btn">Logout</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </header>
 
 

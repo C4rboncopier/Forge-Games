@@ -36,7 +36,7 @@ const upload = multer({
 app.post('/login', checkLogIn);
 app.post('/register', addUser);
 app.get('/api/admin/games', getGames);
-app.get('/api/home', displayGames);
+app.get('/api/home', getGames);
 app.get('/api/browse/games', getGames);
 app.get("/api/genre/:genre", getGamesByGenre);
 app.get('/api/cart/:username', getCart);

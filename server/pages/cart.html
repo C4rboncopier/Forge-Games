@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart - Forge Games</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/colors.css">
+    <link rel="stylesheet" href="/css/pages.css">
     <link rel="stylesheet" href="/css/cart.css">
 </head>
 <body>
     <header id="header">
         <form id="headerForm">
             <div class="nav-content">
-                <div class="logo" id="logo">Forge Games</div>
+                <div class="logo" id="logo"><a href="javascript:void(0)" onclick="main()">Forge Games</a></div>
                 <div class="search-container">
                     <input type="text" class="search-bar" placeholder="Search games...">
                     <span class="search-icon">🔍</span>
                 </div>
                 <button class="menu-toggle">☰</button>
                 <div class="nav-links">
-                    <a href="javascript:void(0)" onclick="main()" id="main-link">Store</a>
-                    <a href="javascript:void(0)" onclick="browse()" id="library-link">Library</a>
+                    <a href="javascript:void(0)" onclick="browse()" id="main-link">Store</a>
+                    <a href="javascript:void(0)" onclick="library()" id="library-link">Library</a>
                     <a href="#">Support</a>
-                    <button class="cart-button">🛒</button>
+                    <a href="javascript:void(0)" onclick="favorite()" class="favorite-button">❤️</a>
+                    <a href="javascript:void(0)" onclick="cart()" class="cart-button">🛒</a>
                     
                     <!-- IF NO USER HAS LOGGED IN -->
                     <div class="auth-buttons">

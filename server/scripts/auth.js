@@ -7,12 +7,15 @@ if (user) {
     document.querySelector('.auth-account').style.display = 'flex';
     if (user === 'Admin'){
         document.querySelector('.cart-button').style.display = 'none';
+        document.querySelector('.favorite-button').style.display = 'none';
     } else {
         document.querySelector('.cart-button').style.display = 'flex';
+        document.querySelector('.favorite-button').style.display = 'flex';
     }
 } else {
     document.querySelector('.auth-buttons').style.display = 'flex';
     document.querySelector('.cart-button').style.display = 'none';
+    document.querySelector('.favorite-button').style.display = 'none';
     document.querySelector('.auth-account').style.display = 'none';
 }
 
