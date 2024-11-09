@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize the birthday selectors
     initializeBirthdaySelectors();
 
     const birthdayForm = document.getElementById('birthdayForm');
@@ -11,13 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const month = document.getElementById('month').value;
             const day = parseInt(document.getElementById('day').value);
             
-            const birthDate = new Date(year, month - 1, day);  // Adjust month to 0-based index
+            const birthDate = new Date(year, month - 1, day);
             const today = new Date();
-            const age = today.getFullYear() - birthDate.getFullYear();
+            let age = today.getFullYear() - birthDate.getFullYear();
             const monthDiff = today.getMonth() - birthDate.getMonth();
             const dayDiff = today.getDate() - birthDate.getDate();
     
-            // Adjust age if birth month/day hasn't occurred yet this year
             if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
                 age--;
             }
@@ -26,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 sessionStorage.setItem('ageRestricted', 'true');
                 window.location.href = '/validate-age';
             } else {
-                // Store birthday in session storage for registration
                 sessionStorage.setItem('ageRestricted', 'false');
                 sessionStorage.setItem('userBirthday', `${year}-${month}-${day}`);
                 window.location.href = '/register';
@@ -47,7 +44,6 @@ function initializeBirthdaySelectors() {
     const daySelect = document.getElementById('day');
     const yearSelect = document.getElementById('year');
     
-    // Populate months
     const months = [
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -55,7 +51,7 @@ function initializeBirthdaySelectors() {
     
     months.forEach((month, index) => {
         const option = document.createElement('option');
-        option.value = String(index + 1).padStart(2, '0'); // 01, 02, etc.
+        option.value = String(index + 1).padStart(2, '0'); 
         option.textContent = month;
         monthSelect.appendChild(option);
     });
@@ -63,12 +59,11 @@ function initializeBirthdaySelectors() {
     // Populate days
     for (let i = 1; i <= 31; i++) {
         const option = document.createElement('option');
-        option.value = String(i).padStart(2, '0'); // 01, 02, etc.
+        option.value = String(i).padStart(2, '0');
         option.textContent = i;
         daySelect.appendChild(option);
     }
     
-    // Populate years (100 years back from current year)
     const currentYear = new Date().getFullYear();
     for (let i = currentYear; i >= currentYear - 100; i--) {
         const option = document.createElement('option');
@@ -79,7 +74,6 @@ function initializeBirthdaySelectors() {
 }
 
 function showLoadingState() {
-    // Disable submit button and show loading spinner
     const submitButton = document.querySelector('button[type="submit"]');
     if (submitButton) {
         submitButton.disabled = true;
@@ -88,7 +82,6 @@ function showLoadingState() {
 }
 
 function hideLoadingState() {
-    // Re-enable submit button and restore text
     const submitButton = document.querySelector('button[type="submit"]');
     if (submitButton) {
         submitButton.disabled = false;
@@ -97,7 +90,6 @@ function hideLoadingState() {
 }
 
 function showError(message) {
-    // Create or update error message element
     let errorDiv = document.querySelector('.error-message');
     if (!errorDiv) {
         errorDiv = document.createElement('div');

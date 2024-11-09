@@ -59,7 +59,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    // Add this new function to handle game redirection
     function redirectToGamePage(game) {
         sessionStorage.setItem('selectedGame', JSON.stringify({
             title: game.title,
@@ -109,10 +108,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     searchResults.className = 'search-results';
     searchContainer.appendChild(searchResults);
     
-    let games = []; // Will store all games data
+    let games = [];
     let searchTimeout;
 
-    // Fetch games data when page loads
     fetch('/api/home')
         .then(response => response.json())
         .then(data => {
@@ -120,7 +118,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         })
         .catch(error => console.error('Error fetching games:', error));
 
-    // Search function
     function performSearch(query) {
         if (!query.trim()) {
             searchResults.classList.remove('active');
@@ -134,7 +131,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         displaySearchResults(filteredGames);
     }
 
-    // Display search results
     function displaySearchResults(results) {
         if (results.length === 0) {
             searchResults.innerHTML = '<div class="no-results">No games found</div>';
@@ -152,36 +148,32 @@ document.addEventListener('DOMContentLoaded', async function() {
         searchResults.classList.add('active');
     }
 
-    // Event listener for search input
     searchBar.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             performSearch(e.target.value);
-        }, 300); // Debounce search for better performance
+        }, 300);
     });
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
         if (!searchContainer.contains(e.target)) {
             searchResults.classList.remove('active');
         }
     });
 
-    // Handle click on search result
     searchResults.addEventListener('click', (e) => {
         const resultItem = e.target.closest('.search-result-item');
         if (resultItem) {
             const gameTitle = resultItem.dataset.title;
             const selectedGame = games.find(game => game.title === gameTitle);
             if (selectedGame) {
-                searchBar.value = ''; // Clear the search input
-                searchResults.classList.remove('active'); // Hide the search results
+                searchBar.value = '';
+                searchResults.classList.remove('active');
                 redirectToGamePage(selectedGame);
             }
         }
     });
 
-    // Handle keyboard navigation
     searchBar.addEventListener('keydown', (e) => {
         const items = searchResults.querySelectorAll('.search-result-item');
         const activeItem = searchResults.querySelector('.search-result-item:hover');

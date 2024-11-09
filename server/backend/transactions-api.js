@@ -5,7 +5,6 @@ export const getTransactions = async (req, res) => {
     const { username } = req.params;
     
     try {
-        // First get the user_id from the username
         const userQuery = await client.query(
             'SELECT id FROM users WHERE username = $1',
             [username]
@@ -22,11 +21,11 @@ export const getTransactions = async (req, res) => {
 
         // Get all transactions for this user
         const transactionsQuery = await client.query(
-            `SELECT id, games, method, total, createdat 
-             FROM transactions 
-             WHERE user_id = $1 
-             ORDER BY createdat DESC`,
-            [userId]
+        `SELECT id, games, method, total, createdat 
+            FROM transactions 
+            WHERE user_id = $1 
+            ORDER BY createdat DESC`,
+        [userId]
         );
 
         res.json({
@@ -45,7 +44,6 @@ export const getTransactions = async (req, res) => {
 
 export const getAllTransactions = async (req, res) => {
     try {
-        // Get all transactions with username
         const transactionsQuery = await client.query(
             `SELECT t.id, t.user_id, u.username, t.games, t.method, t.total, t.createdat 
                 FROM transactions t

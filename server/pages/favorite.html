@@ -24,7 +24,7 @@
             
             <!-- Empty state message -->
             <div class="empty-favorites" id="emptyFavorites" style="display: none;">
-                <div class="empty-icon">❤️</div>
+                <div class="empty-icon"><i class="fa-solid fa-bookmark"></i></div>
                 <h2>Your favorites list is empty</h2>
                 <p>Add games to your favorites to see them here</p>
                 <button onclick="browse()" class="browse-button">Browse Games</button>
@@ -34,7 +34,6 @@
 
     <div id="footer-placeholder"></div>
 
-    <!-- Update the cart popup HTML -->
     <div class="popup-overlay" id="cartPopupOverlay" style="display: none;"></div>
     <div class="custom-popup" id="cartPopup" style="display: none;">
         <h2>Added to Cart</h2>
@@ -45,7 +44,6 @@
         </div>
     </div>
 
-    <!-- Update the remove favorites popup HTML -->
     <div class="popup-overlay" id="removeFavoritesPopupOverlay" style="display: none;"></div>
     <div class="custom-popup" id="removeFavoritesPopup" style="display: none;">
         <h2>Removed from Favorites</h2>

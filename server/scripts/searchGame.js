@@ -5,10 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     searchResults.className = 'search-results';
     searchContainer.appendChild(searchResults);
     
-    let games = []; // Will store all games data
+    let games = [];
     let searchTimeout;
     
-    // Initialize search functionality
     if (searchBar && searchContainer) {
         fetch('/api/browse/games')
             .then(response => response.json())
@@ -17,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => console.error('Error fetching games:', error));
 
-        // Search function
         function performSearch(query) {
             if (!query.trim()) {
                 searchResults.classList.remove('active');
@@ -31,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySearchResults(filteredGames);
         }
 
-        // Display search results
         function displaySearchResults(results) {
             if (results.length === 0) {
                 searchResults.innerHTML = '<div class="no-results">No games found</div>';
@@ -49,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
             searchResults.classList.add('active');
         }
 
-        // Event listeners for search
         searchBar.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
@@ -76,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Keyboard navigation
         searchBar.addEventListener('keydown', (e) => {
             const items = searchResults.querySelectorAll('.search-result-item');
             const activeItem = searchResults.querySelector('.search-result-item:hover');

@@ -131,11 +131,10 @@ main {
     transform: translateY(-2px);
 }
 
-/* Empty state styles */
 .empty-favorites {
     text-align: center;
     padding: 3rem 1rem;
-    min-height: calc(100vh - 500px); /* Adjust for minimum height when empty */
+    min-height: calc(100vh - 500px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -172,8 +171,6 @@ main {
     background: var(--comp-snd-color);
 }
 
-/* Popup styles are already in game.css */
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .favorites-grid {
@@ -208,7 +205,6 @@ main {
     }
 }
 
-/* Add these animation classes if not already present */
 .fade-in {
     animation: fadeIn 0.3s ease-in;
 }
@@ -227,7 +223,6 @@ main {
     to { opacity: 0; }
 }
 
-/* Make sure popup styles have proper z-index */
 .popup-overlay {
     z-index: 999;
 }
@@ -236,7 +231,6 @@ main {
     z-index: 1000;
 }
 
-/* Add these if not already present */
 #removeFavoritesPopup.custom-popup button.view-library-btn {
     background: var(--comp-color);
     color: #fff;
@@ -255,7 +249,6 @@ main {
     background: var(--third-color);
 }
 
-/* Update popup styles to match game.css */
 #removeFavoritesPopup.custom-popup {
     display: none;
     position: fixed;
@@ -416,7 +409,6 @@ main {
     to { opacity: 0; }
 }
 
-/* Remove any old popup styles that might conflict */
 .favorites-popup,
 .favorites-popup-overlay {
     display: none;

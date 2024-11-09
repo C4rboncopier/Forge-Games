@@ -9,12 +9,10 @@ let totalTransactions = [];
 let filteredTransactions = [];
 let searchTerm = '';
 
-// Redirect if not admin
 if (adminUser !== 'Admin') {
     window.location.href = '/';
 }
 
-// Handle search
 function handleSearch(event) {
     searchTerm = event.target.value.toLowerCase();
     filteredTransactions = totalTransactions.filter(transaction => 
@@ -106,7 +104,6 @@ function updatePagination() {
     
     if (totalPages <= 1) return;
     
-    // Previous button
     const prevButton = document.createElement('button');
     prevButton.className = `pagination-btn prev ${currentPage === 1 ? 'disabled' : ''}`;
     prevButton.innerHTML = 'Prev';
@@ -120,7 +117,6 @@ function updatePagination() {
     });
     paginationContainer.appendChild(prevButton);
     
-    // Page numbers
     for (let i = 1; i <= totalPages; i++) {
         const pageButton = document.createElement('button');
         pageButton.className = `pagination-btn page-number ${currentPage === i ? 'active' : ''}`;
@@ -133,7 +129,6 @@ function updatePagination() {
         paginationContainer.appendChild(pageButton);
     }
     
-    // Next button
     const nextButton = document.createElement('button');
     nextButton.className = `pagination-btn next ${currentPage === totalPages ? 'disabled' : ''}`;
     nextButton.innerHTML = 'Next';
@@ -148,7 +143,6 @@ function updatePagination() {
     paginationContainer.appendChild(nextButton);
 }
 
-// Initialize when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('input', handleSearch);
     displayTransactions();

@@ -28,7 +28,6 @@ export const getFavorites = async (req, res) => {
     try {
         const { username } = req.params;
         
-        // Get user_id from users table
         const userQuery = await client.query(
             'SELECT id FROM users WHERE username = $1',
             [username]
@@ -43,7 +42,6 @@ export const getFavorites = async (req, res) => {
 
         const userId = userQuery.rows[0].id;
         
-        // Get favorites with game details
         const favorites = await client.query(`
             SELECT g.* 
             FROM user_favorites uf
@@ -56,7 +54,6 @@ export const getFavorites = async (req, res) => {
         }
 
         const favoritesWithUrls = await Promise.all(favorites.rows.map(async (game) => {
-            // Get URLs for all images
             const gameUrl = await getPublicUrl(bucketName, game.image_name);
             const bannerUrl = await getPublicUrl(bucketName, game.banner_name);
             const screenshot1Url = await getPublicUrl(bucketName, game.screenshot1_name);
@@ -94,7 +91,6 @@ export const addToFavorites = async (req, res) => {
     }
 
     try {
-        // Get user_id
         const userQuery = await client.query(
             'SELECT id FROM users WHERE username = $1',
             [username]
@@ -109,7 +105,6 @@ export const addToFavorites = async (req, res) => {
 
         const userId = userQuery.rows[0].id;
 
-        // Get game_id
         const gameQuery = await client.query(
             'SELECT id FROM games WHERE title = $1',
             [title]
@@ -124,7 +119,6 @@ export const addToFavorites = async (req, res) => {
 
         const gameId = gameQuery.rows[0].id;
 
-        // Check if already in favorites
         const checkExisting = await client.query(
             'SELECT * FROM user_favorites WHERE user_id = $1 AND game_id = $2',
             [userId, gameId]
@@ -137,7 +131,6 @@ export const addToFavorites = async (req, res) => {
             });
         }
 
-        // Add to favorites
         const insertQuery = `
             INSERT INTO user_favorites (user_id, game_id)
             VALUES ($1, $2)
@@ -146,7 +139,6 @@ export const addToFavorites = async (req, res) => {
 
         await client.query(insertQuery, [userId, gameId]);
 
-        // Get game details for response
         const gameDetails = await client.query(
             'SELECT * FROM games WHERE id = $1',
             [gameId]
@@ -176,7 +168,6 @@ export const removeFromFavorites = async (req, res) => {
     const { username, gameId } = req.body;
 
     try {
-        // Get user_id
         const userQuery = await client.query(
             'SELECT id FROM users WHERE username = $1',
             [username]

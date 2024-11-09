@@ -8,7 +8,7 @@ const isCheckout = localStorage.getItem('checkout');
 
 let edit = false;
 let currentPage = 1;
-const gamesPerPage = 9;
+const gamesPerPage = 18;
 let totalGames = [];
 let filteredGames = [];
 let searchTerm = '';
@@ -286,6 +286,54 @@ document.getElementById('screenshot3').addEventListener('change', function() {
     updateImagePreview(this, 'screenshot3-preview');
 });
 
+function showPopupNotification(message) {
+    // Remove existing popup if any
+    const existingPopup = document.querySelector('.popup-notification');
+    if (existingPopup) {
+        existingPopup.remove();
+    }
+
+    // Create popup elements
+    const popup = document.createElement('div');
+    popup.className = 'popup-notification';
+    
+    popup.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        <span class="popup-message">${message}</span>
+        <button class="close-popup">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+
+    // Add popup to document
+    document.body.appendChild(popup);
+
+    // Show popup with animation
+    setTimeout(() => {
+        popup.classList.add('show');
+    }, 100);
+
+    // Add click handler for close button
+    const closeBtn = popup.querySelector('.close-popup');
+    closeBtn.addEventListener('click', () => {
+        popup.classList.remove('show');
+        setTimeout(() => {
+            popup.remove();
+        }, 300);
+    });
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (popup && document.body.contains(popup)) {
+            popup.classList.remove('show');
+            setTimeout(() => {
+                if (popup && document.body.contains(popup)) {
+                    popup.remove();
+                }
+            }, 300);
+        }
+    }, 5000);
+}
 
 addGameForm.addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -389,7 +437,7 @@ addGameForm.addEventListener('submit', async function(e) {
         const result = await response.json();
 
         if (result.success) {
-            alert(isEditMode ? 'Game updated successfully!' : 'Game added successfully!');
+            showPopupNotification('Game added successfully!');
             resetFormToAddMode();
             await displayGames();
         } else {

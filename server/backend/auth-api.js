@@ -11,17 +11,14 @@ export const checkLogIn = async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        // Query to find the user by username, regardless of role
         const users = await client.query(`SELECT * FROM users WHERE username = $1`, [username]);
 
-        // Check if any user was found
         if (users.rows.length === 0) {
             return res.json({ success: false, message: 'User not found' });
         }
 
         const user = users.rows[0];
 
-        // Check if the provided password matches the stored password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             return res.json({ success: false, message: 'Invalid password' });
@@ -41,7 +38,6 @@ export const addUser = async (req, res) => {
     const modifiedat = new Date();
 
     try {
-        // Start transaction
         await client.query('BEGIN');
 
         // Hash the password before saving it to the database
@@ -60,7 +56,6 @@ export const addUser = async (req, res) => {
         `;
         const userValues = [username, hashedPassword, firstname, lastname, email, createdat, modifiedat, country, role];
         
-        // Execute both queries within the transaction
         const submitUser = await client.query(toUsersTable, userValues);
         
         const user_id = submitUser.rows[0].id;
@@ -68,7 +63,6 @@ export const addUser = async (req, res) => {
 
         const submitCart = await client.query(toCartTable, cartValues);
 
-        // If we get here, commit the transaction
         await client.query('COMMIT');
 
         res.json({
@@ -78,12 +72,10 @@ export const addUser = async (req, res) => {
             cart: submitCart.rows[0],
         });
     } catch (error) {
-        // If we get here, rollback the transaction
         await client.query('ROLLBACK');
         
         console.error('Error creating account:', error);
         
-        // Send more specific error messages
         if (error.constraint === 'users_username_key') {
             res.status(400).json({ 
                 success: false, 

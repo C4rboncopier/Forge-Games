@@ -28,7 +28,6 @@ export const getUserLibrary = async (req, res) => {
     try {
         const { username } = req.params;
         
-        // First get the user_id from users table
         const userQuery = await client.query(
             'SELECT id FROM users WHERE username = $1',
             [username]
@@ -43,7 +42,6 @@ export const getUserLibrary = async (req, res) => {
 
         const userId = userQuery.rows[0].id;
         
-        // Get games from user's library with all image fields
         const libraryQuery = await client.query(`
             SELECT g.* 
             FROM user_library ul
@@ -56,7 +54,6 @@ export const getUserLibrary = async (req, res) => {
             return res.json([]);
         }
 
-        // Add all image URLs to each game
         const libraryWithUrls = await Promise.all(libraryQuery.rows.map(async (game) => {
             const imageUrl = await getPublicUrl(bucketName, game.image_name);
             const bannerUrl = await getPublicUrl(bucketName, game.banner_name);

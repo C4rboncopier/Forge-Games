@@ -1,7 +1,5 @@
-// Wait for components to load before initializing the page
 document.addEventListener('componentsLoaded', initializePage);
 document.addEventListener('DOMContentLoaded', function() {
-    // If components are already loaded, initialize the page
     if (document.querySelector('header')) {
         initializePage();
     }
@@ -11,7 +9,6 @@ function initializePage() {
     const genreTitle = document.getElementById('genre-title');
     const gamesGrid = document.getElementById('games-grid');
     
-    // Create search results container if it doesn't exist
     let searchResults = document.querySelector('.search-results');
     if (!searchResults) {
         searchResults = document.createElement('div');
@@ -19,32 +16,25 @@ function initializePage() {
         document.querySelector('.search-container').appendChild(searchResults);
     }
     
-    // Get search bar after components are loaded
     const searchBar = document.querySelector('.search-bar');
     
-    // Get genre from URL
     const currentPath = window.location.pathname;
     const genre = decodeURIComponent(currentPath.split('/genre/')[1]);
     
-    // Update page title
     genreTitle.textContent = `${genre} Games`;
     document.title = `${genre} Games - Forge Games`;
     document.querySelector('.genre-img').src = `/assets/genre/${genre}.png`;
     
-    // Get the genre from the URL
     const pathSegments = window.location.pathname.split('/');
     
-    // Update the description
     const descriptionElement = document.getElementById('genre-description');
     if (descriptionElement) {
         descriptionElement.textContent = getGenreDescription(genre);
     }
     
-    // Initialize search variables
     let searchTimeout;
     let games = [];
     
-    // Fetch games by genre
     async function fetchGames() {
         try {
             const response = await fetch(`/api/genre/${encodeURIComponent(genre)}`);
@@ -58,7 +48,6 @@ function initializePage() {
         }
     }
     
-    // Display games in grid
     function displayGames(games) {
         if (games.length === 0) {
             gamesGrid.innerHTML = `<div class="no-games">No ${genre} games found.</div>`;
@@ -78,7 +67,6 @@ function initializePage() {
         `).join('');
     }
     
-    // Redirect to game page
     window.redirectToGamePage = function(game) {
         sessionStorage.setItem('selectedGame', JSON.stringify({
             title: game.title,
@@ -96,7 +84,6 @@ function initializePage() {
         window.location.href = `/games/${urlSafeTitle}`;
     };
     
-    // Search functionality
     async function fetchAllGames() {
         try {
             const response = await fetch('/api/home');
@@ -137,7 +124,6 @@ function initializePage() {
         searchResults.classList.add('active');
     }
 
-    // Only set up event listeners if searchBar exists
     if (searchBar) {
         searchBar.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
@@ -165,11 +151,9 @@ function initializePage() {
             }
         });
 
-        // Initialize search
         fetchAllGames();
     }
 
-    // Initialize page
     fetchGames();
 }
 

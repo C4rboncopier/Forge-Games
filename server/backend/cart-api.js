@@ -36,7 +36,6 @@ export const getCart = async (req, res) => {
     try {
         const { username } = req.params;
         
-        // First get the user_id from users table
         const userQuery = await client.query(
             'SELECT id FROM users WHERE username = $1',
             [username]
@@ -51,7 +50,6 @@ export const getCart = async (req, res) => {
 
         const userId = userQuery.rows[0].id;
         
-        // Modified query to use user_id instead of username
         const cart = await client.query(`
             SELECT g.*, ci.user_id 
             FROM cart_item ci
@@ -86,7 +84,6 @@ export const addToCart = async (req, res) => {
     let finalGameId = gameId;
 
     try {
-        // First get the user_id from users table
         const userQuery = await client.query(
             'SELECT id FROM users WHERE username = $1',
             [username]
@@ -101,7 +98,6 @@ export const addToCart = async (req, res) => {
 
         const userId = userQuery.rows[0].id;
 
-        // If no gameId is provided but game title is, try to find the game ID
         if (!finalGameId && game?.title) {
             const gameQuery = await client.query(
                 'SELECT id FROM games WHERE title = $1',
@@ -119,7 +115,6 @@ export const addToCart = async (req, res) => {
             });
         }
 
-        // Check if game exists
         const gameQuery = await client.query(
             'SELECT id FROM games WHERE id = $1',
             [finalGameId]
@@ -132,7 +127,6 @@ export const addToCart = async (req, res) => {
             });
         }
 
-        // Check if game is in library
         const inLibrary = await checkGameInLibrary(userId, finalGameId);
         if (inLibrary) {
             return res.status(409).json({
@@ -141,7 +135,6 @@ export const addToCart = async (req, res) => {
             });
         }
 
-        // Check if the game already exists in the cart for this user
         const checkExisting = await client.query(
             'SELECT * FROM cart_item WHERE user_id = $1 AND game_id = $2',
             [userId, finalGameId]
@@ -154,7 +147,6 @@ export const addToCart = async (req, res) => {
             });
         }
 
-        // Add the game to the cart with user_id
         const insertQuery = `
             INSERT INTO cart_item (user_id, game_id)
             VALUES ($1, $2)
@@ -163,7 +155,6 @@ export const addToCart = async (req, res) => {
 
         const cartItem = await client.query(insertQuery, [userId, finalGameId]);
 
-        // Get the complete game details for the response
         const gameDetails = await client.query(
             'SELECT * FROM games WHERE id = $1',
             [finalGameId]
@@ -193,7 +184,6 @@ export const removeFromCart = async (req, res) => {
     const { username, gameId } = req.body;
 
     try {
-        // First get the user_id from users table
         const userQuery = await client.query(
             'SELECT id FROM users WHERE username = $1',
             [username]
@@ -222,7 +212,6 @@ export const removeFromCart = async (req, res) => {
 
 const recordTransaction = async (userId, games, method, total) => {
     try {
-        // Convert games array to comma-separated string
         const gamesString = games.map(game => game.title).join(', ');
         
         const query = `
@@ -243,7 +232,6 @@ export const processCheckout = async (req, res) => {
     const { username, paymentMethod } = req.body;
 
     try {
-        // Get user_id
         const userQuery = await client.query(
             'SELECT id FROM users WHERE username = $1',
             [username]
@@ -258,7 +246,6 @@ export const processCheckout = async (req, res) => {
 
         const userId = userQuery.rows[0].id;
 
-        // Get cart items
         const cartQuery = await client.query(`
             SELECT g.* 
             FROM cart_item ci
@@ -275,23 +262,18 @@ export const processCheckout = async (req, res) => {
             });
         }
 
-        // Calculate total
         const subtotal = cartItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
-        const tax = subtotal * 0.12; // 12% tax
+        const tax = subtotal * 0.03;
         const total = subtotal + tax;
 
-        // Record the transaction
         await recordTransaction(userId, cartItems, paymentMethod, total);
 
-        // Add games to user's library
         for (const game of cartItems) {
-            // Check if game already exists in user's library
             const libraryCheck = await client.query(
                 'SELECT * FROM user_library WHERE user_id = $1 AND game_id = $2',
                 [userId, game.id]
             );
 
-            // Only add if game isn't already in library
             if (libraryCheck.rows.length === 0) {
                 await client.query(
                     'INSERT INTO user_library (user_id, game_id) VALUES ($1, $2)',
@@ -300,7 +282,6 @@ export const processCheckout = async (req, res) => {
             }
         }
 
-        // Clear the cart
         await client.query(
             'DELETE FROM cart_item WHERE user_id = $1',
             [userId]

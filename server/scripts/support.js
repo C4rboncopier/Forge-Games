@@ -2,10 +2,8 @@ function initializeSupportPage() {
     const searchInput = document.querySelector('.support-search input');
     const searchButton = document.querySelector('.support-search button');
 
-    // Add search functionality
     function performSearch() {
         const searchTerm = searchInput.value.toLowerCase();
-        // Implement search functionality here
         console.log('Searching for:', searchTerm);
     }
 
@@ -21,7 +19,6 @@ function initializeSupportPage() {
         }
     });
 
-    // Assign the function to the global variable
     redirectToGamePage = (game) => {
         sessionStorage.setItem('selectedGame', JSON.stringify({
             title: game.title,
@@ -45,10 +42,9 @@ function initializeSupportPage() {
     searchResults.className = 'search-results';
     searchContainer.appendChild(searchResults);
     
-    let games = []; // Will store all games data
+    let games = [];
     let searchTimeout;
 
-    // Fetch games data when page loads
     fetch('/api/home')
         .then(response => response.json())
         .then(data => {
@@ -56,7 +52,6 @@ function initializeSupportPage() {
         })
         .catch(error => console.error('Error fetching games:', error));
 
-    // Search function
     function performSearch(query) {
         if (!query.trim()) {
             searchResults.classList.remove('active');
@@ -70,7 +65,6 @@ function initializeSupportPage() {
         displaySearchResults(filteredGames);
     }
 
-    // Display search results
     function displaySearchResults(results) {
         if (results.length === 0) {
             searchResults.innerHTML = '<div class="no-results">No games found</div>';
@@ -88,36 +82,32 @@ function initializeSupportPage() {
         searchResults.classList.add('active');
     }
 
-    // Event listener for search input
     searchBar.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             performSearch(e.target.value);
-        }, 300); // Debounce search for better performance
+        }, 300);
     });
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
         if (!searchContainer.contains(e.target)) {
             searchResults.classList.remove('active');
         }
     });
 
-    // Handle click on search result
     searchResults.addEventListener('click', (e) => {
         const resultItem = e.target.closest('.search-result-item');
         if (resultItem) {
             const gameTitle = resultItem.dataset.title;
             const selectedGame = games.find(game => game.title === gameTitle);
             if (selectedGame) {
-                searchBar.value = ''; // Clear the search input
-                searchResults.classList.remove('active'); // Hide the search results
+                searchBar.value = '';
+                searchResults.classList.remove('active');
                 redirectToGamePage(selectedGame);
             }
         }
     });
 
-    // Handle keyboard navigation
     searchBar.addEventListener('keydown', (e) => {
         const items = searchResults.querySelectorAll('.search-result-item');
         const activeItem = searchResults.querySelector('.search-result-item:hover');
@@ -143,8 +133,8 @@ function initializeSupportPage() {
                     const gameTitle = activeItem.dataset.title;
                     const selectedGame = games.find(game => game.title === gameTitle);
                     if (selectedGame) {
-                        searchBar.value = ''; // Clear the search input
-                        searchResults.classList.remove('active'); // Hide the search results
+                        searchBar.value = '';
+                        searchResults.classList.remove('active');
                         redirectToGamePage(selectedGame);
                     }
                 }
@@ -153,5 +143,4 @@ function initializeSupportPage() {
     });
 }
 
-// Wait for components to be loaded before initializing
 document.addEventListener('componentsLoaded', initializeSupportPage); 

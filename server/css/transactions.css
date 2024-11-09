@@ -84,7 +84,7 @@
 .no-transactions {
     text-align: center;
     padding: 2rem;
-    color: var(--comp-color);
+    color: var(--bg-snd-color);
     background-color: var(--secondary-color);
     border-radius: 6px;
 }

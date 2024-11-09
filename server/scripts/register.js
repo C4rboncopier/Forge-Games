@@ -13,11 +13,9 @@ function setupPasswordToggle(toggleButtonId, passwordFieldId) {
     const icon = toggleButton.querySelector("i");
 
     toggleButton.addEventListener("click", function () {
-        // Toggle the type attribute
         const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
         passwordField.setAttribute("type", type);
         
-        // Toggle the icon
         if (type === "password") {
             icon.classList.remove("fa-eye-slash");
             icon.classList.add("fa-eye");
@@ -37,7 +35,6 @@ setupPasswordToggle('toggleConfirmPassword', 'confirmPassword');
 document.getElementById('registerForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    // Capture form data
     const country = document.getElementById('country').value;
     const email = document.getElementById('email').value;
     const firstName = document.getElementById('firstName').value;
@@ -46,19 +43,16 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
 
-    // Check if username is 'Admin'
     if (username.toLowerCase() === 'admin') {
         alert("Username 'Admin' is not allowed.");
         return;
     }
 
-    // Check if passwords match
     if (password !== confirmPassword) {
         alert("Passwords do not match.");
         return;
     }
 
-    // Prepare payload for submission
     const payload = {
         username: username,
         password: password,
@@ -66,11 +60,10 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
         lastname: lastName,
         email: email,
         country: country,
-        role: 'User' // Set default role, if applicable
+        role: 'User'
     };
 
     try {
-        // Send POST request to the server
         const response = await fetch('/register', {
             method: 'POST',
             headers: {
@@ -83,7 +76,7 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
 
         if (response.ok && result.success) {
             alert(result.message);
-            window.location.href = "/login"; // Redirect to login on successful registration
+            window.location.href = "/login";
         } else {
             alert(result.message || 'Error creating account');
         }
@@ -96,7 +89,6 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
 function initializeCountrySelector() {
     const countrySelect = document.getElementById('country');
     
-    // Sample list of countries - expand as needed
     const countries = [
         'United States', 'Canada', 'United Kingdom', 'Australia',
         'Germany', 'France', 'Japan', 'Brazil', 'Philippines'

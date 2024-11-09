@@ -202,7 +202,6 @@
     color: var(--bg-snd-color);
 }
 
-/* Update the media queries for the team section */
 @media (max-width: 768px) {
     .team-section {
         padding: 0;

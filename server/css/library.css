@@ -1,4 +1,3 @@
-/* Add these styles at the beginning of the file */
 body {
     min-height: 100vh;
     display: flex;
@@ -8,14 +7,14 @@ body {
 
 main {
     flex: 1;
-    min-height: calc(100vh - 200px); /* Adjust based on header and footer height */
+    min-height: calc(100vh - 200px);
 }
 
 .library-container {
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0 1rem;
-    min-height: calc(100vh - 400px); /* Adjust based on header, footer, and margin heights */
+    min-height: calc(100vh - 400px);
 }
 
 .library-container h1 {
@@ -63,11 +62,10 @@ main {
     font-size: 0.9rem;
 }
 
-/* Update empty library styles to center content vertically */
 .empty-library {
     text-align: center;
     padding: 4rem 1rem;
-    min-height: calc(100vh - 500px); /* Adjust for minimum height when empty */
+    min-height: calc(100vh - 500px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -103,7 +101,7 @@ main {
     text-align: center;
     padding: 4rem 1rem;
     color: var(--text-color);
-    min-height: calc(100vh - 500px); /* Adjust for minimum height when error */
+    min-height: calc(100vh - 500px);
     display: flex;
     flex-direction: column;
     justify-content: center;

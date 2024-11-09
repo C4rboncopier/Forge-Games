@@ -39,7 +39,7 @@ export const getGames = async (req, res) => {
         `);
         
         if (game.rows.length === 0) {
-            return res.json([]);  // Return empty array instead of error for no games
+            return res.json([]);
         }
 
         const newResult = await Promise.all(game.rows.map(async (game) => {
@@ -88,7 +88,6 @@ export const addGame = async (req, res) => {
     }
 
     try {
-        // Generate unique file names
         const currentTimestamp = Date.now();
         const mainImageName = `${currentTimestamp}_${req.files.image[0].originalname}`;
         let bannerName = null, screenshot1Name = null, screenshot2Name = null, screenshot3Name = null;
@@ -109,7 +108,6 @@ export const addGame = async (req, res) => {
             screenshot3Name = `screenshot3_${currentTimestamp}_${req.files.screenshot3[0].originalname}`;
         }
 
-        // Upload main image
         const imagePath = `games/${mainImageName}`;
         const { data: mainImageData, error: mainImageError } = await supabase.storage
             .from(bucketName)
@@ -122,7 +120,6 @@ export const addGame = async (req, res) => {
             throw new Error(`Failed to upload main image: ${mainImageError.message}`);
         }
 
-        // Upload screenshots if they exist
         if (req.files && req.files.banner) {
             const bannerPath = `games/${bannerName}`;
             await supabase.storage
@@ -171,7 +168,6 @@ export const addGame = async (req, res) => {
         const values = [title, description, developer, genre, price, createdat, modifiedat, mainImageName, bannerName, screenshot1Name, screenshot2Name, screenshot3Name];
         const submit = await client.query(toTable, values);
 
-        // Get the public URLs
         const imageUrl = await getPublicUrl(bucketName, mainImageName);
         const banner = bannerName ? await getPublicUrl(bucketName, bannerName) : null;
         const shot1 = screenshot1Name ? await getPublicUrl(bucketName, screenshot1Name) : null;
@@ -265,14 +261,13 @@ export const updateGame = async (req, res) => {
     const modifiedat = new Date();
 
     try {
-        // Base query setup
         let updateQuery = `
             UPDATE games 
             SET title = $1, description = $2, developer = $3, genre = $4, 
                 price = $5, modifiedat = $6
         `;
         let values = [title, description, developer, genre, price, modifiedat];
-        let queryParams = 7; // Start after the existing parameters
+        let queryParams = 7;
 
         const currentTimestamp = Date.now();
         let newImageName = req.body.image_name;
@@ -281,20 +276,17 @@ export const updateGame = async (req, res) => {
         let newScreenshot2Name = req.body.screenshot2;
         let newScreenshot3Name = req.body.screenshot3;
 
-        // Handle main image update
         if (req.files && req.files.image) {
             const oldImageQuery = await client.query(
                 'SELECT image_name FROM games WHERE id = $1', [id]
             );
 
             if (oldImageQuery.rows.length > 0 && oldImageQuery.rows[0].image_name) {
-                // Delete old image
                 await supabase.storage
                     .from(bucketName)
                     .remove([`games/${oldImageQuery.rows[0].image_name}`]);
             }
 
-            // Upload new image
             newImageName = `${currentTimestamp}_${req.files.image[0].originalname}`;
             const imagePath = `games/${newImageName}`;
             await supabase.storage
@@ -309,8 +301,7 @@ export const updateGame = async (req, res) => {
             queryParams++;
         }
 
-        // Handle banner update
-        if (req.files && req.files.banner) {  // Correct field name
+        if (req.files && req.files.banner) { 
             const oldBannerQuery = await client.query(
                 'SELECT banner_name FROM games WHERE id = $1', [id]
             );
@@ -335,7 +326,6 @@ export const updateGame = async (req, res) => {
             queryParams++;
         }
 
-        // Handle screenshots update
         for (let i = 1; i <= 3; i++) {
             const screenshotKey = `screenshot${i}`;
             if (req.files && req.files[screenshotKey]) {
@@ -376,7 +366,6 @@ export const updateGame = async (req, res) => {
             });
         }
 
-        // Get the updated game's image URLs
         const imageUrl = await getPublicUrl(bucketName, result.rows[0].image_name);
         const bannerUrl = await getPublicUrl(bucketName, result.rows[0].banner_name);
         const screenshot1Url = await getPublicUrl(bucketName, result.rows[0].screenshot1);
@@ -408,19 +397,17 @@ export const getGameById = async (req, res) => {
     const { id } = req.params;
     
     try {
-        console.log('Attempting to fetch game with ID:', id); // Debug log
+        console.log('Attempting to fetch game with ID:', id);
         
-        // Validate that id is a number
         const gameId = parseInt(id);
         if (isNaN(gameId)) {
-            console.log('Invalid game ID:', id); // Debug log
+            console.log('Invalid game ID:', id);
             return res.status(400).json({
             success: false,
             error: 'Invalid game ID'
             });
         }
 
-        // First verify database connection
         if (!client) {
             console.error('Database client is not initialized');
             return res.status(500).json({
@@ -435,21 +422,20 @@ export const getGameById = async (req, res) => {
             WHERE id = $1
         `;
         
-        console.log('Executing query with ID:', gameId); // Debug log
+        console.log('Executing query with ID:', gameId);
         
         const result = await client.query(query, [gameId]);
         
-        console.log('Query result:', result.rows); // Debug log
+        console.log('Query result:', result.rows);
         
         if (result.rows.length === 0) {
-            console.log('No game found with ID:', gameId); // Debug log
+            console.log('No game found with ID:', gameId);
             return res.status(404).json({
                 success: false,
                 error: 'Game not found'
             });
         }
 
-        // Get the game's image and screenshot URLs
         const game = result.rows[0];
         const imageUrl = await getPublicUrl(bucketName, game.image_name);
         const bannerUrl = await getPublicUrl(bucketName, game.banner_name);
@@ -469,7 +455,7 @@ export const getGameById = async (req, res) => {
         }
         };
         
-        console.log('Sending response:', response); // Debug log
+        console.log('Sending response:', response);
         res.json(response);
         
     } catch (error) {
